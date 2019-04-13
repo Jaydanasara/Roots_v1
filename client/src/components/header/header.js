@@ -53,23 +53,23 @@ handleChange = e => {
 
 render(){
     return(
-        <div>
-            <span className= "navbar-react">
-            <img className="icon" src = "./treeicon.png" alt= "tree icon" />Roots of a Tree
+        <div className="header_container">
+            <span className= "logoSpan">
+            <img className="sitePic1" src = "./treeicon.png" alt= "tree icon"/><h2 className="siteName">Roots of a Tree</h2>
             </span>
-            <div className="collapse navbar-collapse" id="navbar">
-                <form role ="form" id = "signin" className="navbar-form navbar-right">
-                <div className ="input-group">
-                <span className ="input-group-addon">
-                <i className="fa fa-user-circle" aria-hidden="true"></i>
+            <div className="memberLogin">
+                <form role ="form" id = "signin" className="headerBar">
+                <div className ="input1">
+                <span className ="input-group-addon1">
+                <i className="fa fa-user-circle"  id="loginIcon" aria-hidden="true"></i>
                  </span>
-                 <input value={this.state.email} onChange={this.handleChange} type="email" placeholder= "Email Adress" name="email" ref="email" className="form-control"/>
+                 <input value={this.state.email} onChange={this.handleChange} type="email" placeholder= "Email Adress" name="email" ref="email" className="loginInput"/>
                 </div>
-                <div className= "input group">
-                    <span className= "input-group-addon">
-                    <i className="fa fa-key" aria-hidden="true"></i>
+                <div className= "input1">
+                    <span className= "input-group-addon1">
+                    <i className="fa fa-key" id="loginIcon" aria-hidden="true"></i>
                     </span>
-                    <input value={this.state.password} onChange={this.handleChange} type="password" placeholder= "Password" name="password" ref="password" className="form-control"/>
+                    <input value={this.state.password} onChange={this.handleChange} type="password" placeholder= "Password" name="password" ref="password" className="loginInput"/>
                 </div>
                 <button type= "submit" onClick={this.login} className= "btn btn-primary">Login</button>
                 </form>

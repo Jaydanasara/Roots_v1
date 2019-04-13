@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-
+import "./components/layouts/roots.css";
 import Homelayout from "./components/layouts/home";
 import Layout from "./components/layouts/layout";
 import Fire from "./config/fire";
 
-import './App.css';
+
 
 
 
@@ -45,7 +45,7 @@ class App extends Component {
   render() {
     return (
 
-        <div className="App">
+        <div className="app">
            
         {this.state.user ? (<Layout/>) : (<Homelayout />)}
         </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import "../../components/layouts/roots.css";
+// import "../../components/layouts/roots.css";
 
 class Featurelist extends React.Component {
     state={
@@ -15,7 +15,7 @@ class Featurelist extends React.Component {
             return(
                 
                 <li key ={feature.icon}>
-                <h3 className= "btn btn-lg">
+                <h3 className= "keyFeatures">
                 <i className= {feature.icon}></i>
                 <span>
                     <strong> {feature.bigtext} </strong>

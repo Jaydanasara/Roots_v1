@@ -1,52 +1,72 @@
 import React from "react";
 import "../../components/layouts/roots.css";
+import Fire from "../../config/fire";
+
+
 class Navbar extends React.Component {
-    render(){
-        return(
-            <div className="navbar navbar-blue navbar-fixed-top">
-                <div className="navbar-header">
-                    <button type="button" data-toggle="collapse" data-target="navbar" className="navebar-toggle">
-                        <span className="sr-only"></span>
-                        <span className="icon-bar"></span>
-                        <span className="icon-bar"></span>
-                        <span className="icon-bar"></span>
-                    </button>
-                    <a href="/dashboard" className="navebar-brand logo">
-                        <img className="icon" src="./treeicon.png" alt="tree icon" />
-                    </a>
+
+
+    logout() {
+        Fire.auth().signOut().then(function () {
+            console.log("Sign-out successful")
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+
+    render() {
+        return (
+            <div className="navigation">
+
+                <div className="userAccount">
+
+                    <div className="btn-group" id="userMenu">
+                        <a className=" dropdown-toggle" id="userInfo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i className="fa fa-user">  Jaydawicked</i>
+                        </a>
+                        <div className="dropdown-menu">
+                            <a className="dropdown-item" href="/profile">Edit Profile</a>
+                            <a className="dropdown-item" href="/signout" onClick={this.logout}>Logout</a>
+
+                            <div className="dropdown-divider"></div>
+
+                        </div>
+                    </div>
                 </div>
-                <nav className="collapse navbar-collapse">
-                    <form className="navbar-form navbar-left">
-                        <div className="input-group input-group-sm bs-example">
-                            <input ref="searchText" name="searchText" id="typeahead" type="text" className="form-control tt-query" />
-                            <div className="input-group-btn searchBtn">
-                                <button type="submit" className="btn btn-default">
-                                    <i className="fa fa-search"></i>
-                                </button>
+
+                <div className="searchForm ">
+                    <div className="searchBox">
+                        <input type="text" className="searchInfo" placeholder="Search" />
+
+                        <button id="searchButton" className="btn btn-outline-secondary" type="submit"><i id="searchIcon" className="fa fa-search"></i> </button>
+                        <div className="navIcons">
+                            <div className="bellNotifications">
+                                <i id="bell" className="fas fa-bell"></i>
+                                <div className="notificationNumber">13</div>
+                            </div>
+                            <div className="commentNotifications">
+                                <i id="note" className="fas fa-sticky-note"></i>
+                                <div className="notificationNumber">13</div>
                             </div>
                         </div>
-                    </form>
-                    <ul className="nav navebar-nav">
+                    </div>
+
+
+
+                    <ul className="newFeedLink">
+
                         <li>
                             <a href="/dashboard"> <i className="fa fa-home"></i> News Feed </a>
 
                         </li>
+
                     </ul>
-                    <ul className="nav navbar-nav navbar-right">
-                    <li className="dropdown">
-                    <a data-toggle="dropdown" herf="#" className="dropdown-toggle">
-                            <i className="fa fa-user">Jaydawicked</i>
-                        </a>
-                        <ul className="dropdown-menu">
-                            <li> <a href="/profile">Edit Profile</a>
-                                <a href="/signout">Logout</a>
-                            </li>
-                        </ul>
-                    </li>
-                        
-                    </ul>
-                </nav>
+                </div>
             </div>
+
+
+
 
 
         )
@@ -54,3 +74,5 @@ class Navbar extends React.Component {
 }
 
 export default Navbar;
+
+
