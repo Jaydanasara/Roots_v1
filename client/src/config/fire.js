@@ -1,5 +1,5 @@
 import firebase from "firebase";
-
+import "firebase/storage";
 
   // Initialize Firebase
   var config = {
@@ -10,8 +10,11 @@ import firebase from "firebase";
     storageBucket: "roots-6f3a0.appspot.com",
     messagingSenderId: "16203055088"
   };
-  const Fire = firebase.initializeApp(config);
+ const Fire = firebase.initializeApp(config);
+ const storage = firebase.storage();
+export {
+  storage,Fire as default
+}
 
 
 
-export default Fire;

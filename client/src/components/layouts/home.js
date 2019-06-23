@@ -2,11 +2,18 @@ import React from "react";
 import Signupform from "../../components/signup/signupform";
 import Header from "../../components/header/header";
 import Featurelist from "../../components/features/features";
+
 // import "../../components/layouts/roots.css";
 
+
+
+
 class Homelayout extends React.Component{
+
+
     render() {
         return (
+            
             <div>
                 <Header/>
                <div className="container">
@@ -20,6 +27,7 @@ class Homelayout extends React.Component{
                     </div>
                 </div>
             </div>
+           
         )
     }
 };

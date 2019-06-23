@@ -1,15 +1,16 @@
 import React from "react";
 import Fire from "../../config/fire";
 import Navbar from "../../components/navbar/navbar";
-import Content from "../content/content";
+import LeftMenu from "../../components/leftMenu/leftMenu"
+import ProfileContent from "../content/profileContent";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
-import LeftMenu from "../../components/leftMenu/leftMenu"
 
+// import API from "../../utils/API";
 
 // import "./roots.css";
 
-class Layout extends React.Component {
+class Profile extends React.Component {
 
 
 
@@ -34,8 +35,7 @@ const {userInfo}=this.props;
             <div className="app-container">
         
                 <section id="left-menu">
-                  <LeftMenu/>
-
+                   <LeftMenu/>
                 </section>
 
 
@@ -43,7 +43,7 @@ const {userInfo}=this.props;
                   
                         
                             <Navbar userInfo={this.props.userInfo}/>
-                            <Content userInfo={this.props.userInfo}/>
+                            <ProfileContent userInfo={this.props} />
                             
 
                       
@@ -72,7 +72,7 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(  mapStateToProps ) (Layout);
+export default connect(  mapStateToProps ) (Profile);
 
 
 

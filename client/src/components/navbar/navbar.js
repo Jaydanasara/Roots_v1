@@ -3,7 +3,23 @@ import "../../components/layouts/roots.css";
 import Fire from "../../config/fire";
 
 
+
 class Navbar extends React.Component {
+
+    state={
+        isActive: false
+
+
+    }
+
+
+    accountClick = () => {
+
+        this.setState({isActive: !this.state.isActive })
+    };
+
+
+
 
 
     logout() {
@@ -12,27 +28,31 @@ class Navbar extends React.Component {
         }).catch((error) => {
             console.log(error);
         });
+        sessionStorage.clear();
     }
 
 
     render() {
+    console.log(this.props.userInfo)
+    const user =this.props.userInfo;
         return (
+            
             <div className="navigation">
 
-                <div className="userAccount">
+                <div className={this.state.isActive ?"userAccount active": "userAccount" } onClick={this.accountClick} >
 
-                    <div className="btn-group" id="userMenu">
-                        <a className=" dropdown-toggle" id="userInfo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i className="fa fa-user">  Jaydawicked</i>
-                        </a>
-                        <div className="dropdown-menu">
-                            <a className="dropdown-item" href="/profile">Edit Profile</a>
-                            <a className="dropdown-item" href="/signout" onClick={this.logout}>Logout</a>
 
-                            <div className="dropdown-divider"></div>
+                    <a className=" dropdown-toggle" id="userInfo"  >
+                        <i className="fa fa-user">  {user.firstname}  {user.lastname}</i>
+                    </a>
+                    <div className="dropDown">
+                        <a className="dropdown-item" href="/profile/:id">Edit Profile</a>
+                        <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>
 
-                        </div>
+                        <div className="dropdown-divider"></div>
+
                     </div>
+
                 </div>
 
                 <div className="searchForm ">

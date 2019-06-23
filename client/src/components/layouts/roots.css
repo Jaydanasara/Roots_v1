@@ -103,7 +103,11 @@ width:270px;
     /* float: right; */
 }
 
+.passmessage2{
+    text-align: right;
+    padding-right: 120px;
 
+}
 
 .headerBar{
     display:flex;
@@ -146,10 +150,140 @@ Signup CSS */
     justify-content: center;
 }
 
+.signupInput{
+    font-size: 14px;
+    background: #d3d3d3 ;
+    padding:5px;
+    border-radius: 10px;
+    margin: 15px;
+
+}
+
+
+
+.signupBtn{
+    margin-top: 5px;
+    font-size: 15px;
+    background: rgb(18, 187, 209);
+    width: 80px;
+    height: 40px;
+}
 
 ul {
     list-style-type: none
+
 }
+
+
+.profile-container{
+display:grid;
+grid-template-columns: -1fr ;
+
+}
+
+.profile-info{
+   padding-left: 25px;
+    width: 500px;
+    font-size: 24px;
+    margin-bottom: 5px;
+    font-weight: bold;
+
+}
+
+.profile-image{
+    text-align: center;
+}
+
+
+.profile-image img{
+    height: 300px;
+   text-align: center;
+    margin: 25px 0 50px;
+    display: inline-block;
+    background: #1b1b1b;
+    
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+}
+
+.button-div{
+    display: flex;
+    justify-content: center
+}
+
+
+.follow-button{
+    font-weight: bold;
+    cursor: pointer;
+    width: 130px;
+    text-align: center ;
+    line-height: 0px;
+    height: 15px;
+    background: #5F9EA0;
+    display: inline-block;
+    padding: 15px 25px;
+    border-radius: 4px;
+    border:1px solid black;
+    
+}
+
+.friend-btn{
+    
+    cursor: pointer;
+    width: 100px;
+    text-align: center ;
+   position: relative;
+    height: 15px;
+    background: #5F9EA0;
+    display: inline-block;
+    padding: 15px 25px;
+    border-radius: 4px;
+    border:1px solid black;
+ margin-left: 5px
+
+}
+
+.photos-btn{
+     
+    font-weight: bold;
+    cursor: pointer;
+    width: 100px;
+    text-align: center ;
+    line-height: 0px;
+    height: 15px;
+    background: #5F9EA0;
+    display: inline-block;
+    padding: 15px 25px;
+    border-radius: 4px;
+    border:1px solid black;
+ margin-left: 5px
+}
+
+#friend-icon{
+    position: absolute;
+    bottom:2px;
+   left:30px
+}
+
+.my-friends{
+    font-weight: bold;
+    cursor: pointer;
+    width: 100px;
+    text-align:left;
+    line-height: 0px;
+    height: 15px;
+    background: #5F9EA0;
+    display: inline-block;
+    padding: 15px ;
+    border-radius: 4px;
+    border:1px solid black;
+ margin-left: 5px
+}
+
+
+
 
 .content-Container{
 
@@ -182,10 +316,35 @@ box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.45);
 .userAccount{
 padding-top: 10px;
 padding-right: 20px;
-    
+position: relative;
+    cursor: pointer;
 float: right;
 }
+.dropDown{
+    position: absolute;
+  
+    background: white;
+    left: 0;
+    width: 100%;
+z-index: 10;
+transition: all 0.6s ease-out;
+visibility: hidden;
+opacity: 0;
+cursor: pointer;
+}
 
+.userAccount.active .dropDown{
+    bottom: -77px;
+    visibility: visible;
+    opacity: 1;
+
+
+}
+
+.dropdown-item{
+    display: block;
+    padding: 10px 15px;
+}
 .searchForm{
     padding:10px;
 }
@@ -212,6 +371,9 @@ float: right;
 #searchButton{
     position: relative;
     height: 29px;
+
+
+
 
    
 }
@@ -263,8 +425,7 @@ float: right;
 }
 
 .user-Img{
-background: 
-url("https://images-na.ssl-images-amazon.com/images/M/MV5BNTczMzk1MjU1MV5BMl5BanBnXkFtZTcwNDk2MzAyMg@@._V1_UY256_CR2,0,172,256_AL_.jpg" );
+
 height: 40px;
 width: 40px;
 background-position: center center;
@@ -365,11 +526,82 @@ box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.45);
 }
 
 
+
+.uploadReady{
+    
+    visibility:hidden;
+
+
+}
+
+
+.uploadReady.active {
+    
+    visibility: visible;
+
+
+}
+
+.story{
+    margin: 25px 0 50px;
+    display: inline-block;
+
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+
+/* profile editor  */
+.unchangeable{
+
+font-size: 24px;
+font-weight: bold;
+padding: 5px;
+
+}
+
+.editInput{
+    padding: 10px;
+    font-size: 14px;
+    background: #d3d3d3 ;
+    border-radius: 10px;
+}
+.profileInputs{
+    padding:10px
+}
+
+.avatarsect{
+
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 25px;
+    padding-top: 20px
+}
+
+
+.updateProfileBtn{
+
+    margin-top: 5px;
+    font-size: 15px;
+    background: rgb(18, 187, 209);
+    width: 120px;
+    height: 40px;
+}
+
+.btnDiv{
+
+text-align: center;
+
+}
+/* end profile editor */
+
+
+
+
 .upImage{
     margin: 25px 0 50px;
     display: inline-block;
-    background: 
-    url("https://images-na.ssl-images-amazon.com/images/M/MV5BNTczMzk1MjU1MV5BMl5BanBnXkFtZTcwNDk2MzAyMg@@._V1_UY256_CR2,0,172,256_AL_.jpg" );
     height: 300px;
     width: 100%;
     background-position: center center;
@@ -384,8 +616,8 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
 .friendsImg{
     
     display: inline-block;
-    background: 
-    url("https://images-na.ssl-images-amazon.com/images/M/MV5BNTczMzk1MjU1MV5BMl5BanBnXkFtZTcwNDk2MzAyMg@@._V1_UY256_CR2,0,172,256_AL_.jpg" );
+    /* background: 
+    url("https://images-na.ssl-images-amazon.com/images/M/MV5BNTczMzk1MjU1MV5BMl5BanBnXkFtZTcwNDk2MzAyMg@@._V1_UY256_CR2,0,172,256_AL_.jpg" ); */
     height: 40px;
     width: 40px;
     background-position: center center;
@@ -454,6 +686,10 @@ border-radius: 50%;
     text-decoration: none;
     font-weight: 700px;
     margin: 0 10px;
+}
+
+.commentList{
+    padding-bottom: 20px
 }
 
 
