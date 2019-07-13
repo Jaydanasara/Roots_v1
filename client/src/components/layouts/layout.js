@@ -5,6 +5,7 @@ import Content from "../content/content";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../../components/leftMenu/leftMenu"
+import ScreenName from "../screenName/screenName";
 
 
 // import "./roots.css";
@@ -29,13 +30,13 @@ class Layout extends React.Component {
     render() {
         console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
 console.log(this.props)
-const {userInfo}=this.props;
+
         return (
             <div className="app-container">
         
                 <section id="left-menu">
                   <LeftMenu/>
-
+                    <ScreenName userInfo={this.props.userInfo}/>
                 </section>
 
 

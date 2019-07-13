@@ -14,8 +14,7 @@ export default {
   },
 
 saveComment: function(id,postData){
-  console.log(id)
-  console.log(postData)
+ 
   return axios.post("/api/usersData/postData/"+id,postData);
 
 },
@@ -26,6 +25,13 @@ saveComment: function(id,postData){
 
   },
 
+  getFriendsList: function(userData) {
+    console.log(userData)
+    return axios.post("/api/usersData/friendsLst",userData);
+
+  },
+
+ 
 
   updateEditProfile:function(id,userData) {
     console.log(userData)
@@ -46,7 +52,7 @@ saveComment: function(id,postData){
 
  
   postID: function(userData) {
-    
+    console.log (userData)
     return axios.put("/api/usersData",userData);
   },
   
@@ -60,14 +66,29 @@ saveComment: function(id,postData){
     return axios.post("/api/usersData/friendsData",friendsData);
    
   },
-  friendID: function(friendsData) {
-    
-    return axios.put("/api/usersData/friendsData",friendsData);
-  },
+ 
 
   deleteScore: function(id) {
     return axios.delete("/api/scores/" + id);
   },
   
+  friendID: function(userData) {
+    console.log(userData)
+     return axios.post("/api/usersData/addFriend",userData);
+    
+   },
+
+addPhotos:function(userData){
+
+
+  return axios.post("/api/usersData/addPhoto",userData);
+},
+
+getPhotos: function(userData) {
+  console.log(userData)
+  return axios.post("/api/usersData/getPhotos",userData);
+
+},
+
 
 };

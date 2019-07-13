@@ -30,7 +30,7 @@ class Profile extends React.Component {
     render() {
         console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
 console.log(this.props)
-const {userInfo}=this.props;
+
         return (
             <div className="app-container">
         

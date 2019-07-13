@@ -10,10 +10,12 @@ router.route("/")
 
   router
   .route("/usersData")
-  .post(usersDataController.create);
+  .post(usersDataController.create)
   
- 
- 
+  router
+  .route("/friendsLst")
+  .post(usersDataController.findFriendsList)
+
   router
   .route("/postData/:id")
   .post(usersDataController.updateComments);
@@ -31,8 +33,20 @@ router.route("/")
 
   router
   .route("/friendsData")
-  .post(usersDataController.createFriend)
-  .put(usersDataController.updateFriends);
+  .post(usersDataController.createFriend);
+ 
+  router
+  .route("/addFriend")
+  .post(usersDataController.connections);
+
+  router
+  .route("/addPhoto")
+  .post(usersDataController.addPics);
+
+  router
+  .route("/getPhotos")
+  .post(usersDataController.showPics);
+
 
 
 // // Matches with "/api/books/:id"

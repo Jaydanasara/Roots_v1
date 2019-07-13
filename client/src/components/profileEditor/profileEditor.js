@@ -25,6 +25,10 @@ class ProfileEditor extends React.Component {
     }
 
 
+  
+
+
+
     handleChange = e => {
 
 
@@ -33,6 +37,7 @@ class ProfileEditor extends React.Component {
         });
     };
 
+    
 
 
     updateProfile = id => {
@@ -51,12 +56,7 @@ class ProfileEditor extends React.Component {
         } else {
 
 
-
-
-
-
-            API.updateEditProfile(id, {
-
+          let  profileEdit = {
 
                 password: this.state.password,
                 screenName: this.state.screenName,
@@ -66,14 +66,41 @@ class ProfileEditor extends React.Component {
                 gender: this.state.gender,
                 phoneNumber: this.state.phoneNumber,
                 cityState: this.state.cityState,
-                userPic: this.state.url
+                userPic: this.state.url,
+          }
+
+          for(let x in profileEdit){
+              if(profileEdit[x]===""){
+                  delete profileEdit[x];
+              }
+          }
+
+        
+          console.log(profileEdit)
+
+
+            API.updateEditProfile(id, {
+
+                profileEdit
+               
             })
                 .then(function (response) {
                     console.log(response);
                 })
                 .catch(err => console.log(err));
 
-                document.getElementById("profileForm").reset();
+               this.setState({ 
+               emailaddress: "",
+               password: "",
+               confirm: "",
+               screenName: "",
+               securityQuestion: "",
+               securityAnswer: "",
+               birthDate: "",
+               gender: "",
+               phoneNumber: "",
+               cityState: "",
+               userPic: "",})
         }
         
 
@@ -134,8 +161,9 @@ class ProfileEditor extends React.Component {
 
     render() {
         const fullName = this.props.userInfo.firstname + " " + this.props.userInfo.lastname
-        const user = this.props.userInfo
-        console.log(this.props.userInfo.userPic)
+        
+        console.log(this.props.userInfo)
+       
         return (
 
             <div className="contentArea ">
@@ -150,11 +178,11 @@ class ProfileEditor extends React.Component {
                     <section className="editProfile">
                         <div className="unchangeable">Name:  {fullName} </div>
                         <div className="unchangeable">Email: {this.props.userInfo.emailaddress}</div>
-                        <form id="profileForm">
-                            <div className="profileInputs">
+                       
+                            <div className="profileInputs" id="profileInputs">
                                 <input value={this.state.password} onChange={this.handleChange} type="password" placeholder="Password" name="password" ref="password" className="editInput" />
                             </div>
-                            <div className="profileInputs">
+                            <div className="profileInputs"  id="profileInputs">
                                 <input value={this.state.confirm} onChange={this.handleChange} type="password" placeholder="confirm password" name="confirm" ref="confirmPassword" className="editInput" />
                             </div>
                             <div className="profileInputs">
@@ -181,7 +209,7 @@ class ProfileEditor extends React.Component {
                             <div className="profileInputs"> Are you in a Relationship?
                     <input value={this.state.Gender} onChange={this.handleChange} type="text" placeholder="" name="gender" className=" editInput" />
                             </div>
-                        </form>
+                      
                     </section>
 
                     <section className="feed ">

@@ -2,7 +2,7 @@ import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
 import { storage } from "../../config/fire";
-class Content extends React.Component {
+class ScreenName extends React.Component {
     state = {
         postID: "",
         statusPost: "",
@@ -167,9 +167,9 @@ addToPhotos =() =>{
         console.log(this.props.userInfo)
 
         return (
-            <div className="contentArea ">
-
-                <section className="composeStatus">
+            <div className="screenNameArea ">
+                <div className="screenName"><a href="#">Screen Name</a></div>
+                <section className="miniComposeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
                     <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={user.userPic} /> </Link>  </div>
                     <div className="buttons">
@@ -206,7 +206,7 @@ addToPhotos =() =>{
                                             <a href="#">{(content.picUrl === undefined) ? "story" : "image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
-                                            <div className={`${(content.picUrl === undefined) ? "story" : "upImage"}`}><img className={`${(content.picUrl === undefined) ? "story" : "upImage"}`} src={content.picUrl} /></div>
+                                            <div className={`${(content.picUrl === undefined) ? "story" : "miniUpImage"}`}><img className={`${(content.picUrl === undefined) ? "story" : "miniUpImage"}`} src={content.picUrl} /></div>
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
@@ -265,4 +265,4 @@ addToPhotos =() =>{
 
 
 
-export default Content;
+export default ScreenName;

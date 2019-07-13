@@ -30,14 +30,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbdc40', end
     overflow: hidden;
     border-radius: 5px;
     display: grid;
-    grid-template-columns: 15% 65% 20%;
+    grid-template-columns: 25% 55% 20%;
     border-right: 1px solid;
     
     }
     
     #left-menu{
         border-right: 2px solid;
-        
+        overflow: hidden;
     }
     
     
@@ -602,8 +602,8 @@ text-align: center;
 .upImage{
     margin: 25px 0 50px;
     display: inline-block;
-    height: 300px;
-    width: 100%;
+   max-height: 600px;
+  
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -696,7 +696,7 @@ border-radius: 50%;
 .responseComments{
     display: flex;
     justify-content: space-between;
-    
+    padding-bottom: 10px;
 }
 
 
@@ -710,10 +710,12 @@ border-radius: 50%;
    
     
     border: none;
+   
 }
 
 .commentButtons{
     display: flex;
+    justify-content: flex-end
 }
 
 .likeButton{
@@ -965,3 +967,81 @@ textarea:focus,
 button:focus {
     outline: none;
 }
+
+
+.friendsList{
+    display:flex;
+    flex-wrap: wrap;
+
+
+}
+
+.friends{
+    flex-shrink: 300px;
+    flex:1fr;
+    max-width:300px ;
+    margin: 2px;
+}
+
+
+.friend img {
+    max-height: 200px;
+    max-width: 200px;
+}
+
+.friendsHeader{
+    text-align: center;
+}
+
+
+/* Screename Page */
+
+
+.screenNameArea{
+    box-sizing: content-box;
+    width:90%;
+    height: calc(100% - 99px);
+    overflow: auto;
+    padding: 0 15px 0 7px;
+    
+  
+
+}
+
+
+.miniUpImage{
+    margin: 25px 0 50px;
+    display: inline-block;
+   max-width: 90%;
+  
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
+-moz-box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
+box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
+}
+
+
+
+.miniComposeStatus{
+    width: 80%;
+    margin: 0 auto;
+    padding: 40px 0;
+    position: relative;
+    left: -0px;
+    max-width: 90%;
+    }
+    
+    .miniStatusText{
+        height: 75px;
+        background: #d3d3d3 ;
+        width: 100%;
+        border: none;
+        border-radius: 5px;
+        padding-left: 35px;
+        padding-right: 0px;
+        font-size: 14px;
+        font-weight: 700;
+    }

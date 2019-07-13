@@ -42,9 +42,9 @@ class Navbar extends React.Component {
                 <div className={this.state.isActive ?"userAccount active": "userAccount" } onClick={this.accountClick} >
 
 
-                    <a className=" dropdown-toggle" id="userInfo"  >
+                    <div className=" dropdown-toggle" id="userInfo"  >
                         <i className="fa fa-user">  {user.firstname}  {user.lastname}</i>
-                    </a>
+                    </div>
                     <div className="dropDown">
                         <a className="dropdown-item" href="/profile/:id">Edit Profile</a>
                         <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>
@@ -77,7 +77,7 @@ class Navbar extends React.Component {
                     <ul className="newFeedLink">
 
                         <li>
-                            <a href="/dashboard"> <i className="fa fa-home"></i> News Feed </a>
+                            <a href="/"> <i className="fa fa-home"></i> News Feed </a>
 
                         </li>
 

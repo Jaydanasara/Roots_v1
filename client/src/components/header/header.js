@@ -64,7 +64,7 @@ class Header extends React.Component {
                         <img className="sitePic1" src="./treeicon.png" alt="tree icon" /><h2 className="siteName">Roots of a Tree</h2>
                     </span>
                     <div className="memberLogin">
-                        <form role="form" id="signin" className="headerBar">
+                        <form  id="signin" className="headerBar">
                             <div className="input1">
                                 <span className="input-group-addon1">
                                     <i className="fa fa-user-circle" id="loginIcon" aria-hidden="true"></i>

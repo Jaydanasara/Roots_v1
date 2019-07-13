@@ -129,9 +129,10 @@ addfriendID = () => {
 
     render() {
         const fullName= this.state.first_Name +" "+ this.state.last_Name
-        const user = this.props.userInfo
+        const user =  this.props.userInfo.userInfo
         console.log( this.props.userInfo.userInfo)
         console.log(this.props.userInfo.match)
+        console.log(this.state.userPic)
         return (
             
             <div className="contentArea ">
@@ -145,13 +146,13 @@ addfriendID = () => {
                 <div className="button-div"> 
                 <div className= "follow-button" style={this.props.userInfo.match.params.id===this.props.userInfo.userInfo.user_ID ? { display: "visible" } : { display: "none" }}  > <Link to={"/editprofile/" + this.props.userInfo.userInfo.user_ID}>edit profile</Link>     </div>
                 <button className="friend-btn" onClick={this.addingFriend}>{(this.state.addFriend)?<i id= "friend-icon"class="fa fa-users fa-2x " aria-hidden="true" >+</i>:"UnFriend" }</button>
-                <button className="photos-btn" >Photos </button>
-                <button className="my-friends" >MyFriends </button>
+                <button className="photos-btn" ><Link to={"/photos/" +this.props.userInfo.match.params.id}>Photos </Link> </button>
+                <button className="my-friends" ><a href= "/friends">MyFriends</a> </button>
                 </div>
                 </div>
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">  <Link to={"/profile/" + this.props.userInfo.userInfo.user_ID}><img className="user-Img" src={user.userPic} /> </Link>  </div>
+                    <div className="user-I">  <Link to={"/profile/" + this.props.userInfo.userInfo.user_ID}><img className="user-Img" src={this.state.userPic} /> </Link>  </div>
                     <div className="buttons">
                         <div className="button photo"><i class="fas fa-camera-retro"></i></div>
                         <div className="button video"><i class="fas fa-video"></i></div>

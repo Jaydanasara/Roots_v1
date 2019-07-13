@@ -1,15 +1,14 @@
-import React from "react"
+import React from "react";
 import Fire from "../../config/fire";
 import Navbar from "../navbar/navbar";
-import ProfileEditor from "../profileEditor/profileEditor";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../leftMenu/leftMenu"
-
+import PhotosPage from "../photosPage/PhotosPage"
 
 // import "./roots.css";
 
-class EditProfile extends React.Component {
+class UserPhotos extends React.Component {
 
 
 
@@ -43,8 +42,8 @@ console.log(this.props)
                   
                         
                             <Navbar userInfo={this.props.userInfo}/>
-                            <ProfileEditor userInfo={this.props.userInfo}/>
-                            
+                         
+                            <PhotosPage userInfo={this.props}/>
 
                       
                     
@@ -72,7 +71,7 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(  mapStateToProps ) (EditProfile);
+export default connect(  mapStateToProps ) (UserPhotos);
 
 
 

@@ -7,7 +7,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Lostpassword from "./components/lostpassword/lostPassword";
 import Profile from "./components/layouts/profile";
 import EditProfile from "./components/editProfile/editProfile";
+import FriendsPage from "./components/layouts/friendsPage";
 import { connect } from "react-redux";
+import UserPhotos from './components/layouts/userPhotos';
 
 
 
@@ -62,6 +64,8 @@ class App extends Component {
                 <Route path="/lostPassword" component={Lostpassword} />
                 <Route exact path="/profile/:id" component={Profile} />
                 <Route exact path="/editprofile/:id" component={EditProfile } />
+                <Route exact path="/friends" component={FriendsPage } />
+                <Route exact path="/photos/:id" component={UserPhotos} />
               </Switch>
             </div>
           </Router>

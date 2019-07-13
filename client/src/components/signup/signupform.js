@@ -121,7 +121,7 @@ class SignupForm extends React.Component {
 
                         </div>
 
-                        <div className="passmessage"><a>Password must be at least 6 characters</a></div>
+                        <div className="passmessage"><p>Password must be at least 6 characters</p></div>
                         <button onClick={this.newSignup} type="submit" className="signupBtn"> Sign up</button>
 
 
