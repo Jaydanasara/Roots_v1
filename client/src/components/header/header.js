@@ -61,7 +61,7 @@ class Header extends React.Component {
             <div className="container">
                 <div className="header_container">
                     <span className="logoSpan">
-                        <img className="sitePic1" src="./treeicon.png" alt="tree icon" /><h2 className="siteName">Roots of a Tree</h2>
+                        <img className="sitePic1" src="./treeicon.png" alt="tree icon" /><h2 className="siteName">Roots of Our Tree</h2>
                     </span>
                     <div className="memberLogin">
                         <form  id="signin" className="headerBar">

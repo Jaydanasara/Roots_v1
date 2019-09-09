@@ -25,17 +25,30 @@ saveComment: function(id,postData){
 
   },
 
+  getScrFriendsPost: function(userData) {
+    
+    return axios.post("/api/usersData/scrFriendsPost",userData);
+
+  },
+
+
+
+
+
   getFriendsList: function(userData) {
-    console.log(userData)
+    
     return axios.post("/api/usersData/friendsLst",userData);
 
   },
 
- 
+  getScreenFriends: function(userData) {
+   
+    return axios.post("/api/usersData/screenFriendsLst",userData);
+
+  },
 
   updateEditProfile:function(id,userData) {
-    console.log(userData)
-    console.log(id)
+    
     return axios.put("/api/usersData/" +id, userData);
    
   },
@@ -52,7 +65,7 @@ saveComment: function(id,postData){
 
  
   postID: function(userData) {
-    console.log (userData)
+   
     return axios.put("/api/usersData",userData);
   },
   
@@ -73,7 +86,7 @@ saveComment: function(id,postData){
   },
   
   friendID: function(userData) {
-    console.log(userData)
+   
      return axios.post("/api/usersData/addFriend",userData);
     
    },
@@ -85,8 +98,61 @@ addPhotos:function(userData){
 },
 
 getPhotos: function(userData) {
-  console.log(userData)
+
   return axios.post("/api/usersData/getPhotos",userData);
+
+},
+
+saveScreenName: function(userData) {
+  
+  return axios.post("/api/usersData/screenData",userData);
+
+},
+
+getScreenNameInfo: function(userData) {
+  
+  return axios.post("/api/usersData/getScreenName",userData);
+
+},
+
+friendID2: function(userData) {
+  
+   return axios.post("/api/usersData/addScFriend",userData);
+  
+ },
+
+postID2: function(userData) {
+   
+  return axios.put("/api/usersData/addScreenPhoto",userData);
+},
+
+addScreenPhotos:function(userData){
+
+
+  return axios.post("/api/usersData/addScreenPhoto",userData);
+},
+
+getConvo: function(chatData) {
+  
+  return axios.post("/api/usersData/chatData",chatData);
+ 
+},
+saveChat : function(chatData) {
+  console.log(chatData)
+  return axios.post("/api/usersData/saveChData",chatData);
+ 
+},
+
+logMessage: function(id,chatData){
+ 
+  return axios.post("/api/usersData/chatData/"+id,chatData);
+
+},
+
+
+getPhotos2: function(userData) {
+
+  return axios.post("/api/usersData/getScrPhotos",userData);
 
 },
 

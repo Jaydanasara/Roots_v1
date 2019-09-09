@@ -10,8 +10,10 @@ import EditProfile from "./components/editProfile/editProfile";
 import FriendsPage from "./components/layouts/friendsPage";
 import { connect } from "react-redux";
 import UserPhotos from './components/layouts/userPhotos';
-
-
+import ScreenLayout from './components/layouts/screenLayout';
+import ScrProLayout from './components/layouts/scrProLayout';
+import ScreenPhotos from  './components/layouts/screenPhotos';
+import ScrFriendsPage from './components/layouts/scrFriendsPage';
 
 class App extends Component {
   constructor(props) {
@@ -45,6 +47,8 @@ class App extends Component {
   }
 
 
+  
+
 
 
   render() {
@@ -66,6 +70,10 @@ class App extends Component {
                 <Route exact path="/editprofile/:id" component={EditProfile } />
                 <Route exact path="/friends" component={FriendsPage } />
                 <Route exact path="/photos/:id" component={UserPhotos} />
+                <Route exact path="/lgScreen" component={ScreenLayout} />
+                <Route exact path="/screenProfile/:id" component={ScrProLayout} />
+                <Route exact path="/scrphotos/:id" component={ScreenPhotos} />
+                <Route exact path="/scrFriends/:id" component={ScrFriendsPage} />
               </Switch>
             </div>
           </Router>

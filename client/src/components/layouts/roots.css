@@ -21,6 +21,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbdc40', end
 
 }
 
+.loading{
+font-size: 150px;
+
+}
+
+
+
 
 
 .app-container{
@@ -835,12 +842,17 @@ display: flex;
 
     padding: 20px 15px;
     height: calc(800px - 106px);
-    overflow: hidden;
+    overflow: auto;
 }
 
 .chatContainer{
     overflow:auto;
     height: 100%;
+
+
+   
+
+
 }
 
 .chatFriends{
@@ -873,8 +885,8 @@ padding: 5px 0px;
 
 
 .onlineFriendImg{
-    background: 
-    url("https://images-na.ssl-images-amazon.com/images/M/MV5BNTczMzk1MjU1MV5BMl5BanBnXkFtZTcwNDk2MzAyMg@@._V1_UY256_CR2,0,172,256_AL_.jpg" );
+     
+   
     height: 40px;
     width: 35px;
     background-position: center center;
@@ -1026,12 +1038,14 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
 
 
 .miniComposeStatus{
+    
     width: 80%;
     margin: 0 auto;
     padding: 40px 0;
     position: relative;
     left: -0px;
     max-width: 90%;
+    margin-top: 30px
     }
     
     .miniStatusText{
@@ -1045,3 +1059,163 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
         font-size: 14px;
         font-weight: 700;
     }
+
+    .miniScreenName{
+        padding-bottom: 10px;
+        position: absolute;
+        font-size: 24px;
+        text-align: center;
+        margin-bottom: 20px
+    }
+
+    .miniUserName{
+        
+            padding-bottom: 10px;
+            position: absolute;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px
+
+    }
+
+    .modalBox{
+       max-width: 900px; 
+       max-height: 400px;
+       z-index: 999; 
+       position: fixed;
+
+       top:420px;
+    }
+    .modalContainer{
+        border:solid thin black;
+        width: 275px;
+       
+        border-radius: 5px;
+        background: white;
+      
+        
+    
+    }
+
+    .modalHeader{
+        width:273px;
+        height:25px;
+        padding-bottom: 5px;
+        position: fixed;
+        margin-bottom: 5px;
+        background: #A9A9A9
+    }
+
+.messageContainer{
+    margin-top: 25px;
+    padding-top: 10px;
+    padding-left: 10px
+}
+
+
+
+
+    .close{
+        float: right;
+        border-radius: 5px;
+        width:5px;
+        padding-right: 15px;
+       
+    }
+ 
+    
+
+
+
+.chatFriendName{
+    padding: 3px;
+   
+   height: 25px;
+   width:100%;
+
+}
+
+
+.messageDisplay{
+    overflow: auto;
+    overflow-Y: scroll;
+    width: 275px;
+    height: 200px;
+}
+
+
+
+
+.messageSection{
+    clear: both;
+   
+    width: 100%
+}
+
+.textMessage{
+    height: 40px;
+    width: 100%;
+    background: #EBECE4;
+      border:solid thin black;
+      resize: none
+
+}
+
+.messageBtnDiv{
+height:35px;
+}
+
+.messageBtn{
+    background-color: #1e9600;
+    margin-left: 10px;
+    margin-top: 3px
+    
+}
+
+.sender{
+    font-size: 10px;
+    color: rgb(69, 170, 204);
+}
+
+.otherSender{
+    font-size: 10px;
+    color :rgb(48, 139, 101);
+    margin-left: 30px;
+}
+
+.otherMessage{
+   
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    max-width: 200px;
+    margin-left: 30px;
+    
+}
+
+.otherMessage p {
+    padding-left: 5px;
+        background: rgb(48, 139, 101);
+        border-radius: 5px;
+        max-width: 200px;
+}
+
+
+
+
+
+.theMessage{
+  max-width: 200px;  
+font-size: 16px;
+font-weight: 600;
+
+
+
+}
+.theMessage p{
+    padding-left: 5px;
+    background: rgb(69, 170, 204);
+    border-radius: 5px;
+    max-width: 200px;
+
+}

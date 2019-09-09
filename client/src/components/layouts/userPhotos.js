@@ -5,43 +5,71 @@ import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../leftMenu/leftMenu"
 import PhotosPage from "../photosPage/PhotosPage"
-
+import ScreenName from "../screenName/screenName";
+import API from "../../utils/API";
 // import "./roots.css";
 
 class UserPhotos extends React.Component {
-
-
-
-    logout() {
-        Fire.auth().signOut().then(function () {
-            console.log("Sign-out successful")
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
     
 
-
-
+        constructor(props)  {
+            super(props)
+        this.state= {
+            screenNameInfo:{},
+            isLoading: true,
+            isUserPage:true
+        }
+        }
+        componentDidMount(){
+            this.screenNameData()
+        }
+    
+    
+    
+        logout() {
+            Fire.auth().signOut().then(function () {
+                console.log("Sign-out successful")
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    
+        
+        screenNameData = () => {
+    
+            API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID, })
+    
+                .then(res => {
+                    this.setState({ screenNameInfo: res.data, isLoading:false })
+                    
+                     console.log(res)
+    
+    
+                })
+    
+                .catch(err => console.log(err));
+    
+        }
+    
 
     render() {
         console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
 console.log(this.props)
 
         return (
+            this.state.isLoading === true ?<div className="loading">Loading</div> :
             <div className="app-container">
         
                 <section id="left-menu">
                   <LeftMenu/>
-
+                  <ScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
                 </section>
 
 
                 <section className="content-Container">
                   
                         
-                            <Navbar userInfo={this.props.userInfo}/>
+                <Navbar whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                          
                             <PhotosPage userInfo={this.props}/>
 
@@ -49,7 +77,7 @@ console.log(this.props)
                     
                 </section>
                 <section className="messenger-area">
-                <Messenger/>
+                <Messenger userInfo={this.props.userInfo} />
                 </section>
 
             </div>

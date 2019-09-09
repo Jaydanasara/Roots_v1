@@ -2,7 +2,9 @@ import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
 import { storage } from "../../config/fire";
-class ScreenName extends React.Component {
+
+
+class LgScreenName extends React.Component {
     state = {
         postID: "",
         statusPost: "",
@@ -162,17 +164,17 @@ addToPhotos =() =>{
 
 
 
-
     render() {
-        const user = this.props.userInfo
-        console.log(this.props.userInfo)
+        const user = this.props.screenInfo
+
+        console.log(this.props.screenInfo)
 
         return (
-            <div className="screenNameArea ">
-                <div className="miniScreenName"><Link to ={"/lgScreen"}><div>{this.props.screenInfo.screenName}</div> </Link></div>
-                <section className="miniComposeStatus">
+            <div className="contentArea ">
+
+                <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={user.userPic} /> </Link>  </div>
+                    p<div className="user-I">   <Link to={"/screenprofile/" + this.props.screenInfo._id}><img className="user-Img" src={user.userPic} /> </Link>  </div>
                     <div className="buttons">
                         <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
                         <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
@@ -207,7 +209,7 @@ addToPhotos =() =>{
                                             <a href="#">{(content.picUrl === undefined) ? "story" : "image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
-                                            <div className={`${(content.picUrl === undefined) ? "story" : "miniUpImage"}`}><img className={`${(content.picUrl === undefined) ? "story" : "miniUpImage"}`} src={content.picUrl} /></div>
+                                            <div className={`${(content.picUrl === undefined) ? "story" : "upImage"}`}><img className={`${(content.picUrl === undefined) ? "story" : "upImage"}`} src={content.picUrl} /></div>
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
@@ -266,4 +268,4 @@ addToPhotos =() =>{
 
 
 
-export default ScreenName;
+export default LgScreenName;

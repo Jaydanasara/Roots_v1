@@ -2,9 +2,18 @@ const router = require("express").Router();
 const usersDataController = require("../../controllers/usersDataController");
 
 // Matches with "/api/books"
-router.route("/")
+router
+  .route("/")
   .post(usersDataController.findUserinfo)
   .put(usersDataController.update)
+
+
+  router
+  .route("/addScreenPhoto")
+  .put(usersDataController.update2)
+
+
+
   router.route("/:id")
   .put(usersDataController.updateByID);
 
@@ -17,8 +26,14 @@ router.route("/")
   .post(usersDataController.findFriendsList)
 
   router
+  .route("/screenFriendsLst")
+  .post(usersDataController.findScreenFriends)
+
+
+  router
   .route("/postData/:id")
   .post(usersDataController.updateComments);
+
   router
   .route("/postData")
   .post(usersDataController.createPost)
@@ -30,6 +45,12 @@ router.route("/")
   router
   .route("/friendsPost")
   .post(usersDataController.findFriendsPost);
+
+
+  router
+  .route("/ScrFriendsPost")
+  .post(usersDataController.findScrFriendsPost);
+
 
   router
   .route("/friendsData")
@@ -46,6 +67,48 @@ router.route("/")
   router
   .route("/getPhotos")
   .post(usersDataController.showPics);
+
+router
+.route("/getScrPhotos")
+.post(usersDataController.showPics2);
+
+  router
+  .route("/screenData")
+  .post(usersDataController.createScreenInfo);
+
+  router
+  .route("/addScFriend")
+  .post(usersDataController.connections2);
+  
+ 
+  router
+  .route("/getScreenName")
+  .post(usersDataController.getScreenInfo);
+
+  router
+  .route("/addScreenPhoto")
+  .post(usersDataController.addScreenPics);
+
+
+  router
+  .route("/chatData")
+  .post(usersDataController.findChats);
+
+  router
+  .route("/chatData/:id")
+  .post(usersDataController.updateMessage);
+  
+
+  router
+  .route("/saveChData")
+  .post(usersDataController.saveChats);
+
+  router
+  .route("/addScreenPhoto")
+  .put(usersDataController.update2);
+
+
+ 
 
 
 

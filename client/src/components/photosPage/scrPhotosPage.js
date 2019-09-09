@@ -2,9 +2,9 @@ import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
 import { storage } from "../../config/fire";
-class PhotosPage extends React.Component {
+class ScrPhotosPage extends React.Component {
     state = {
-       fullName:"",
+       screenName:"",
         allUsersPhotos: [],
        
 
@@ -21,11 +21,11 @@ class PhotosPage extends React.Component {
 
     showPhotos = () => {
 
-        API.getPhotos({_id: this.props.userInfo.match.params.id })
+        API.getPhotos2({_id: this.props.userInfo.match.params.id })
 
             .then(res => {
                 
-                this.setState({ allUsersPhotos: res.data.photos,fullName:res.data.firstname+" "+ res.data.lastname })
+                this.setState({ allUsersPhotos: res.data.photos,screenName:res.data.screenName})
                  console.log(res.data.photos)
 
 
@@ -49,8 +49,8 @@ class PhotosPage extends React.Component {
 
         return (
             <div className="contentArea ">
-                        
-                <div className="friendsHeader"><h1> {this.state.fullName}'s Photos</h1></div>
+
+                <div className="friendsHeader"><h1> {this.state.screenName}'s Photos</h1></div>
                 <section className="feed ">
 
                     {this.state.allUsersPhotos.length ? (
@@ -94,4 +94,4 @@ class PhotosPage extends React.Component {
 
 
 
-export default PhotosPage;
+export default ScrPhotosPage;

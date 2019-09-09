@@ -2,7 +2,7 @@ import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
 import { storage } from "../../config/fire";
-class ScreenName extends React.Component {
+class MiniContent extends React.Component {
     state = {
         postID: "",
         statusPost: "",
@@ -17,16 +17,16 @@ class ScreenName extends React.Component {
     }
     componentDidMount() {
         
-        this.listScrFriendsPost()
+        this.listFriendsPost()
 
     }
 
    
 
 
-    listScrFriendsPost = () => {
+    listFriendsPost = () => {
 
-        API.getScrFriendsPost({ friends: this.props.screenInfo.friends, })
+        API.getFriendsPost({ friends: this.props.userInfo.friends, })
 
             .then(res => {
                 
@@ -50,9 +50,9 @@ class ScreenName extends React.Component {
     submitPost = () => {
         API.savePost({
             content: this.state.statusPost,
-            post_by: this.props.screenInfo.screenName,
-            post_by_pic: this.props.screenInfo.userPic,
-            user_ID: this.props.screenInfo._id,
+            post_by: this.props.userInfo.firstname +" "+ this.props.userInfo.lastname,
+            post_by_pic: this.props.userInfo.userPic,
+            user_ID: this.props.userInfo.user_ID,
             picUrl: this.state.url,
             progress: 0
         })
@@ -72,8 +72,8 @@ class ScreenName extends React.Component {
     addPostID = () => {
 
 
-        API.postID2({
-            _id: this.props.screenInfo._id,
+        API.postID({
+            _id: this.props.userInfo.user_ID,
             post: this.state.postID
         })
 
@@ -91,8 +91,8 @@ class ScreenName extends React.Component {
         API.saveComment(id,{
         
         comment:this.state.comment,
-        user_id: this.props.screenInfo._id,
-        user:this.props.screenInfo.firstname +" "+ this.props.screenInfo.lastname,
+        user_id: this.props.userInfo.user_ID,
+        user:this.props.userInfo.firstname +" "+ this.props.userInfo.lastname,
             
         })
         .then(res => console.log(res))
@@ -121,7 +121,7 @@ class ScreenName extends React.Component {
 
 
     handleUpload = () => {
-        const fullName =this.props.screenInfo.screenName;
+        const fullName =this.props.userInfo.firstname+"_"+this.props.userInfo.lastname;
         const { image } = this.state;
         const uploadTask = storage.ref(fullName+"/" + image.name).put(image);
         uploadTask.on("state_changed",
@@ -149,15 +149,14 @@ class ScreenName extends React.Component {
 
 addToPhotos =() =>{
 
-    API.addScreenPhotos({
+    API.addPhotos({
         photos:this.state.url,
-        id:this.props.screenInfo._id
+        id:this.props.userInfo.user_ID
     })
     
     .then(res => console.log(res))
     .catch(err => console.log(err));
 }
-
 
 
 
@@ -169,7 +168,7 @@ addToPhotos =() =>{
 
         return (
             <div className="screenNameArea ">
-                <div className="miniScreenName"><Link to ={"/lgScreen"}><div>{this.props.screenInfo.screenName}</div> </Link></div>
+                <div className="miniUserName"><Link to = {"/"}><div>{this.props.userInfo.firstname + " "+ this.props.userInfo.lastname}</div></Link></div>
                 <section className="miniComposeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
                     <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={user.userPic} /> </Link>  </div>
@@ -266,4 +265,4 @@ addToPhotos =() =>{
 
 
 
-export default ScreenName;
+export default MiniContent;

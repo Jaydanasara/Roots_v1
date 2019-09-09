@@ -37,9 +37,19 @@ console.log(newUser)
         })
             .then(res => {
                 dispatch({type:"CREATE_USER",newProfile:res.data})
+                API.saveScreenName({
+                    firstname:res.data.firstname,
+                    lastname:res.data.lastname,
+                    user_ID:res.data._id,
+                    screenName:res.data.screenName
+                    
+                })
             })          
             .catch(err => console.log(err));
        
     }
     
     }
+
+ 
+    

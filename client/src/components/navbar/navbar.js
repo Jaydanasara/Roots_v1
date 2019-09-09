@@ -7,10 +7,27 @@ import Fire from "../../config/fire";
 class Navbar extends React.Component {
 
     state={
-        isActive: false
+        isActive: false,
+        Name:"",
+        isLoading:false
 
 
     }
+
+   ;
+    componentDidMount(){
+        let displayName=""
+        if(this.props.whichName === true){
+        displayName= this.props.userInfo.firstname +" "+ this.props.userInfo.lastname
+
+        
+        }
+        else{
+            displayName=this.props.userInfo.screenName
+        }
+        this.setState({Name:displayName, isLoading:false})
+    }
+    
 
 
     accountClick = () => {
@@ -33,17 +50,17 @@ class Navbar extends React.Component {
 
 
     render() {
-    console.log(this.props.userInfo)
+    
     const user =this.props.userInfo;
         return (
-            
+            this.state.isLoading === true ?<div className="loading">Loading</div> :
             <div className="navigation">
 
                 <div className={this.state.isActive ?"userAccount active": "userAccount" } onClick={this.accountClick} >
 
 
                     <div className=" dropdown-toggle" id="userInfo"  >
-                        <i className="fa fa-user">  {user.firstname}  {user.lastname}</i>
+                        <i className="fa fa-user">  {this.state.Name}</i>
                     </div>
                     <div className="dropDown">
                         <a className="dropdown-item" href="/profile/:id">Edit Profile</a>

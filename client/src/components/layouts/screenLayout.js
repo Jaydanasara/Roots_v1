@@ -1,28 +1,32 @@
 import React from "react";
 import Fire from "../../config/fire";
-import Navbar from "../navbar/navbar";
+import Navbar from "../../components/navbar/navbar";
+import MiniContent from "../content/miniContent";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
-import LeftMenu from "../leftMenu/leftMenu"
-import FriendsList from "../friendsList/friendsList"
-import ScreenName from "../screenName/screenName";
+import LeftMenu from "../../components/leftMenu/leftMenu"
+import LgScreenName from "../screenName/lgScreenName";
 import API from "../../utils/API";
+
+
+
 // import "./roots.css";
 
-class FriendsPage extends React.Component {
+class ScreenLayout extends React.Component {
 
-   
     constructor(props)  {
         super(props)
     this.state= {
         screenNameInfo:{},
         isLoading: true,
-        isUserPage:true
+        isUserPage:false
     }
     }
     componentDidMount(){
         this.screenNameData()
     }
+
+  
 
 
 
@@ -35,6 +39,7 @@ class FriendsPage extends React.Component {
     }
 
     
+
     screenNameData = () => {
 
         API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID, })
@@ -51,26 +56,39 @@ class FriendsPage extends React.Component {
 
     }
 
+
+
+
+
+
+
+
+
+
+
     render() {
         console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
-console.log(this.props)
+console.log(this.props.userInfo)
+console.log(this.state.screenNameInfo)
 
         return (
+
             this.state.isLoading === true ?<div className="loading">Loading</div> :
+
             <div className="app-container">
         
                 <section id="left-menu">
                   <LeftMenu/>
-                  <ScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+                    <MiniContent userInfo={this.props.userInfo}/>
                 </section>
 
 
                 <section className="content-Container">
                   
                         
-                <Navbar whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
-                         
-                            <FriendsList userInfo={this.props.userInfo}/>
+                <Navbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                            <LgScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+                            
 
                       
                     
@@ -98,7 +116,7 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(  mapStateToProps ) (FriendsPage);
+export default connect(  mapStateToProps ) (ScreenLayout);
 
 
 

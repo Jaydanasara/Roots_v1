@@ -18,9 +18,9 @@ const postSchema = new Schema({
           comment: { type: String, required: false },
           dateCreated:{ type: Date, default: Date.now  },
           like: []
-       },
+       }
       
-    ]
+    ],
  
 });
 

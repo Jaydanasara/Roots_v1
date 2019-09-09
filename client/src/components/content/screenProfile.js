@@ -2,20 +2,24 @@ import React from "react";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 
-class ProfileContent extends React.Component {
+class ScreenProfile extends React.Component {
     state = {
         postID: "",
         statusPost: "",
         allUserPost: [],
-        first_Name:"",
-       last_Name:"",
+        screenUserID:"",
+       screenName:"",
        addFriend:true,
        userPic:""
 
     }
+    componentWillMount(){
+        this.screenNameData()
+    }
     componentDidMount() {
         this.listPost()
-        console.log(this.props.userInfo.match.params.id)
+      
+        
     }
 
 
@@ -24,7 +28,7 @@ class ProfileContent extends React.Component {
         API.getUsersPost({ _id: this.props.userInfo.match.params.id })
 
             .then(res => {
-                this.setState({ allUserPost: res.data.post,first_Name:res.data.firstname, last_Name:res.data.lastname ,userPic:res.data.userPic })
+                this.setState({ allUserPost: res.data.post,screenName:res.data.screenName, userPic:res.data.userPic })
                 console.log(res)
 
 
@@ -39,8 +43,8 @@ class ProfileContent extends React.Component {
     submitPost = () => {
         API.savePost({
             content: this.state.statusPost,
-            post_by: this.props.userInfo.userInfo.firstname + this.props.userInfo.userInfo.lastname,
-            post_by_pic:this.props.userInfo.userInfo.userPic
+            post_by: this.props.screenInfo.screenName,
+            post_by_pic:this.props.screenInfo.userPic
         })
             .then(console.log(this.submitPost))
             .then(res => {
@@ -59,7 +63,7 @@ class ProfileContent extends React.Component {
 
 
         API.postID({
-            _id: this.props.userInfo.userInfo.user_ID,
+            _id: this.props.screenInfo._id,
             post: this.state.postID
         })
 
@@ -87,7 +91,7 @@ this.setState ({addFriend: !this.state.addFriend})
 
 
     API.saveFriend({
-        friendName:  this.state.first_Name +" "+ this.state.last_Name,
+        friendName:this.props.screenInfo.screenName ,
         Friend_id:this.props.userInfo.match.params.id,
         addFriend:false,
         friendPic:this.state.userPic
@@ -108,8 +112,8 @@ this.setState ({addFriend: !this.state.addFriend})
 addfriendID = () => {
 
 
-    API.friendID({
-        _id: this.props.userInfo.userInfo.user_ID,
+    API.friendID2({
+        user_ID: this.props.userInfo.userInfo.user_ID,
         friends: this.props.userInfo.match.params.id,
     })
 
@@ -121,8 +125,32 @@ addfriendID = () => {
 }
 
 
+confirmEditpro =() =>{
+    if(this.props.userInfo.userInfo.user_ID === this.props.screenInfo.user_ID)
+    {
+        console.log("true")
+    }
+    else{
+        console.log(this.props.userInfo)
+    }
+}
 
 
+screenNameData =  () => {
+
+     API.getScreenNameInfo({ _id: this.props.userInfo.match.params.id, })
+
+        .then(res => {
+        
+            this.setState({ screenUserID: res.data.user_ID }  );
+             console.log(res)
+
+
+        })
+
+        .catch(err => console.log(err));
+
+}
 
 
 
@@ -130,29 +158,34 @@ addfriendID = () => {
     render() {
         const fullName= this.state.first_Name +" "+ this.state.last_Name
         const user =  this.props.userInfo.userInfo
-        console.log( this.props.userInfo)
-        console.log(this.props.userInfo.match)
-        console.log(this.state.userPic)
+       
+     
+       
+        
+        console.log(this.props.userInfo.userInfo.user_ID)
+        console.log(this.state.screenUserID )
+
+ 
         return (
-            
+            this.state.screenUserID ===""?<div className="loading">Loading</div> :
             <div className="contentArea ">
                 <div className="profile-container">
                 <div className="profile-image">
                 <img src={this.state.userPic} /> 
                 </div>
                 <div className="profile-info">
-                    {fullName}
+                    {this.props.screenInfo.screenName}
                 </div>
                 <div className="button-div"> 
-                <div className= "follow-button" style={this.props.userInfo.match.params.id===this.props.userInfo.userInfo.user_ID ? { display: "visible" } : { display: "none" }}  > <Link to={"/editprofile/" + this.props.userInfo.userInfo.user_ID}>edit profile</Link>     </div>
+                <div className= "follow-button"style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "visible" } : { display:"none" }}  > <Link to={"/editprofile/" + this.props.screenInfo._id}>edit profile</Link>     </div>
                 <button className="friend-btn" onClick={this.addingFriend}>{(this.state.addFriend)?<i id= "friend-icon"class="fa fa-users fa-2x " aria-hidden="true" >+</i>:"UnFriend" }</button>
-                <button className="photos-btn" ><Link to={"/photos/" +this.props.userInfo.match.params.id}>Photos </Link> </button>
-                <button className="my-friends" ><a href= "/friends">MyFriends</a> </button>
+                <button className="photos-btn" ><Link to={"/scrphotos/" +this.props.userInfo.match.params.id}>Photos </Link> </button>
+                <button className="my-friends" ><Link to={"/scrFriends/" +this.props.userInfo.match.params.id} >My Friends </Link> </button>
                 </div>
                 </div>
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">  <Link to={"/profile/" + this.props.userInfo.userInfo.user_ID}><img className="user-Img" src={this.state.userPic} /> </Link>  </div>
+                    <div className="user-I">  <Link to={"/profile/" + this.props.screenInfo._id}><img className="user-Img" src={this.state.userPic} /> </Link>  </div>
                     <div className="buttons">
                         <div className="button photo"><i class="fas fa-camera-retro"></i></div>
                         <div className="button video"><i class="fas fa-video"></i></div>
@@ -230,4 +263,4 @@ addfriendID = () => {
 
 
 
-export default ProfileContent;
+export default ScreenProfile;

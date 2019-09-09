@@ -4,26 +4,22 @@ import Navbar from "../navbar/navbar";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../leftMenu/leftMenu"
-import FriendsList from "../friendsList/friendsList"
-import ScreenName from "../screenName/screenName";
+import ScrFriends from "../friendsList/scrFriends"
 import API from "../../utils/API";
-// import "./roots.css";
 
-class FriendsPage extends React.Component {
 
-   
+class ScrFriendsPage extends React.Component {
     constructor(props)  {
         super(props)
     this.state= {
         screenNameInfo:{},
-        isLoading: true,
-        isUserPage:true
+        isLoading:true
+
     }
     }
     componentDidMount(){
         this.screenNameData()
     }
-
 
 
     logout() {
@@ -37,10 +33,10 @@ class FriendsPage extends React.Component {
     
     screenNameData = () => {
 
-        API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID, })
+        API.getScreenNameInfo({ _id: this.props.match.params.id, })
 
             .then(res => {
-                this.setState({ screenNameInfo: res.data, isLoading:false })
+                this.setState({ screenNameInfo: res.data, isLoading:false})
                 
                  console.log(res)
 
@@ -50,6 +46,10 @@ class FriendsPage extends React.Component {
             .catch(err => console.log(err));
 
     }
+
+
+
+
 
     render() {
         console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
@@ -61,16 +61,16 @@ console.log(this.props)
         
                 <section id="left-menu">
                   <LeftMenu/>
-                  <ScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+
                 </section>
 
 
                 <section className="content-Container">
                   
                         
-                <Navbar whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                <Navbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                          
-                            <FriendsList userInfo={this.props.userInfo}/>
+                            <ScrFriends userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
 
                       
                     
@@ -98,7 +98,7 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(  mapStateToProps ) (FriendsPage);
+export default connect(  mapStateToProps ) (ScrFriendsPage);
 
 
 
