@@ -3,6 +3,10 @@ import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import Content from "../content/content";
 import Modal from "../modal/modal";
+
+
+
+
 class Messenger extends React.Component {
 
     state = {
@@ -13,12 +17,20 @@ class Messenger extends React.Component {
         avatar:"",
         chFriendsEmailaddress:"",
         messageID:"",
-        allChatInfo:[]
+        allChatInfo:[],
+        socket:null,
+
     }
 
+    
     componentWillMount() {
         this.listFriends()
     }
+
+
+
+
+
 
 
     listFriends = () => {
@@ -38,8 +50,6 @@ class Messenger extends React.Component {
     }
 
 
-
-
     getChat=()=>{
     
         let chatMembers=[this.state.chFriendsEmail, this.props.userInfo.emailaddress]
@@ -55,9 +65,7 @@ class Messenger extends React.Component {
                 console.log(res.data)
             }
         })
-        .catch(err => console.log(err));
-    
-        
+        .catch(err => console.log(err)); 
      
     }
     
@@ -82,6 +90,11 @@ class Messenger extends React.Component {
         .catch(err => console.log(err));
      
     }
+
+    messageHasBeenRead=()=>{
+        
+    }
+
 
 
     render() {

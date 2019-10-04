@@ -2,7 +2,10 @@ import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
 import { storage } from "../../config/fire";
-
+import io from 'socket.io-client';
+const socket = io()
+console.log(socket)
+const socketUrl = "http://localhost:3001"
 class Modal extends React.Component {
 
 
@@ -11,13 +14,44 @@ class Modal extends React.Component {
         newChatInfo: []
     }
 
-    async componentDidUpdate (){
-const scrollToBtm= await document.getElementById ("messageScroll");
-if(scrollToBtm)
-scrollToBtm.scrollTo(0,scrollToBtm.scrollHeight)
 
 
-}
+    
+
+    componentDidMount(){
+        this.initSocket()
+    }
+
+    async componentDidUpdate() {
+        const scrollToBtm = await document.getElementById("messageScroll");
+        if (scrollToBtm)
+            scrollToBtm.scrollTo(0, scrollToBtm.scrollHeight)
+
+
+    }
+
+
+
+	initSocket = ()=>{
+
+		const socket = io(socketUrl)
+
+
+
+		socket.on('connect', ()=>{
+
+			console.log("Connected");
+
+		})
+        this.setState({socket})
+
+
+        
+
+		
+
+	}
+
 
 
     handleChange = e => {
@@ -28,19 +62,24 @@ scrollToBtm.scrollTo(0,scrollToBtm.scrollHeight)
 
 
     sendChat = (id) => {
+        socket.emit("message",this.state.content)
         API.logMessage(id, {
             content: this.state.content,
             sender: this.props.userInfo.firstname,
-            receiverHasRead:false
+            receiverHasRead: false
         })
 
             .then(res => {
-                this.setState({content:""},() => this.props.getChat())
+                this.setState({ content: "" }, () => this.props.getChat())
 
                 console.log(res)
             })
             .catch(err => console.log(err));
-    } 
+            socket.on('message', (data) => {
+                console.log(data);
+                this.props.getChat()
+              })
+    }
 
 
 
@@ -79,12 +118,12 @@ scrollToBtm.scrollTo(0,scrollToBtm.scrollHeight)
                                     return (
 
                                         <div>
-                                            
- 
+
+
                                             <div className="messageDisplay" id="messageScroll"  key={chats._id} >
-                                            <div className="modalHeader">
-                                                <div className="chatFriendName" >{chats.usersFirstNames} <button className="close" onClick={this.props.onClose}>X</button></div>
-                                            </div>
+                                                <div className="modalHeader">
+                                                    <div className="chatFriendName" >{chats.usersFirstNames} <button className="close" onClick={this.props.onClose}>X</button></div>
+                                                </div>
 
 
                                                 <div>
@@ -111,7 +150,7 @@ scrollToBtm.scrollTo(0,scrollToBtm.scrollHeight)
 
                                     );
                                 })
-                                })}
+                                }
                             </div>
 
 
