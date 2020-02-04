@@ -35,6 +35,14 @@ router
   .post(usersDataController.updateComments);
 
   router
+  .route("/likeData/:id")
+  .post(usersDataController.updateLikes);
+
+  router
+  .route("/likeData/:id")
+  .put(usersDataController.removeLikes);
+
+  router
   .route("/postData")
   .post(usersDataController.createPost)
 

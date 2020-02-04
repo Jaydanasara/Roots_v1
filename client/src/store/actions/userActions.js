@@ -4,6 +4,7 @@ import API from "../../utils/API"
 export const getUser = (currentUser) =>  {
 
 return(dispatch, getState) => {
+    console.log(currentUser)
    
     API.getUserInfo({
         

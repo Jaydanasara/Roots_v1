@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import LeftMenu from "../../components/leftMenu/leftMenu"
 import ScreenName from "../screenName/screenName";
 import API from "../../utils/API";
-
+import  {getUser} from"../../store/actions/userActions"
 
 
 
@@ -62,6 +62,8 @@ class Layout extends React.Component {
 
 
 
+
+
     render() {
         console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
 console.log(this.props)
@@ -81,7 +83,7 @@ console.log(this.props)
                         
                             <Navbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                           
-                            <Content userInfo={this.props.userInfo}/>
+                            <Content userInfo={this.props.userInfo} disState={this.props}/>
                             
 
                       
@@ -103,6 +105,14 @@ console.log(this.props)
 
 
 
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        getUser: ( currentUserInfo) => dispatch (getUser(currentUserInfo))
+    }
+}
+
+
+
 const mapStateToProps = (state)=>{
     console.log(state)
     return{
@@ -112,7 +122,7 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(  mapStateToProps ) (Layout);
+export default connect(  mapStateToProps,mapDispatchToProps) (Layout);
 
 
 

@@ -19,6 +19,21 @@ saveComment: function(id,postData){
 
 },
 
+likes: function(id,postData){
+  console.log("like working")
+  return axios.post("/api/usersData/likeData/"+id,postData);
+
+},
+
+
+deleteLikes: function(id,postData){
+  return axios.put("/api/usersData/likeData/"+id,postData);
+
+},
+
+
+
+
   getFriendsPost: function(userData) {
     
     return axios.post("/api/usersData/friendsPost",userData);

@@ -41,7 +41,14 @@ class ScreenName extends React.Component {
     }
 
 
+    refreshState= ()=>{
+        const updatePost={
+            emailaddress:this.props.userInfo.emailaddress,
+            password:this.props.userInfo.password
+        }
+        this.props.disState.getUser(updatePost)
 
+    }
 
 
 
@@ -172,7 +179,7 @@ addToPhotos =() =>{
                 <div className="miniScreenName"><Link to ={"/lgScreen"}><div>{this.props.screenInfo.screenName}</div> </Link></div>
                 <section className="miniComposeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={user.userPic} /> </Link>  </div>
+                    <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={user.userPic} alt="userspic"/> </Link>  </div>
                     <div className="buttons">
                         <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
                         <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
@@ -202,12 +209,14 @@ addToPhotos =() =>{
 
                                     <div className="feed_Container"  key={content._id} >
                                         <div className="friendsPostinfo">
-                                            <a className="friends-I" > <Link to={"/profile/" + content.user_ID}> <img className="friendsImg" src={content.post_by_pic} /></Link>  </a>
-                                            <div className="friendsInfo"> <Link to={"/profile/" + content.user_ID}>{content.post_by} </Link>shared a
-                                            <a href="#">{(content.picUrl === undefined) ? "story" : "image"}</a>  </div>
+                                            <a className="friends-I" > <Link to={"/profile/" + content.user_ID}> <img className="friendsImg" src={content.post_by_pic} alt="posted by"/></Link>  </a>
+                                            <div className="friendsInfo"> <Link to={"/profile/" + content.user_ID}>{content.post_by} </Link>&nbsp; shared a &nbsp;
+                                            <a href="/profile/">{(content.picUrl === "") ? "story" : "image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
-                                            <div className={`${(content.picUrl === undefined) ? "story" : "miniUpImage"}`}><img className={`${(content.picUrl === undefined) ? "story" : "miniUpImage"}`} src={content.picUrl} /></div>
+                                              {(content.picUrl === "")? <div className="story"> </div>:
+                                            <div className= "miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl} alt="uploaded image" /></div>
+                                                }
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
@@ -216,13 +225,21 @@ addToPhotos =() =>{
                                                 </p>
 
                                             </div>
-                                            <div className="emojis">
+                                            <div className="emojis">{
+
+                                                content.likes.map((like)=>
                                                 <div className="likessection">
-                                                    <div className="likeDisplay"><i class="far fa-thumbs-up"></i> </div>
+                                                    {(like.user_id === this.props.userInfo.user_ID)?
+                                                    <div className="likeDisplay"> <i class="far fa-thumbs-up"></i> </div>: ""} 
                                                 </div>
-                                                <div className="friendsLiked">Marsh hall and 4 others liked </div>
-                                                <div className="numOfComments">4 comments </div>
-                                            </div>
+                                                )}
+                                                {(content.likes.length===0)?<div className="friendsLiked">Be the first to like this</div>
+                                                :(content.likes.length===1)?<div className="friendsLiked">{content.likes.length} person likes this</div>
+                                                : <div className="friendsLiked">{content.likes.length} people likes this</div>}
+
+                                                {(content.comments.length)?<div className="numOfComments">{content.comments.length} comments </div>:
+                                                <div> </div>}
+                                                </div>
                                             
                                             <div className="mapComments">{
                                             content.comments.map((comment)=>

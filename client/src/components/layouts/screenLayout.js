@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import LeftMenu from "../../components/leftMenu/leftMenu"
 import LgScreenName from "../screenName/lgScreenName";
 import API from "../../utils/API";
-
+import  {getUser} from"../../store/actions/userActions"
 
 
 // import "./roots.css";
@@ -79,7 +79,7 @@ console.log(this.state.screenNameInfo)
         
                 <section id="left-menu">
                   <LeftMenu/>
-                    <MiniContent userInfo={this.props.userInfo}/>
+                    <MiniContent userInfo={this.props.userInfo} disState={this.props}/>
                 </section>
 
 
@@ -87,7 +87,7 @@ console.log(this.state.screenNameInfo)
                   
                         
                 <Navbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
-                            <LgScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+                            <LgScreenName userInfo={this.props.userInfo} disState={this.props} screenInfo={this.state.screenNameInfo}/>
                             
 
                       
@@ -107,6 +107,12 @@ console.log(this.state.screenNameInfo)
 
 
 
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        getUser: ( currentUserInfo) => dispatch (getUser(currentUserInfo))
+    }
+}
+
 const mapStateToProps = (state)=>{
     console.log(state)
     return{
@@ -116,7 +122,7 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(  mapStateToProps ) (ScreenLayout);
+export default connect(  mapStateToProps,mapDispatchToProps ) (ScreenLayout);
 
 
 

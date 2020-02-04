@@ -9,7 +9,10 @@ const postSchema = new Schema({
     picUrl:{ type: String, required: false },
     post_by_pic:{ type: String, required: false },
     tags: [],
-    likes: [ { type: String, required: false }],
+    likes: [ {
+      user:{ type: String, required: false },
+      user_id: { type: String, required: false },
+     }],
     dateCreated:{ type: Date,default: Date.now },
     comments: [	
        {

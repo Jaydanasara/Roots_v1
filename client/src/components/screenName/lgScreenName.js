@@ -43,7 +43,14 @@ class LgScreenName extends React.Component {
     }
 
 
+    refreshState= ()=>{
+        const updatePost={
+            emailaddress:this.props.userInfo.emailaddress,
+            password:this.props.userInfo.password
+        }
+        this.props.disState.getUser(updatePost)
 
+    }
 
 
 
@@ -100,6 +107,50 @@ class LgScreenName extends React.Component {
         .then(res => console.log(res))
             .catch(err => console.log(err));
     }
+
+    handleLikes =(id)=>{
+
+        console.log("working")
+       
+        API.likes(id,{
+        
+    
+            user_id: this.props.screenInfo._id,
+            user:this.props.screenInfo.firstname +" "+ this.props.screenInfo.lastname,
+            
+        })
+        .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+            this.refreshState()
+            this.listScrFriendsPost();
+    
+    
+    }
+
+
+
+
+    removeLikes =(id)=>{
+
+        console.log("delete working")
+      
+        API.deleteLikes(id,{
+        
+    
+            user_id: this.props.screenInfo._id,
+            user:this.props.screenInfo.firstname +" "+ this.props.screenInfo.lastname,
+            
+        })
+        .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+            this.refreshState()
+            this.listScrFriendsPost();
+    
+    
+    }
+    
 
 
     handleChange = e => {
@@ -174,7 +225,7 @@ addToPhotos =() =>{
 
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    p<div className="user-I">   <Link to={"/screenprofile/" + this.props.screenInfo._id}><img className="user-Img" src={user.userPic} /> </Link>  </div>
+                    p<div className="user-I">   <Link to={"/screenprofile/" + this.props.screenInfo._id}><img className="user-Img" src={user.userPic} alt="users pic" /> </Link>  </div>
                     <div className="buttons">
                         <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
                         <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
@@ -205,11 +256,13 @@ addToPhotos =() =>{
                                     <div className="feed_Container"  key={content._id} >
                                         <div className="friendsPostinfo">
                                             <a className="friends-I" > <Link to={"/profile/" + content.user_ID}> <img className="friendsImg" src={content.post_by_pic} /></Link>  </a>
-                                            <div className="friendsInfo"> <Link to={"/profile/" + content.user_ID}>{content.post_by} </Link>shared a
-                                            <a href="#">{(content.picUrl === undefined) ? "story" : "image"}</a>  </div>
+                                            <div className="friendsInfo"> <div><Link to={"/profile/" + content.user_ID}>{content.post_by} </Link></div> &nbsp; shared a &nbsp;
+                                            <Link to={"/profile/" + content.user_ID}>{(content.picUrl === "") ? " story " :  " image "}</Link>  </div>
                                         </div>
                                         <div className="uploadedInfo">
-                                            <div className={`${(content.picUrl === undefined) ? "story" : "upImage"}`}><img className={`${(content.picUrl === undefined) ? "story" : "upImage"}`} src={content.picUrl} /></div>
+                                              {(content.picUrl === "")? <div className="story"> </div>:
+                                            <div className= "miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl} alt="uploaded image" /></div>
+                                                }
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
@@ -218,12 +271,20 @@ addToPhotos =() =>{
                                                 </p>
 
                                             </div>
-                                            <div className="emojis">
-                                                <div className="likessection">
-                                                    <div className="likeDisplay"><i class="far fa-thumbs-up"></i> </div>
-                                                </div>
-                                                <div className="friendsLiked">Marsh hall and 4 others liked </div>
-                                                <div className="numOfComments">4 comments </div>
+                                            <div className="emojis">{
+
+                                            content.likes.map((like)=>
+                                            <div className="likessection">
+                                                {(like.user_id === this.props.screenInfo._id)?
+                                                <div className="likeDisplay"> <i class="far fa-thumbs-up"></i> </div>: ""} 
+                                            </div>
+                                            )}
+                                            {(content.likes.length===0)?<div className="friendsLiked">Be the first to like this</div>
+                                            :(content.likes.length===1)?<div className="friendsLiked">{content.likes.length} person likes this</div>
+                                            : <div className="friendsLiked">{content.likes.length} people likes this</div>}
+
+                                            {(content.comments.length)?<div className="numOfComments">{content.comments.length} comments </div>:
+                                            <div> </div>}
                                             </div>
                                             
                                             <div className="mapComments">{
@@ -234,9 +295,19 @@ addToPhotos =() =>{
                                                 <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                 </div>
                                                 <div className="commentButtons">
-                                                    <div className="replyButton" onClick={() => this.submitComment(content._id)} ><i class="fas fa-share"></i> </div>
-                                                    <div className="likeButton"><i class="far fa-thumbs-up"></i></div>
-                                                </div>
+                                                <div className="replyButton" onClick={() => this.submitComment(content._id)} ><i class="fas fa-share"></i> </div>
+                                                    
+                                                    <div className="likessection">
+                                                      
+                                                        {(content.likes.findIndex(i=>i.user_id===this.props.screenInfo._id)>-1)?
+                                                        <div className="likeButton" onClick={() => this.removeLikes(content._id)}>Unlike</div>
+                                                        :  <div className="likeButton" onClick={() => this.handleLikes(content._id)}><i class="far fa-thumbs-up"></i></div>
+                                                       
+                                                    } 
+                                                    </div>
+                                                   
+
+                                                    </div>
                                             
                                             </div>
                                         </div>

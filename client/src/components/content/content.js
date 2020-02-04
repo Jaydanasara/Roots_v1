@@ -2,6 +2,9 @@ import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
 import { storage } from "../../config/fire";
+
+
+
 class Content extends React.Component {
     state = {
         postID: "",
@@ -11,6 +14,8 @@ class Content extends React.Component {
         url: "",
         isActive: false,
         comment:"",
+        
+
        
 
 
@@ -44,7 +49,7 @@ class Content extends React.Component {
 
 
 
-
+  
 
 
     submitPost = () => {
@@ -65,7 +70,12 @@ class Content extends React.Component {
             })
 
             .catch(err => console.log(err));
-
+            
+       
+           this.refreshState()
+            this.setState({ statusPost: "" },()=> this.listFriendsPost());
+            
+           
     }
 
 
@@ -81,8 +91,20 @@ class Content extends React.Component {
             .catch(err => console.log(err));
 
 
+            
 
     }
+
+
+    refreshState= ()=>{
+        const updatePost={
+            emailaddress:this.props.userInfo.emailaddress,
+            password:this.props.userInfo.password
+        }
+        this.props.disState.getUser(updatePost)
+
+    }
+
 
 
 
@@ -97,7 +119,57 @@ class Content extends React.Component {
         })
         .then(res => console.log(res))
             .catch(err => console.log(err));
+
+            this.refreshState()
+            this.setState({ comment: "" },()=> this.listFriendsPost());
     }
+
+
+    handleLikes =(id)=>{
+
+        console.log("working")
+        
+        API.likes(id,{
+        
+    
+        user_id: this.props.userInfo.user_ID,
+        user:this.props.userInfo.firstname +" "+ this.props.userInfo.lastname,
+            
+        })
+        .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+            this.refreshState()
+            this.setState({ isliked: true },()=> this.listFriendsPost());
+    
+   
+    }
+
+
+
+
+    removeLikes =(id)=>{
+
+        console.log("working")
+      
+        API.deleteLikes(id,{
+        
+    
+        user_id: this.props.userInfo.user_ID,
+        user:this.props.userInfo.firstname +" "+ this.props.userInfo.lastname,
+            
+        })
+        .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+            this.refreshState()
+             this.listFriendsPost();
+    
+    
+    }
+
+
+
 
 
     handleChange = e => {
@@ -165,7 +237,7 @@ addToPhotos =() =>{
     render() {
         const user = this.props.userInfo
         console.log(this.props.userInfo)
-
+        console.log(this.props.disState)
         return (
             <div className="contentArea ">
 
@@ -202,11 +274,12 @@ addToPhotos =() =>{
                                     <div className="feed_Container"  key={content._id} >
                                         <div className="friendsPostinfo">
                                             <a className="friends-I" > <Link to={"/profile/" + content.user_ID}> <img className="friendsImg" src={content.post_by_pic} /></Link>  </a>
-                                            <div className="friendsInfo"> <Link to={"/profile/" + content.user_ID}>{content.post_by} </Link>shared a
-                                            <a href="#">{(content.picUrl === undefined) ? "story" : "image"}</a>  </div>
+                                            <div className="friendsInfo"> <Link to={"/profile/" + content.user_ID}>{content.post_by}</Link> &nbsp; shared a &nbsp; <a href="#">{(content.picUrl === "") ? "story":"image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
-                                            <div className={`${(content.picUrl === undefined) ? "story" : "upImage"}`}><img className={`${(content.picUrl === undefined) ? "story" : "upImage"}`} src={content.picUrl} /></div>
+                                              {(content.picUrl === "")? <div className="story"> </div>:
+                                            <div className= "miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl} alt="uploaded image" /></div>
+                                                }
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
@@ -215,12 +288,20 @@ addToPhotos =() =>{
                                                 </p>
 
                                             </div>
-                                            <div className="emojis">
+                                            <div className="emojis">{
+
+                                                content.likes.map((like)=>
                                                 <div className="likessection">
-                                                    <div className="likeDisplay"><i class="far fa-thumbs-up"></i> </div>
+                                                    {(like.user_id === this.props.userInfo.user_ID)?
+                                                    <div className="likeDisplay"> <i class="far fa-thumbs-up"></i> </div>: ""} 
                                                 </div>
-                                                <div className="friendsLiked">Marsh hall and 4 others liked </div>
-                                                <div className="numOfComments">4 comments </div>
+                                                )}
+                                                {(content.likes.length===0)?<div className="friendsLiked">Be the first to like this</div>
+                                                :(content.likes.length===1)?<div className="friendsLiked">{content.likes.length} person likes this</div>
+                                                 : <div className="friendsLiked">{content.likes.length} people likes this</div>}
+                                               
+                                               {(content.comments.length)?<div className="numOfComments">{content.comments.length} comments </div>:
+                                               <div> </div>}
                                             </div>
                                             
                                             <div className="mapComments">{
@@ -231,11 +312,25 @@ addToPhotos =() =>{
                                                 <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                 </div>
                                                 <div className="commentButtons">
-                                                    <div className="replyButton" onClick={() => this.submitComment(content._id)} ><i class="fas fa-share"></i> </div>
-                                                    <div className="likeButton"><i class="far fa-thumbs-up"></i></div>
-                                                </div>
+                                                <div className="replyButton" onClick={() => this.submitComment(content._id)} ><i class="fas fa-share"></i> </div>
+                                                    
+                                                    <div className="likessection">
+                                                      
+                                                        {(content.likes.findIndex(i=>i.user_id===this.props.userInfo.user_ID)>-1)?
+                                                        <div className="likeButton" onClick={() => this.removeLikes(content._id)}>Unlike</div>
+                                                        :  <div className="likeButton" onClick={() => this.handleLikes(content._id)}><i class="far fa-thumbs-up"></i></div>
+                                                       
+                                                    } 
+                                                    </div>
+                                                   
+
+                                                    </div>
                                             
                                             </div>
+
+                                            
+
+
                                         </div>
 
                                     </div>

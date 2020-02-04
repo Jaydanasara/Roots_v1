@@ -115,6 +115,24 @@ findUserinfo:function(req, res) {
       .catch(err => res.status(422).json(err));
   },
 
+  updateLikes: function(req, res) {
+    console.log("controler")
+    db.postData
+      .findByIdAndUpdate({ _id: req.params.id },  {$push:{likes: req.body}},{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+  removeLikes: function(req, res) {
+    
+    db.postData
+    .findByIdAndUpdate({ _id: req.params.id },  {$pull:{likes: req.body}})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+
+
   addPics: function(req, res) {
     db.usersData
       .findOneAndUpdate({ _id:req.body.id}, {$push:{photos: req.body.photos}},{new:true})

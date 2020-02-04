@@ -156,14 +156,13 @@ screenNameData =  () => {
 
 
     render() {
-        const fullName= this.state.first_Name +" "+ this.state.last_Name
-        const user =  this.props.userInfo.userInfo
+        
+        
        
      
        
         
-        console.log(this.props.userInfo.userInfo.user_ID)
-        console.log(this.state.screenUserID )
+        
 
  
         return (
@@ -171,7 +170,7 @@ screenNameData =  () => {
             <div className="contentArea ">
                 <div className="profile-container">
                 <div className="profile-image">
-                <img src={this.state.userPic} /> 
+                <img src={this.state.userPic}  alt="users pic"/> 
                 </div>
                 <div className="profile-info">
                     {this.props.screenInfo.screenName}
@@ -185,7 +184,7 @@ screenNameData =  () => {
                 </div>
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">  <Link to={"/profile/" + this.props.screenInfo._id}><img className="user-Img" src={this.state.userPic} /> </Link>  </div>
+                    <div className="user-I">  <Link to={"/profile/" + this.props.screenInfo._id}><img className="user-Img" src={this.state.userPic} alr="users image" /> </Link>  </div>
                     <div className="buttons">
                         <div className="button photo"><i class="fas fa-camera-retro"></i></div>
                         <div className="button video"><i class="fas fa-video"></i></div>
@@ -206,12 +205,12 @@ screenNameData =  () => {
                 
                 <div className="feed_Container">
                 <div className="friendsPostinfo">
-                    <a className="friends-I" href="#"><img className="friendsImg" src={each.post_by_pic} />  </a>
+                    <a className="friends-I" href="/profile"><img className="friendsImg" src={each.post_by_pic} />  </a>
                     <div className="friendsInfo"> <a href="/profile" className="friendInfoLink">{each.post_by}</a>shared a  
-                   <a href="#">{(each.picUrl=== undefined)?  "story":"image"}</a>  </div>
+                   <a href="/profile">{(each.picUrl=== undefined)?  "story":"image"}</a>  </div>
                 </div>
                 <div className="uploadedInfo">
-                <div className={`${(each.picUrl === undefined) ? "story" : "upImage"}`}><img className={`${(each.picUrl === undefined) ? "story" : "upImage"}`} src={each.picUrl} /></div>
+                <div className={`${(each.picUrl === undefined) ? "story" : "upImage"}`}><img className={`${(each.picUrl === undefined) ? "story" : "upImage"}`} src={each.picUrl} alt= "uploaded image"/></div>
                 </div>
                 <div className="colorBackground">
                     <div className="updateInfo">
