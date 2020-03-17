@@ -7,7 +7,7 @@ import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import ScreenName from"../../components/screenName/screenName";
 import API from "../../utils/API";
-
+import  {getUser} from"../../store/actions/userActions"
 // import "./roots.css";
 
 class Profile extends React.Component {
@@ -63,15 +63,15 @@ class Profile extends React.Component {
         
                 <section id="left-menu">
                    <LeftMenu/>
-                   <ScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+                   <ScreenName disState={this.props} userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
                 </section>
 
 
                 <section className="content-Container">
                   
                         
-                <Navbar whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
-                            <ProfileContent userInfo={this.props} />
+                <Navbar whichName={this.state.isUserPage}  userInfo={this.props.userInfo} />
+                            <ProfileContent userInfo={this.props} disState={this.props} />
                             
 
                       
@@ -89,7 +89,11 @@ class Profile extends React.Component {
 
 };
 
-
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        getUser: ( currentUserInfo) => dispatch (getUser(currentUserInfo))
+    }
+}
 
 const mapStateToProps = (state)=>{
     console.log(state)
@@ -100,7 +104,7 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(  mapStateToProps ) (Profile);
+export default connect(  mapStateToProps,mapDispatchToProps) (Profile);
 
 
 

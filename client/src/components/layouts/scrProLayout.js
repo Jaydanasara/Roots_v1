@@ -2,7 +2,7 @@ import React from "react";
 import Fire from "../../config/fire";
 import Navbar from "../../components/navbar/navbar";
 import MiniContent from "../content/miniContent";
-import Messenger from "../messenger/messenger";
+import ScreenMessenger from "../messenger/screenNameMessenger";
 import { connect } from "react-redux";
 import LeftMenu from "../../components/leftMenu/leftMenu"
 import ScreenProfile from "../content/screenProfile";
@@ -17,7 +17,8 @@ class ScrProLayout extends React.Component {
     constructor(props)  {
         super(props)
     this.state= {
-        screenNameInfo:{}
+        screenNameInfo:{},
+        isLoading: true,
 
     }
     }
@@ -41,10 +42,10 @@ class ScrProLayout extends React.Component {
 
     screenNameData = () => {
 
-        API.getScreenNameInfo({ _id: this.props.match.params.id, })
+        API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID, })
 
             .then(res => {
-                this.setState({ screenNameInfo: res.data })
+                this.setState({ screenNameInfo: res.data, isLoading:false })
                 
                  console.log(res)
 
@@ -64,12 +65,12 @@ class ScrProLayout extends React.Component {
 
 
 
-
     render() {
         console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
-        console.log(this.props)
+        console.log( this.state.screenNameInfo)
 
         return (
+            this.state.isLoading === true ?<div className="loading">Loading</div> :
             <div className="app-container">
         
                 <section id="left-menu">
@@ -89,7 +90,7 @@ class ScrProLayout extends React.Component {
                     
                 </section>
                 <section className="messenger-area">
-                <Messenger userInfo={this.props.userInfo} />
+                <ScreenMessenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} />
                 </section>
 
             </div>

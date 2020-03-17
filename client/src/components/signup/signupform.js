@@ -63,21 +63,7 @@ class SignupForm extends React.Component {
             this.props.createUser(this.state)
                 
 
-            // API.saveName({
-
-           
-            //     firstname: this.state.firstName,
-            //     lastname: this.state.lastName,
-            //     emailaddress: this.state.email,
-            //     password: this.state.password,
-            //     screenName:this.state.screenName
-                
-
-            // })
-            //     .then(function (response) {
-            //         console.log(response);
-            //       })
-            //     .catch(err => console.log(err));
+         
 
 
 

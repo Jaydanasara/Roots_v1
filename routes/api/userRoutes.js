@@ -6,7 +6,7 @@ router
   .route("/")
   .post(usersDataController.findUserinfo)
   .put(usersDataController.update)
-
+  .get(usersDataController.findAllUsers)
 
   router
   .route("/addScreenPhoto")
@@ -20,6 +20,7 @@ router
   router
   .route("/usersData")
   .post(usersDataController.create)
+ 
   
   router
   .route("/friendsLst")

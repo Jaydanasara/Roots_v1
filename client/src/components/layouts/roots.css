@@ -356,6 +356,23 @@ cursor: pointer;
     padding:10px;
 }
 
+.srch_resp_cont{
+    text-align: left;
+    padding-left: 0px;
+    
+}
+
+.searchResponse{
+    padding-top: 5px;
+    background: #d3d3d3 ;
+    border:thin     ;
+    border-color: #1b1b1b;
+    border-radius: 3px;
+    font-size: 14px;
+    padding-left: 15px;
+    width: 400px;
+    height: 50px;
+}
 
 .searchInfo{
     position:relative ;
@@ -382,8 +399,23 @@ cursor: pointer;
 
 
 
-   
+
 }
+
+
+.search-Img{
+
+    height: 40px;
+    width: 40px;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    border:5px solid  tan;
+    }
+
+
+
 .navIcons{
     position: absolute ;
     top:0;
@@ -700,10 +732,15 @@ border-radius: 50%;
     padding-bottom: 20px
 }
 
+.commentUrl{
+    max-width:35%;
+    max-height: 35%;
+}
+
 
 .responseComments{
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     padding-bottom: 10px;
 }
 

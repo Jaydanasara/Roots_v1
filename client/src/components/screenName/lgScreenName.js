@@ -74,6 +74,9 @@ class LgScreenName extends React.Component {
             })
 
             .catch(err => console.log(err));
+            
+            this.refreshState()
+            this.setState({ statusPost: "" },()=> this.listScrFriendsPost());
 
     }
 
@@ -101,7 +104,7 @@ class LgScreenName extends React.Component {
         
         comment:this.state.comment,
         user_id: this.props.screenInfo._id,
-        user:this.props.screenInfo.firstname +" "+ this.props.screenInfo.lastname,
+        user:this.props.screenInfo.screenName
             
         })
         .then(res => console.log(res))

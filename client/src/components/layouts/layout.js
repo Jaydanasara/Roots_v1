@@ -74,7 +74,7 @@ console.log(this.props)
         
                 <section id="left-menu">
                   <LeftMenu/>
-                    <ScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+                    <ScreenName disState={this.props} userInfo= {this.props.userInfo} screenInfo={this.state.screenNameInfo} />
                 </section>
 
 

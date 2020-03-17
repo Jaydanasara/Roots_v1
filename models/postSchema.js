@@ -19,6 +19,7 @@ const postSchema = new Schema({
           user:{ type: String, required: false },
           user_id: { type: String, required: false },
           comment: { type: String, required: false },
+          picUrl:{ type: String, required: false },
           dateCreated:{ type: Date, default: Date.now  },
           like: []
        }

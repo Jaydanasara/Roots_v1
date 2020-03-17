@@ -2,7 +2,7 @@ import React from "react";
 import Fire from "../../config/fire";
 import Navbar from "../../components/navbar/navbar";
 import MiniContent from "../content/miniContent";
-import Messenger from "../messenger/messenger";
+import ScreenMessenger from "../messenger/screenNameMessenger";
 import { connect } from "react-redux";
 import LeftMenu from "../../components/leftMenu/leftMenu"
 import LgScreenName from "../screenName/lgScreenName";
@@ -94,7 +94,7 @@ console.log(this.state.screenNameInfo)
                     
                 </section>
                 <section className="messenger-area">
-                <Messenger userInfo={this.props.userInfo} />
+                <ScreenMessenger userInfo={this.props.userInfo}  screenInfo={this.state.screenNameInfo} />
                 </section>
 
             </div>

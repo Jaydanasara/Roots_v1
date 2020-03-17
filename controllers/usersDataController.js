@@ -37,6 +37,15 @@ findUserinfo:function(req, res) {
    .then(dbModel => res.json(dbModel))
    .catch(err => res.status(422).json(err));
 },
+
+findAllUsers:function(req, res) {
+ 
+  db.usersData
+   .find()
+   
+   .then(dbModel => res.json(dbModel))
+   .catch(err => res.status(422).json(err));
+},
   
   findFriendsList: function(req, res) {
   

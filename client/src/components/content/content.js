@@ -13,20 +13,20 @@ class Content extends React.Component {
         image: null,
         url: "",
         isActive: false,
-        comment:"",
-        
+        comment: "",
 
-       
+
+
 
 
     }
     componentDidMount() {
-        
+
         this.listFriendsPost()
 
     }
 
-   
+
 
 
     listFriendsPost = () => {
@@ -34,9 +34,9 @@ class Content extends React.Component {
         API.getFriendsPost({ friends: this.props.userInfo.friends, })
 
             .then(res => {
-                
+
                 this.setState({ allUserPost: res.data })
-                 console.log(res.data)
+                console.log(res.data)
 
 
             })
@@ -49,13 +49,13 @@ class Content extends React.Component {
 
 
 
-  
+
 
 
     submitPost = () => {
         API.savePost({
             content: this.state.statusPost,
-            post_by: this.props.userInfo.firstname +" "+ this.props.userInfo.lastname,
+            post_by: this.props.userInfo.firstname + " " + this.props.userInfo.lastname,
             post_by_pic: this.props.userInfo.userPic,
             user_ID: this.props.userInfo.user_ID,
             picUrl: this.state.url,
@@ -70,12 +70,12 @@ class Content extends React.Component {
             })
 
             .catch(err => console.log(err));
-            
-       
-           this.refreshState()
-            this.setState({ statusPost: "" },()=> this.listFriendsPost());
-            
-           
+
+
+        this.refreshState()
+        this.setState({ statusPost: "" }, () => this.listFriendsPost());
+
+
     }
 
 
@@ -91,15 +91,15 @@ class Content extends React.Component {
             .catch(err => console.log(err));
 
 
-            
+
 
     }
 
 
-    refreshState= ()=>{
-        const updatePost={
-            emailaddress:this.props.userInfo.emailaddress,
-            password:this.props.userInfo.password
+    refreshState = () => {
+        const updatePost = {
+            emailaddress: this.props.userInfo.emailaddress,
+            password: this.props.userInfo.password
         }
         this.props.disState.getUser(updatePost)
 
@@ -109,63 +109,63 @@ class Content extends React.Component {
 
 
 
-    submitComment =(id)=>{
-        API.saveComment(id,{
-        
-        comment:this.state.comment,
-        user_id: this.props.userInfo.user_ID,
-        user:this.props.userInfo.firstname +" "+ this.props.userInfo.lastname,
-            
+    submitComment = (id) => {
+        API.saveComment(id, {
+
+            comment: this.state.comment,
+            user_id: this.props.userInfo.user_ID,
+            user: this.props.userInfo.firstname + " " + this.props.userInfo.lastname,
+
         })
-        .then(res => console.log(res))
+            .then(res => console.log(res))
             .catch(err => console.log(err));
 
-            this.refreshState()
-            this.setState({ comment: "" },()=> this.listFriendsPost());
+        this.refreshState()
+        this.setState({ comment: "" }, () => this.listFriendsPost());
     }
 
 
-    handleLikes =(id)=>{
+    handleLikes = (id) => {
 
         console.log("working")
-        
-        API.likes(id,{
-        
-    
-        user_id: this.props.userInfo.user_ID,
-        user:this.props.userInfo.firstname +" "+ this.props.userInfo.lastname,
-            
+
+        API.likes(id, {
+
+
+            user_id: this.props.userInfo.user_ID,
+            user: this.props.userInfo.firstname + " " + this.props.userInfo.lastname,
+
         })
-        .then(res => console.log(res))
+            .then(res => console.log(res))
             .catch(err => console.log(err));
 
-            this.refreshState()
-            this.setState({ isliked: true },()=> this.listFriendsPost());
-    
-   
+        this.refreshState()
+        this.setState({ isliked: true }, () => this.listFriendsPost());
+
+
     }
 
 
 
 
-    removeLikes =(id)=>{
+    removeLikes = (id) => {
 
         console.log("working")
-      
-        API.deleteLikes(id,{
-        
-    
-        user_id: this.props.userInfo.user_ID,
-        user:this.props.userInfo.firstname +" "+ this.props.userInfo.lastname,
-            
+
+        API.deleteLikes(id, {
+
+
+            user_id: this.props.userInfo.user_ID,
+            user: this.props.userInfo.firstname + " " + this.props.userInfo.lastname,
+
         })
-        .then(res => console.log(res))
+            .then(res => console.log(res))
             .catch(err => console.log(err));
 
-            this.refreshState()
-             this.listFriendsPost();
-    
-    
+        this.refreshState()
+        this.listFriendsPost();
+
+
     }
 
 
@@ -193,9 +193,9 @@ class Content extends React.Component {
 
 
     handleUpload = () => {
-        const fullName =this.props.userInfo.firstname+"_"+this.props.userInfo.lastname;
+        const fullName = this.props.userInfo.firstname + "_" + this.props.userInfo.lastname;
         const { image } = this.state;
-        const uploadTask = storage.ref(fullName+"/" + image.name).put(image);
+        const uploadTask = storage.ref(fullName + "/" + image.name).put(image);
         uploadTask.on("state_changed",
             (snapshot) => {
                 const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
@@ -207,7 +207,7 @@ class Content extends React.Component {
             () => {
                 storage.ref(fullName).child(image.name).getDownloadURL()
                     .then(url => {
-                        this.setState({ url: url },() => this.addToPhotos());
+                        this.setState({ url: url }, () => this.addToPhotos());
                         console.log(url)
                     })
             });
@@ -219,16 +219,16 @@ class Content extends React.Component {
     };
 
 
-addToPhotos =() =>{
+    addToPhotos = () => {
 
-    API.addPhotos({
-        photos:this.state.url,
-        id:this.props.userInfo.user_ID
-    })
-    
-    .then(res => console.log(res))
-    .catch(err => console.log(err));
-}
+        API.addPhotos({
+            photos: this.state.url,
+            id: this.props.userInfo.user_ID
+        })
+
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+    }
 
 
 
@@ -256,7 +256,7 @@ addToPhotos =() =>{
 
                         <div className="button video"><i className="fas fa-video"></i> </div>
                         <div className="button send">
-                            <button type="submit" className="postbutton" onClick={()=>this.submitPost()}>Post </button>
+                            <button type="submit" className="postbutton" onClick={() => this.submitPost()}>Post </button>
                         </div>
                     </div>
                 </section>
@@ -267,68 +267,68 @@ addToPhotos =() =>{
 
                         <div>
                             {this.state.allUserPost.map(content => {
-                              
-                                return (
-                                   
 
-                                    <div className="feed_Container"  key={content._id} >
+                                return (
+
+
+                                    <div className="feed_Container" key={content._id} >
                                         <div className="friendsPostinfo">
                                             <a className="friends-I" > <Link to={"/profile/" + content.user_ID}> <img className="friendsImg" src={content.post_by_pic} /></Link>  </a>
-                                            <div className="friendsInfo"> <Link to={"/profile/" + content.user_ID}>{content.post_by}</Link> &nbsp; shared a &nbsp; <a href="#">{(content.picUrl === "") ? "story":"image"}</a>  </div>
+                                            <div className="friendsInfo"> <Link to={"/profile/" + content.user_ID}>{content.post_by}</Link> &nbsp; shared a &nbsp; <a href="#">{(content.picUrl === "") ? "story" : "image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
-                                              {(content.picUrl === "")? <div className="story"> </div>:
-                                            <div className= "miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl} alt="uploaded image" /></div>
-                                                }
+                                            {(content.picUrl === "") ? <div className="story"> </div> :
+                                                <div className="miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl} alt="uploaded image" /></div>
+                                            }
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
-                                                
+
                                                 <p>{content.content}
                                                 </p>
 
                                             </div>
                                             <div className="emojis">{
 
-                                                content.likes.map((like)=>
-                                                <div className="likessection">
-                                                    {(like.user_id === this.props.userInfo.user_ID)?
-                                                    <div className="likeDisplay"> <i class="far fa-thumbs-up"></i> </div>: ""} 
-                                                </div>
+                                                content.likes.map((like) =>
+                                                    <div className="likessection">
+                                                        {(like.user_id === this.props.userInfo.user_ID) ?
+                                                            <div className="likeDisplay"> <i class="far fa-thumbs-up"></i> </div> : ""}
+                                                    </div>
                                                 )}
-                                                {(content.likes.length===0)?<div className="friendsLiked">Be the first to like this</div>
-                                                :(content.likes.length===1)?<div className="friendsLiked">{content.likes.length} person likes this</div>
-                                                 : <div className="friendsLiked">{content.likes.length} people likes this</div>}
-                                               
-                                               {(content.comments.length)?<div className="numOfComments">{content.comments.length} comments </div>:
-                                               <div> </div>}
+                                                {(content.likes.length === 0) ? <div className="friendsLiked">Be the first to like this</div>
+                                                    : (content.likes.length === 1) ? <div className="friendsLiked">{content.likes.length} person likes this</div>
+                                                        : <div className="friendsLiked">{content.likes.length} people likes this</div>}
+
+                                                {(content.comments.length) ? <div className="numOfComments">{content.comments.length} comments </div> :
+                                                    <div> </div>}
                                             </div>
-                                            
+
                                             <div className="mapComments">{
-                                            content.comments.map((comment)=>
-                                                <div className="commentList"><span> <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}</div>
+                                                content.comments.map((comment) =>
+                                                    <div className="commentList"><span> <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}</div>
                                                 )}
                                                 <div className="responseComments">
-                                                <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
+                                                    <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                 </div>
                                                 <div className="commentButtons">
-                                                <div className="replyButton" onClick={() => this.submitComment(content._id)} ><i class="fas fa-share"></i> </div>
-                                                    
-                                                    <div className="likessection">
-                                                      
-                                                        {(content.likes.findIndex(i=>i.user_id===this.props.userInfo.user_ID)>-1)?
-                                                        <div className="likeButton" onClick={() => this.removeLikes(content._id)}>Unlike</div>
-                                                        :  <div className="likeButton" onClick={() => this.handleLikes(content._id)}><i class="far fa-thumbs-up"></i></div>
-                                                       
-                                                    } 
-                                                    </div>
-                                                   
+                                                    <div className="replyButton" onClick={() => this.submitComment(content._id)} ><i class="fas fa-share"></i> </div>
 
+                                                    <div className="likessection">
+
+                                                        {(content.likes.findIndex(i => i.user_id === this.props.userInfo.user_ID) > -1) ?
+                                                            <div className="likeButton" onClick={() => this.removeLikes(content._id)}>Unlike</div>
+                                                            : <div className="likeButton" onClick={() => this.handleLikes(content._id)}><i class="far fa-thumbs-up"></i></div>
+
+                                                        }
                                                     </div>
-                                            
+
+
+                                                </div>
+
                                             </div>
 
-                                            
+
 
 
                                         </div>

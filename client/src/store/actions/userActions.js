@@ -33,7 +33,8 @@ console.log(newUser)
                 lastname: newUser.lastname,
                 emailaddress: newUser.emailaddress,
                 password: newUser.password,
-                screenName:newUser.screenName
+                screenName:newUser.screenName,
+                userPic:"./rootsicon.jpg" 
 
         })
             .then(res => {

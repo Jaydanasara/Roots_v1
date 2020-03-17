@@ -65,36 +65,39 @@ deleteLikes: function(id,postData){
   updateEditProfile:function(id,userData) {
     
     return axios.put("/api/usersData/" +id, userData);
-   
+  
   },
 
 
- 
+
   getUserInfo: function(userData) {
   
     return axios.post("/api/usersData",userData);
-   
+  
   },
   
- 
 
- 
+getAllUsers:function(){
+  console.log("second part ")
+  return axios.get("/api/usersData");
+},
+
   postID: function(userData) {
-   
+  
     return axios.put("/api/usersData",userData);
   },
   
   savePost : function(postData) {
     
     return axios.post("/api/usersData/postData",postData);
-   
+  
   },
   saveFriend : function(friendsData) {
-   
+  
     return axios.post("/api/usersData/friendsData",friendsData);
-   
+  
   },
- 
+
 
   deleteScore: function(id) {
     return axios.delete("/api/scores/" + id);
