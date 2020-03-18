@@ -27,7 +27,7 @@ class ScreenProfile extends React.Component {
         this.listPost()
         console.log (this.props.userInfo.match.params.id)
       
-        
+    
     }
 
 
@@ -36,17 +36,26 @@ class ScreenProfile extends React.Component {
         API.getScrUsersPost({ _id: this.props.userInfo.match.params.id })
 
             .then(res => {
-                this.setState({ allUserPost: res.data.post,screenName:res.data.screenName, userPic:res.data.userPic })
+                this.setState({ allUserPost: res.data.post,screenName:res.data.screenName, userPic:res.data.userPic },()=>this.postSort())
                 console.log(res)
 
-
+            
             })
+           
 
             .catch(err => console.log(err));
 
     }
 
-
+postSort =() =>{
+   let sortPost=this.state.allUserPost.sort((a,b)=>{
+        if(a.dateCreated < b.dateCreated) return 1;
+        else if (b.dateCreated < a.dateCreated) return -1;
+        else return 0
+    });
+    
+    this.setState({ allUserPost: sortPost})
+}
 
     submitPost = () => {
         API.savePost({

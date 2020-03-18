@@ -17,9 +17,9 @@ module.exports = {
 
   db.screenNameData
    .findOne({ _id: req.body._id})
-  
+   .sort({ dateCreated: -1})
    .populate( "post")
-   .sort({ dateCreated: -1 })
+   
    .then(dbModel => res.json(dbModel))
    .catch(err => res.status(422).json(err));
 },

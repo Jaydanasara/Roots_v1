@@ -30,7 +30,7 @@ class ProfileContent extends React.Component {
         API.getUsersPost({ _id: this.props.userInfo.match.params.id })
 
             .then(res => {
-                this.setState({ allUserPost: res.data.post, first_Name: res.data.firstname, last_Name: res.data.lastname, userPic: res.data.userPic })
+                this.setState({ allUserPost: res.data.post, first_Name: res.data.firstname, last_Name: res.data.lastname, userPic: res.data.userPic },()=>this.postSort())
                 console.log(res)
 
 
@@ -42,7 +42,15 @@ class ProfileContent extends React.Component {
     }
 
 
-
+    postSort =() =>{
+        let sortPost=this.state.allUserPost.sort((a,b)=>{
+             if(a.dateCreated < b.dateCreated) return 1;
+             else if (b.dateCreated < a.dateCreated) return -1;
+             else return 0
+         });
+         
+         this.setState({ allUserPost: sortPost})
+     }
 
 
     submitPost = () => {
