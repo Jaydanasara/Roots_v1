@@ -3,10 +3,16 @@ import axios from "axios";
 export default {
  
   getUsersPost: function(userData) {
-   
+  
     return axios.post("/api/usersData/usersPost",userData);
 
   },
+
+  getScrUsersPost: function(userData) {
+    
+     return axios.post("/api/usersData/scrUsersPost",userData);
+ 
+   },
 
   saveName: function(userData) {
     return axios.post("/api/usersData/usersData",userData);
@@ -88,7 +94,7 @@ getAllUsers:function(){
   },
   
   savePost : function(postData) {
-    
+    console.log(postData)
     return axios.post("/api/usersData/postData",postData);
   
   },

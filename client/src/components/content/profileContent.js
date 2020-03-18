@@ -16,11 +16,12 @@ class ProfileContent extends React.Component {
         image: null,
         url: "",
         isActive: false,
+        isActive2:false,
+        progress:0
 
     }
     componentDidMount() {
         this.listPost()
-        console.log(this.props.userInfo.match.params.id)
     }
 
 
@@ -36,7 +37,7 @@ class ProfileContent extends React.Component {
             })
 
             .catch(err => console.log(err));
-        console.log("listpost complete")
+        
 
     }
 
@@ -65,7 +66,7 @@ class ProfileContent extends React.Component {
 
 
         this.setState({ statusPost: "" });
-        console.log("after list post")
+        
     }
 
 
@@ -100,12 +101,12 @@ class ProfileContent extends React.Component {
             })
             .catch(err => console.log(err));
 
-        this.setState({ comment: "" });
+        this.setState({ comment: "",isActive2:false });
     }
 
     handleLikes = (id) => {
 
-        console.log("working")
+       
 
         API.likes(id, {
 
@@ -129,7 +130,7 @@ class ProfileContent extends React.Component {
 
     removeLikes = (id) => {
 
-        console.log("working")
+        
 
         API.deleteLikes(id, {
 
@@ -171,6 +172,16 @@ class ProfileContent extends React.Component {
 
     }
 
+
+    handleImageSelected2 = event => {
+        this.commentClick()
+        if (event.target.files[0]) {
+            const image = event.target.files[0];
+            this.setState(() => ({ image }));
+        }
+
+    }
+
     handleUpload = () => {
         const fullName = this.props.userInfo.userInfo.firstname + "_" + this.props.userInfo.userInfo.lastname;
         const { image } = this.state;
@@ -195,6 +206,11 @@ class ProfileContent extends React.Component {
     uploadClick = () => {
 
         this.setState({ isActive: !this.state.isActive })
+    };
+
+    commentClick = () => {
+
+        this.setState({ isActive2: !this.state.isActive2 })
     };
 
     addToPhotos = () => {
@@ -257,7 +273,7 @@ class ProfileContent extends React.Component {
     render() {
         const fullName = this.state.first_Name + " " + this.state.last_Name
 
-        console.log(this.props.userInfo.userInfo.firstname + " " + this.props.userInfo.userInfo.lastname)
+        
         return (
 
             <div className="contentArea ">
@@ -290,7 +306,7 @@ class ProfileContent extends React.Component {
 
                         <div className="button video"><i class="fas fa-video"></i></div>
                         <div className="button send">
-                            <button type="submit" className="postbutton" onClick={this.submitPost}>Post </button>
+                            <button type="submit" className="postbutton" onClick={this.state.statusPost ==="" && this.state.url ===""? null : this.submitPost}>Post </button>
                         </div>
                     </div>
                 </section>
@@ -345,19 +361,19 @@ class ProfileContent extends React.Component {
                                                     <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                     <div>
                                                     <button type="button" className="button photo" onClick={() => this.fileInput.click()}> <i class="far fa-images"></i></button>
-                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
-                        <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
+                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput = fileInput} />
+                        <img className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
 
-                        <progress className={this.state.isActive ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
-                        <button className={this.state.isActive ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                        <span className={this.state.isActive ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
+                        <progress className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
+                        <button className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
+                        <span className={this.state.isActive2 ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
                       
                                                    
                                                    
                                           </div>
                                                 </div>
                                                 <div className="commentButtons">
-                                                    <div className="replyButton" onClick={() => this.submitComment(each._id)} ><i class="fas fa-share"></i> </div>
+                                                    <div className="replyButton" onClick={this.state.comment ==="" && this.state.url ===""? null:()=> this.submitComment(each._id)}  ><i class="fas fa-share"></i> </div>
 
                                                     <div className="likessection">
 

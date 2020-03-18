@@ -12,6 +12,17 @@ module.exports = {
      .then(dbModel => res.json(dbModel))
      .catch(err => res.status(422).json(err));
  },
+
+ findScrUserPost: function(req, res) {
+
+  db.screenNameData
+   .findOne({ _id: req.body._id})
+  
+   .populate( "post")
+   .sort({ dateCreated: -1 })
+   .then(dbModel => res.json(dbModel))
+   .catch(err => res.status(422).json(err));
+},
  findFriendsPost: function(req, res) {
   
  const friendsPost=[];

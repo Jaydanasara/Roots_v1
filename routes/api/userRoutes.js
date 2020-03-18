@@ -52,6 +52,10 @@ router
   .post(usersDataController.findUserPost);
 
   router
+  .route("/scrUsersPost")
+  .post(usersDataController.findScrUserPost);
+
+  router
   .route("/friendsPost")
   .post(usersDataController.findFriendsPost);
 
