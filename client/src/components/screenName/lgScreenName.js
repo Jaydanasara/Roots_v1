@@ -2,7 +2,7 @@ import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
 import { storage } from "../../config/fire";
-
+import moment from "moment";
 
 class LgScreenName extends React.Component {
     state = {
@@ -12,6 +12,7 @@ class LgScreenName extends React.Component {
         image: null,
         url: "",
         isActive: false,
+        isActive2:false,
         comment:"",
        
 
@@ -76,7 +77,7 @@ class LgScreenName extends React.Component {
             .catch(err => console.log(err));
             
             this.refreshState()
-            this.setState({ statusPost: "" },()=> this.listScrFriendsPost());
+            this.setState({ statusPost: "",isActive:false },()=> this.listScrFriendsPost());
 
     }
 
@@ -104,11 +105,15 @@ class LgScreenName extends React.Component {
         
         comment:this.state.comment,
         user_id: this.props.screenInfo._id,
-        user:this.props.screenInfo.screenName
-            
+        user:this.props.screenInfo.screenName,
+        picUrl: this.state.url,   
         })
         .then(res => console.log(res))
             .catch(err => console.log(err));
+
+         
+        this.refreshState()
+        this.setState({ comment: "",isActive2:false }, () => this.listScrFriendsPost());   
     }
 
     handleLikes =(id)=>{
@@ -176,6 +181,17 @@ class LgScreenName extends React.Component {
     }
 
 
+    
+    handleImageSelected2 = event => {
+        this.commentClick()
+        if (event.target.files[0]) {
+            const image = event.target.files[0];
+            this.setState(() => ({ image }));
+        }
+
+    }
+
+
     handleUpload = () => {
         const fullName =this.props.screenInfo.screenName;
         const { image } = this.state;
@@ -201,6 +217,12 @@ class LgScreenName extends React.Component {
 
         this.setState({ isActive: !this.state.isActive })
     };
+
+    commentClick = () => {
+
+        this.setState({ isActive2: !this.state.isActive2 })
+    };
+
 
 
 addToPhotos =() =>{
@@ -269,7 +291,7 @@ addToPhotos =() =>{
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
-                                                
+                                            <div>{moment(content.dateCreated).calendar()}</div>    
                                                 <p>{content.content}
                                                 </p>
 
@@ -291,12 +313,24 @@ addToPhotos =() =>{
                                             </div>
                                             
                                             <div className="mapComments">{
-                                            content.comments.map((comment)=>
-                                                <div className="commentList"><span> <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}</div>
+                                            content.comments.map((comment,picUrl)=>
+                                            <div key={picUrl}className="commentList">{moment(comment.dateCreated).calendar()} <span> &nbsp; <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
+                                                 <div className={comment.picUrl ===""?"commentPic":"nocommentPic"}><img className="commentUrl" src={comment.picUrl}/></div></div>
                                                 )}
                                                 <div className="responseComments">
                                                 <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
+                                                <div>
+                                                    <button type="button" className="button photo" onClick={() => this.fileInput.click()}> <i class="far fa-images"></i></button>
+                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput = fileInput} />
+                                                    <img className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
+
+                                                    <progress className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
+                                                    <button className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
+                                                    <span className={this.state.isActive2 ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
+
                                                 </div>
+                                                </div>
+
                                                 <div className="commentButtons">
                                                 <div className="replyButton" onClick={() => this.submitComment(content._id)} ><i class="fas fa-share"></i> </div>
                                                     

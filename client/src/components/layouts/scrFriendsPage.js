@@ -1,6 +1,6 @@
 import React from "react";
 import Fire from "../../config/fire";
-import Navbar from "../navbar/navbar";
+import ScrNavbar from "../navbar/scrnavbar";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../leftMenu/leftMenu"
@@ -68,7 +68,7 @@ console.log(this.props)
                 <section className="content-Container">
                   
                         
-                <Navbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                <ScrNavbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                          
                             <ScrFriends userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
 

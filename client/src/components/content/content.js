@@ -75,7 +75,7 @@ class Content extends React.Component {
 
 
         this.refreshState()
-        this.setState({ statusPost: "" }, () => this.listFriendsPost());
+        this.setState({ statusPost: "",isActive:false }, () => this.listFriendsPost());
 
 
     }
@@ -142,7 +142,7 @@ class Content extends React.Component {
             .catch(err => console.log(err));
 
         this.refreshState()
-        this.setState({ isliked: true }, () => this.listFriendsPost());
+        this.listFriendsPost();
 
 
     }
@@ -298,7 +298,7 @@ class Content extends React.Component {
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
-
+                                            <div>{moment(content.dateCreated).calendar()}</div>   
                                                 <p>{content.content}
                                                 </p>
 
@@ -320,8 +320,8 @@ class Content extends React.Component {
                                             </div>
 
                                             <div className="mapComments">{
-                                                content.comments.map((comment) =>
-                                                    <div className="commentList"><span> <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
+                                                content.comments.map((comment,picUrl) =>
+                                                <div key={picUrl}className="commentList">{moment(comment.dateCreated).calendar()} <span> &nbsp; <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
                                                     <div className={comment.picUrl ===""?"commentPic":"nocommentPic"}><img className="commentUrl" src={comment.picUrl}/></div></div>
                                                 )}
                                                 <div className="responseComments">

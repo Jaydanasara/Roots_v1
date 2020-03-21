@@ -87,6 +87,7 @@ router
 
   router
   .route("/screenData")
+  .get(usersDataController.findAllScrUsers)
   .post(usersDataController.createScreenInfo);
 
   router

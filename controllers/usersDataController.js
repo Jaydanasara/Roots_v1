@@ -57,6 +57,16 @@ findAllUsers:function(req, res) {
    .then(dbModel => res.json(dbModel))
    .catch(err => res.status(422).json(err));
 },
+
+
+findAllScrUsers:function(req, res) {
+ 
+  db.screenNameData
+   .find()
+   
+   .then(dbModel => res.json(dbModel))
+   .catch(err => res.status(422).json(err));
+},
   
   findFriendsList: function(req, res) {
   

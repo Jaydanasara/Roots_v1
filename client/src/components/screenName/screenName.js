@@ -2,6 +2,7 @@ import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
 import { storage } from "../../config/fire";
+import moment from "moment";
 class ScreenName extends React.Component {
     state = {
         postID: "",
@@ -107,6 +108,9 @@ class ScreenName extends React.Component {
         })
         .then(res => console.log(res))
             .catch(err => console.log(err));
+
+            this.refreshState()
+            this.setState({ comment: "" }, () => this.listScrFriendsPost());       
     }
 
 
@@ -223,7 +227,7 @@ addToPhotos =() =>{
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
-                                                
+                                            <div>{moment(content.dateCreated).calendar()}</div>     
                                                 <p>{content.content}
                                                 </p>
 
@@ -245,8 +249,9 @@ addToPhotos =() =>{
                                                 </div>
                                             
                                             <div className="mapComments">{
-                                            content.comments.map((comment)=>
-                                                <div className="commentList"><span> <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}</div>
+                                            content.comments.map((comment,picUrl)=>
+                                            <div key={picUrl}className="commentList">{moment(comment.dateCreated).calendar()} <span> &nbsp; <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
+                                            <div className={comment.picUrl ===""?"commentPic":"nocommentPic"}><img className="commentUrl" src={comment.picUrl}/></div></div>
                                                 )}
                                                 <div className="responseComments">
                                                 <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />

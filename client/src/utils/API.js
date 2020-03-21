@@ -84,8 +84,13 @@ deleteLikes: function(id,postData){
   
 
 getAllUsers:function(){
-  console.log("second part ")
+ 
   return axios.get("/api/usersData");
+},
+
+getScrUsers:function(){
+  console.log("second part ")
+  return axios.get("/api/usersData/screenData");
 },
 
   postID: function(userData) {

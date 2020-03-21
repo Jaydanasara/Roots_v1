@@ -1,6 +1,6 @@
 import React from "react";
 import Fire from "../../config/fire";
-import Navbar from "../../components/navbar/navbar";
+import ScrNavbar from "../../components/navbar/scrnavbar";
 import MiniContent from "../content/miniContent";
 import ScreenMessenger from "../messenger/screenNameMessenger";
 import { connect } from "react-redux";
@@ -82,7 +82,7 @@ class ScrProLayout extends React.Component {
                 <section className="content-Container">
                   
                         
-                <Navbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                <ScrNavbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                             <ScreenProfile userInfo={this.props} screenInfo={this.state.screenNameInfo}/>
                             
 

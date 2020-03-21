@@ -1,6 +1,6 @@
 import React from "react";
 import Fire from "../../config/fire";
-import Navbar from "../../components/navbar/navbar";
+import ScrNavbar from "../navbar/scrnavbar";
 import MiniContent from "../content/miniContent";
 import ScreenMessenger from "../messenger/screenNameMessenger";
 import { connect } from "react-redux";
@@ -86,7 +86,7 @@ console.log(this.state.screenNameInfo)
                 <section className="content-Container">
                   
                         
-                <Navbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                <ScrNavbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                             <LgScreenName userInfo={this.props.userInfo} disState={this.props} screenInfo={this.state.screenNameInfo}/>
                             
 
