@@ -4,6 +4,7 @@ import React from "react";
 
 class LeftMenu extends React.Component {
     render() {
+        
         return (
 
             <div >
@@ -17,11 +18,12 @@ class LeftMenu extends React.Component {
                         <div className="title">Title</div>
                         <ul className="sideBarUl">
                             <li className="liLinks"><a href="/friends">Friends</a></li>
-                            <li className="liLinks">link</li>
+                            <li className="liLinks">Groups</li>
 
 
 
                         </ul>
+                       
                     </div>
                 </div>
             </div>

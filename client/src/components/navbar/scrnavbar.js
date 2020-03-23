@@ -136,7 +136,7 @@ searchSuggestions(){
                     <ul className="newFeedLink">
 
                         <li>
-                            <a href="/"> <i className="fa fa-home"></i> Home </a>
+                        <Link to ={"/lgScreen"}> <i className="fa fa-home"></i> Home </Link>
 
                         </li>
 

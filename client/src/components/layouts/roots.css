@@ -185,12 +185,13 @@ ul {
 .profile-container{
 display:grid;
 grid-template-columns: -1fr ;
+width:90%
 
 }
 
 .profile-info{
    padding-left: 25px;
-    width: 500px;
+    width: 100%;
     font-size: 24px;
     margin-bottom: 5px;
     font-weight: bold;
@@ -203,7 +204,7 @@ grid-template-columns: -1fr ;
 
 
 .profile-image img{
-    height: 300px;
+    width:70%;
    text-align: center;
     margin: 25px 0 50px;
     display: inline-block;
@@ -217,20 +218,21 @@ grid-template-columns: -1fr ;
 
 .button-div{
     display: flex;
-    justify-content: center
+    justify-content: center;
+    width: 100%
 }
 
 
 .follow-button{
     font-weight: bold;
     cursor: pointer;
-    width: 130px;
+    width: 20%;
     text-align: center ;
     line-height: 0px;
     height: 15px;
     background: #5F9EA0;
     display: inline-block;
-    padding: 15px 25px;
+    padding: 15px 2px;
     border-radius: 4px;
     border:1px solid black;
     
@@ -239,7 +241,7 @@ grid-template-columns: -1fr ;
 .friend-btn{
     
     cursor: pointer;
-    width: 100px;
+    width: 20%;
     text-align: center ;
    position: relative;
     height: 15px;
@@ -256,7 +258,7 @@ grid-template-columns: -1fr ;
      
     font-weight: bold;
     cursor: pointer;
-    width: 100px;
+    width: 20%;
     text-align: center ;
     line-height: 0px;
     height: 15px;
@@ -277,7 +279,7 @@ grid-template-columns: -1fr ;
 .my-friends{
     font-weight: bold;
     cursor: pointer;
-    width: 100px;
+    width: 20%;
     text-align:left;
     line-height: 0px;
     height: 15px;
@@ -478,12 +480,13 @@ left: -20px;
 }
 
 .composeStatus{
-width: 630px;
+max-width: 630px;
+width: 95%;
 margin: 0 auto;
 padding: 40px 0;
 position: relative;
 left: -0px;
-max-width: 630px;
+
 }
 
 .statusText{
@@ -550,7 +553,7 @@ box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.45);
 
 .feed_Container{
     max-width: 630px;
-    width: 100%;
+    width: 95%;
     margin: 0 auto;
 }
 
@@ -1053,6 +1056,7 @@ button:focus {
     height: calc(100% - 99px);
     overflow: auto;
     padding: 0 15px 0 7px;
+    margin-top: 20px;
     
   
 
@@ -1099,8 +1103,8 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
     }
 
     .miniScreenName{
-        padding-bottom: 10px;
-        position: absolute;
+        padding-bottom: 20px;
+        position: fixed;
         font-size: 24px;
         text-align: center;
         margin-bottom: 20px
@@ -1255,5 +1259,220 @@ font-weight: 600;
     background: rgb(69, 170, 204);
     border-radius: 5px;
     max-width: 200px;
+
+}
+
+
+header{
+    display: none;
+}
+
+/* media querries */
+
+@media screen and (max-width:1041px){
+
+    .composeStatus{
+       
+        width: 90%;
+      
+        }
+    
+        .feed_Container{
+            width: 95%;
+        }
+    
+    
+    }
+
+
+@media screen and (max-width:800px){
+header{
+    display: grid;
+    grid-template-columns: 1fr auto minmax(600px,1fr) 1fr
+
+}
+
+.logo{
+    grid-column: 2/3;
+
+}
+
+
+
+header{
+    background: transparent;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+}
+
+.nav-toggle{
+    display: none
+}
+
+.nav-toggle-label{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 1em;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after{
+    display: block;
+    background: white;
+    height: 2px;
+    width: 2em;
+    border-radius: 2px;
+    position: relative;
+}
+.nav-toggle-label span::before,
+.nav-toggle-label span::after{
+content: "";
+position: absolute;
+}
+.nav-toggle-label span::before{
+bottom: 7px;
+}
+.nav-toggle-label span::after{
+top:7px;
+}
+
+
+nav{
+ position: absolute;
+ text-align: left;
+ top: 100%;
+ left: 0;
+ background: rgb(196, 227, 255);
+transform: scale(1,0);
+transform-origin: top;
+transition: transform 400ms ease-in;
+}
+
+nav ul{
+    margin:0;
+    padding: 0;
+    list-style: none;
+
+}
+
+nav li{
+    margin-left: 1em;
+    margin-bottom: 1em;
+
+}
+
+nav a {
+    color:rgb(177, 12, 39);
+    font-size: 1rem;
+    text-decoration: none;
+    text-transform:uppercase;
+    opacity: 0;
+    transition: opacity 150ms ease-in-out;
+}
+
+
+nav a:hover{
+    color: #000;
+}
+
+.nav-toggle:checked~nav{
+
+transform: scale(1,1)
+
+}
+
+.nav-toggle:checked ~ nav a{
+    opacity: 1;
+    transition: opacity 250ms ease-in-out 250ms;
+}
+}
+
+
+
+
+
+@media screen and (max-width:450px){
+    .app-container{
+     
+        height: 100%;
+        grid-template-columns:100%;
+      
+        
+        }
+
+
+    #left-menu{
+            display:none
+        }
+
+     .messengerContainer{
+            display:none
+            
+        }
+
+
+        .messengerContainer{
+    height: 100%;
+    
+}
+
+.searchInfo{
+    
+    width: 75%;
+  float:none;
+    
+    
+}
+
+.searchBox{
+    width: 60%
+}
+
+.searchForm{
+    display:flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+}
+
+.newFeedLink{
+    display:none;
+}
+
+.navSitePic{
+    padding-top: 1px;
+    padding-bottom: 1px;
+   
+    
+
+}
+
+ul.homeButton{
+    padding: 0px;
+    margin-top: 2px;
+    padding-left: 5px;
+
+}
+        
+
+
+.my-friends,
+.photos-btn,
+.button-div{
+    font-size: 12px;
+    padding-left: 1px;
+}
+#friend-icon{
+    font-size: 18px;
+    text-align: center;
+    left:18px
+}
 
 }

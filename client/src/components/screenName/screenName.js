@@ -183,7 +183,7 @@ addToPhotos =() =>{
 
         return (
             <div className="screenNameArea ">
-                <div className="miniScreenName"><Link to ={"/lgScreen"}><div>{this.props.screenInfo.screenName}</div> </Link></div>
+               
                 <section className="miniComposeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
                     <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={user.userPic} alt="userspic"/> </Link>  </div>

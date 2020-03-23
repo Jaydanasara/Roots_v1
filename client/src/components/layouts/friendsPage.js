@@ -7,6 +7,7 @@ import LeftMenu from "../leftMenu/leftMenu"
 import FriendsList from "../friendsList/friendsList"
 import ScreenName from "../screenName/screenName";
 import API from "../../utils/API";
+import ScrMiniBar from "../navbar/scrMiniBar";
 // import "./roots.css";
 
 class FriendsPage extends React.Component {
@@ -61,6 +62,7 @@ console.log(this.props)
         
                 <section id="left-menu">
                   <LeftMenu/>
+                  <ScrMiniBar userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
                   <ScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
                 </section>
 

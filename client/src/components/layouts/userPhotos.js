@@ -5,7 +5,7 @@ import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../leftMenu/leftMenu"
 import PhotosPage from "../photosPage/PhotosPage"
-import ScreenName from "../screenName/screenName";
+
 import API from "../../utils/API";
 // import "./roots.css";
 
@@ -62,7 +62,7 @@ console.log(this.props)
         
                 <section id="left-menu">
                   <LeftMenu/>
-                  <ScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+                  
                 </section>
 
 

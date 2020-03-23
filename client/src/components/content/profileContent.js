@@ -294,7 +294,7 @@ class ProfileContent extends React.Component {
                     </div>
                     <div className="button-div">
                         <div className="follow-button" style={this.props.userInfo.match.params.id === this.props.userInfo.userInfo.user_ID ? { display: "visible" } : { display: "none" }}  > <Link to={"/editprofile/" + this.props.userInfo.userInfo.user_ID}>edit profile</Link>     </div>
-                        <button className="friend-btn" onClick={this.addingFriend}>{(this.state.addFriend) ? <i id="friend-icon" class="fa fa-users fa-2x " aria-hidden="true" >+</i> : "UnFriend"}</button>
+                        <button className="friend-btn" onClick={this.addingFriend}>{(this.state.addFriend) ? <i id="friend-icon" className="fa fa-users fa-2x " aria-hidden="true" >+</i> : "UnFriend"}</button>
                         <button className="photos-btn" ><Link to={"/photos/" + this.props.userInfo.match.params.id}>Photos </Link> </button>
                         <button className="my-friends" ><a href="/friends">MyFriends</a> </button>
                     </div>

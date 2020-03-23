@@ -1,6 +1,7 @@
 import React from "react";
 import Fire from "../../config/fire";
 import ScrNavbar from "../navbar/scrnavbar";
+import MiniBar from "../navbar/miniBar";
 import MiniContent from "../content/miniContent";
 import ScreenMessenger from "../messenger/screenNameMessenger";
 import { connect } from "react-redux";
@@ -78,7 +79,8 @@ console.log(this.state.screenNameInfo)
             <div className="app-container">
         
                 <section id="left-menu">
-                  <LeftMenu/>
+                  <LeftMenu userInfo={this.props.userInfo}/>
+                  <MiniBar userInfo={this.props.userInfo}/>
                     <MiniContent userInfo={this.props.userInfo} disState={this.props}/>
                 </section>
 

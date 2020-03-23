@@ -1,6 +1,7 @@
 import React from "react";
 import Fire from "../../config/fire";
 import ScrNavbar from "../../components/navbar/scrnavbar";
+import MiniBar from "../../components/navbar/miniBar";
 import MiniContent from "../content/miniContent";
 import ScreenMessenger from "../messenger/screenNameMessenger";
 import { connect } from "react-redux";
@@ -75,6 +76,7 @@ class ScrProLayout extends React.Component {
         
                 <section id="left-menu">
                   <LeftMenu/>
+                  <MiniBar userInfo={this.props.userInfo}/>
                   <MiniContent userInfo={this.props.userInfo}/>
                 </section>
 

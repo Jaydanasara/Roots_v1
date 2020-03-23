@@ -1,6 +1,7 @@
 import React from "react";
 import Fire from "../../config/fire";
 import Navbar from "../../components/navbar/navbar";
+import ScrMiniBar from "../../components/navbar/scrMiniBar";
 import LeftMenu from "../../components/leftMenu/leftMenu"
 import ProfileContent from "../content/profileContent";
 import Messenger from "../messenger/messenger";
@@ -63,6 +64,7 @@ class Profile extends React.Component {
         
                 <section id="left-menu">
                    <LeftMenu/>
+                   <ScrMiniBar  userInfo={this.props.userInfo}  screenInfo={this.state.screenNameInfo}/>
                    <ScreenName disState={this.props} userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
                 </section>
 

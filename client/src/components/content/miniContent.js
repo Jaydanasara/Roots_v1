@@ -228,8 +228,9 @@ addToPhotos =() =>{
         console.log(this.props.userInfo)
 
         return (
+             
             <div className="screenNameArea ">
-                <div className="miniUserName"><Link to = {"/"}><div>{this.props.userInfo.firstname + " "+ this.props.userInfo.lastname}</div></Link></div>
+               
                 <section className="miniComposeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
                     <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={user.userPic} alt="users pic"/> </Link>  </div>
@@ -336,7 +337,7 @@ addToPhotos =() =>{
 
 
             </div>
-
+                     
         );
     }
 
