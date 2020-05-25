@@ -565,6 +565,7 @@ box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.45);
 .uploadedInfo{
 
     position: relative;
+    max-width: 100%;
 }
 
 
@@ -644,8 +645,8 @@ text-align: center;
 .upImage{
     margin: 25px 0 50px;
     display: inline-block;
-   max-height: 600px;
-  
+    max-height: 600px;
+    max-width: 100%;
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -1066,7 +1067,7 @@ button:focus {
 .miniUpImage{
     margin: 25px 0 50px;
     display: inline-block;
-   max-width: 90%;
+   max-width: 100%;
   
     background-position: center center;
     background-size: cover;
@@ -1104,6 +1105,7 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
 
     .miniScreenName{
         padding-bottom: 20px;
+        padding-left:10px;
         position: fixed;
         font-size: 24px;
         text-align: center;

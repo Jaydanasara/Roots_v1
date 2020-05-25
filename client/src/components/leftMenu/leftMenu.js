@@ -10,7 +10,7 @@ class LeftMenu extends React.Component {
             <div >
                 <div className="sitePic">
                     <a href="/" className="">
-                        <img src="./rootsicon.jpg" alt="tree icon" /> R.O.O.T.S.
+                        <img src="https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4" alt="tree icon" /> R.O.O.T.S.
                          </a>
                 </div>
                 <div className="groups">

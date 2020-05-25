@@ -16,6 +16,7 @@ class Content extends React.Component {
         isActive: false,
         isActive2:false,
         comment: "",
+        checkInputID:null,
 
 
 
@@ -123,7 +124,7 @@ class Content extends React.Component {
             .catch(err => console.log(err));
 
         this.refreshState()
-        this.setState({ comment: "",isActive2:false }, () => this.listFriendsPost());
+        this.setState({ comment: "", checkInputID:null }, () => this.listFriendsPost());
     }
 
 
@@ -194,7 +195,7 @@ class Content extends React.Component {
     }
 
     handleImageSelected2 = event => {
-        this.commentClick()
+        
         if (event.target.files[0]) {
             const image = event.target.files[0];
             this.setState(() => ({ image }));
@@ -229,9 +230,10 @@ class Content extends React.Component {
         this.setState({ isActive: !this.state.isActive })
     };
 
-    commentClick = () => {
+    commentClick = (checkNumber) =>{
+        
 
-        this.setState({ isActive2: !this.state.isActive2 })
+        this.setState({ checkInputID:checkNumber  })
     };
 
     addToPhotos = () => {
@@ -251,6 +253,7 @@ class Content extends React.Component {
 
     render() {
         const user = this.props.userInfo
+        console.log(user)
         console.log(this.props.userInfo)
         console.log(this.props.disState)
         return (
@@ -258,7 +261,7 @@ class Content extends React.Component {
 
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={user.userPic} /> </Link>  </div>
+                    <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={(user.userPic!=undefined) ? user.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} /> </Link>  </div>
                     <div className="buttons">
                         <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
                         <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
@@ -288,7 +291,7 @@ class Content extends React.Component {
 
                                     <div className="feed_Container" key={content._id} >
                                         <div className="friendsPostinfo">
-                                            <a className="friends-I" > <Link to={"/profile/" + content.user_ID}> <img className="friendsImg" src={content.post_by_pic} /></Link>  </a>
+                                            <a className="friends-I" > <Link to={"/profile/" + content.user_ID}> <img className="friendsImg" src={content.post_by_pic} alt="friendspic" /></Link>  </a>
                                             <div className="friendsInfo"> <Link to={"/profile/" + content.user_ID}>{content.post_by}</Link> &nbsp; shared a &nbsp; <a href="#">{(content.picUrl === "") ? "story" : "image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
@@ -328,13 +331,13 @@ class Content extends React.Component {
                                                     <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                 
                                                     <div>
-                                                    <button type="button" className="button photo" onClick={() => this.fileInput.click()}> <i class="far fa-images"></i></button>
-                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput = fileInput} />
-                                                    <img className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
+                                                    <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.commentClick(content._id);}}> <i class="far fa-images"></i></button>
+                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
+                                                    <img className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
 
-                                                    <progress className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
-                                                    <button className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                                                    <span className={this.state.isActive2 ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
+                                                    <progress className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
+                                                    <button className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
+                                                    <span className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
                                         
                                         
                                                 </div>

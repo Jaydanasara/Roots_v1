@@ -17,7 +17,8 @@ class ProfileContent extends React.Component {
         url: "",
         isActive: false,
         isActive2:false,
-        progress:0
+        progress:0,
+        checkInputID:null,
 
     }
     componentDidMount() {
@@ -65,7 +66,7 @@ class ProfileContent extends React.Component {
             .then(res => {
 
 
-                this.setState({ postID: res.data._id }, () => this.addPostID());
+                this.setState({ postID: res.data._id,isActive:false }, () => this.addPostID());
                 console.log(res)
                 this.listPost()
             })
@@ -109,7 +110,7 @@ class ProfileContent extends React.Component {
             })
             .catch(err => console.log(err));
 
-        this.setState({ comment: "",isActive2:false });
+        this.setState({ comment: "",checkInputID:null });
     }
 
     handleLikes = (id) => {
@@ -182,7 +183,7 @@ class ProfileContent extends React.Component {
 
 
     handleImageSelected2 = event => {
-        this.commentClick()
+       
         if (event.target.files[0]) {
             const image = event.target.files[0];
             this.setState(() => ({ image }));
@@ -216,10 +217,12 @@ class ProfileContent extends React.Component {
         this.setState({ isActive: !this.state.isActive })
     };
 
-    commentClick = () => {
+    commentClick = (checkNumber) =>{
+        
 
-        this.setState({ isActive2: !this.state.isActive2 })
+        this.setState({ checkInputID:checkNumber  })
     };
+
 
     addToPhotos = () => {
 
@@ -328,14 +331,16 @@ class ProfileContent extends React.Component {
                                 return (
 
 
-                                    <div className="feed_Container">
+                                    <div className="feed_Container" key={each.user_ID}>
                                         <div className="friendsPostinfo">
-                                            <a className="friends-I" href="/profile"><img className="friendsImg" src={each.post_by_pic} alt="friendspic" />  </a>
-                                            <div className="friendsInfo"> <a href="/profile" className="friendInfoLink">{each.post_by}</a>shared a &nbsp;
-                                            <a href="/profile">{(each.picUrl === undefined) ? "story" : "image"}</a>  </div>
+                                            <a className="friends-I"><Link to ={"/profile/"+ each.user_ID}><img className="friendsImg" src={each.post_by_pic} alt="friendspic" /> </Link> </a>
+                                            <div className="friendsInfo"> <Link to ={"/profile/"+ each.user_ID}>{each.post_by}</Link> shared a &nbsp;
+                                            <a href="/profile">{(each.picUrl === "") ? "story" : "image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
-                                            <div className={`${(each.picUrl === undefined) ? "story" : "upImage"}`}><img className={`${(each.picUrl === undefined) ? "story" : "upImage"}`} src={each.picUrl} alt="uploadedpic" /></div>
+                                        {(each.picUrl === "") ? <div className="story"> </div> :
+                                         <div className="miniUpImage"><img className={`${(each.picUrl === "") ? "story" : "upImage"}`} src={each.picUrl} alt="uploaded image" /></div>}
+                                            
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
@@ -368,13 +373,13 @@ class ProfileContent extends React.Component {
                                                 <div className="responseComments">
                                                     <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                     <div>
-                                                    <button type="button" className="button photo" onClick={() => this.fileInput.click()}> <i class="far fa-images"></i></button>
-                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput = fileInput} />
-                        <img className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
+                                                    <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.commentClick(each._id);}}> <i class="far fa-images"></i></button>
+                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
+                                                    <img className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
 
-                        <progress className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
-                        <button className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                        <span className={this.state.isActive2 ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
+                                                    <progress className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
+                                                    <button className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
+                                                    <span className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
                       
                                                    
                                                    

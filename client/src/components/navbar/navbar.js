@@ -13,7 +13,9 @@ class Navbar extends React.Component {
         isLoading: false,
         search: "",
         allUsers: [],
-        Users: ""
+        Users: "",
+        reload:false
+        
 
     }
 
@@ -35,7 +37,7 @@ class Navbar extends React.Component {
 
 
     getAllUsers = () => {
-        console.log("hit")
+          
         API.getAllUsers()
             .then(res => {
                 this.setState({ allUsers: res.data })
@@ -67,7 +69,7 @@ class Navbar extends React.Component {
         }
         return (
             <ul className="srch_resp_cont">
-                {suggestions.map((item) => <li className="searchResponse">  <Link to={"/profile/" + item._id}><img className="search-Img" src={item.userPic} />{item.firstname} {" "}{item.lastname} </Link> </li>)}
+                {suggestions.map((item) => <li  onClick={this.reloadFunc} className="searchResponse">  <Link to={"/profile/" + item._id}><img className="search-Img" src={item.userPic} />{item.firstname} {" "}{item.lastname} </Link> </li>)}
             </ul>
         )
 
@@ -75,7 +77,10 @@ class Navbar extends React.Component {
 
     }
 
-
+    reloadFunc=()=>{
+     this.setState({reload:!this.state.reload})
+     window.location.reload(false);
+    }
 
 
     logout() {

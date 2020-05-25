@@ -14,7 +14,8 @@ class SignupForm extends React.Component {
         password: "",
         emailaddress: "",
         screenName:"",
-        name:""
+        name:"",
+        age:""
 
     }
 
@@ -55,6 +56,10 @@ class SignupForm extends React.Component {
             );
         } else if (this.state.password !== this.state.name) {
             alert("You Passwords do not match");
+        }else if (this.state.age<18 || this.state.age.length==0){
+            alert("You must be 18 or older to join this site");
+        }else if(isNaN(this.state.age)){
+            alert("You must enter a number")
         }
         else {
 
@@ -84,13 +89,16 @@ class SignupForm extends React.Component {
                 <form>
                     <div className="col-sm-9">
                         <div className="registerName">
-                            <div className="col-sm-6 form-group">
+                            <div className="form-group">
                                 <input value={this.state.firstname} onChange={this.handleChange} type="text" placeholder="First Name" name="firstname" ref="firstName" className="signupInput" />
                             </div>
-                            <div className="col-sm-6 form-group">
+                            <div className="form-group">
+                                <input value={this.state.age} onChange={this.handleChange} type="text" placeholder="Age" name="age" ref="age" className="signupInput" />
+                            </div>
+                            <div className="form-group">
                                 <input value={this.state.lastname} onChange={this.handleChange} type="text" placeholder="Last Name" name="lastname" ref="lastName" className="signupInput" />
                             </div>
-                            <div className="col-sm-6 form-group">
+                            <div className="form-group">
                                 <input value={this.state.screenName} onChange={this.handleChange} type="text" placeholder="Screen Name" name="screenName" ref="screenName" className="signupInput" />
                             </div>
                         </div>
