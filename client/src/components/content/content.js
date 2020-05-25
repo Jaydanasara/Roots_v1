@@ -76,7 +76,7 @@ class Content extends React.Component {
 
 
         this.refreshState()
-        this.setState({ statusPost: "",isActive:false }, () => this.listFriendsPost());
+        this.setState({ statusPost: "",isActive:false,url:"" }, () => this.listFriendsPost());
 
 
     }
