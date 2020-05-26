@@ -16,6 +16,7 @@ const usersSchema = new Schema({
   gender:{ type: String, required: false },
   phoneNumber:{ type: String, required: false },
   cityState:{ type: String, required: false },
+  relationship:{ type: String, required: false },
   post: [{
     type: Schema.Types.ObjectId,
     ref: "postData"

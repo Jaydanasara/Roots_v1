@@ -21,6 +21,7 @@ class ProfileEditor extends React.Component {
         phoneNumber: "",
         cityState: "",
         userPic: "",
+        relationship:""
 
     }
 
@@ -67,6 +68,7 @@ class ProfileEditor extends React.Component {
                 phoneNumber: this.state.phoneNumber,
                 cityState: this.state.cityState,
                 userPic: this.state.url,
+                relationship:this.state.relationship
           }
 
           for(let x in profileEdit){
@@ -100,15 +102,24 @@ class ProfileEditor extends React.Component {
                gender: "",
                phoneNumber: "",
                cityState: "",
-               userPic: "",})
+               userPic: "",
+               relationship:"",
+               isActive: false })
         }
         
-
+        this.refreshState()
     }
 
 
 
+    refreshState = () => {
+        const updatePost = {
+            emailaddress: this.props.userInfo.emailaddress,
+            password: this.props.userInfo.password
+        }
+        this.props.disState.getUser(updatePost)
 
+    }
 
 
 
@@ -147,7 +158,7 @@ class ProfileEditor extends React.Component {
 
     uploadClick = () => {
 
-        this.setState({ isActive: !this.state.isActive })
+        this.setState({ isActive:true })
     };
 
 
@@ -192,22 +203,22 @@ class ProfileEditor extends React.Component {
                                 <input value={this.state.securityAnswer} onChange={this.handleChange} type="text" placeholder="Answer to security question" name="securityAnswer" ref="securityAnswer" className="editInput" />
                             </div>
                             <div className="profileInputs">
-                                <input value={this.state.screenName} onChange={this.handleChange} placeholder="screen name" name="screenName" className="editInput" />
+                                <input value={this.state.screenName} onChange={this.handleChange} placeholder="Screen name" name="screenName" className="editInput" />
                             </div>
                             <div className="profileInputs">
-                                <input value={this.state.birthDate} onChange={this.handleChange} type="text" placeholder="birth date" name="birthDate" className="editInput" />
+                                <input value={this.state.birthDate} onChange={this.handleChange} type="text" placeholder="Birth date" name="birthDate" className="editInput" />
                             </div>
                             <div className="profileInputs">
-                                <input value={this.state.Gender} onChange={this.handleChange} type="text" placeholder="gender" name="gender" className=" editInput" />
+                                <input value={this.state.Gender} onChange={this.handleChange} type="text" placeholder="Gender" name="gender" className=" editInput" />
                             </div>
                             <div className="profileInputs">
-                                <input value={this.state.phoneNumber} onChange={this.handleChange} type="text" placeholder="phone number" name="phoneNumber" className=" editInput" />
+                                <input value={this.state.phoneNumber} onChange={this.handleChange} type="text" placeholder="Phone number" name="phoneNumber" className=" editInput" />
                             </div>
                             <div className="profileInputs">
                                 <input value={this.state.cityState} onChange={this.handleChange} type="text" placeholder="city/state" name="cityState" className=" editInput" />
                             </div>
-                            <div className="profileInputs"> Are you in a Relationship?
-                    <input value={this.state.Gender} onChange={this.handleChange} type="text" placeholder="" name="gender" className=" editInput" />
+                            <div className="profileInputs">Are you in a relationship?
+                                <input value={this.state.relationship} onChange={this.handleChange} type="text" placeholder="Relationship Staus" name="relationship" className=" editInput" />
                             </div>
                       
                     </section>

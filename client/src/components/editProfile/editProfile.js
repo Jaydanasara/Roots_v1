@@ -75,7 +75,7 @@ console.log(this.props)
                   
                         
                             <Navbar userInfo={this.props.userInfo}/>
-                            <ProfileEditor userInfo={this.props.userInfo}/>
+                            <ProfileEditor userInfo={this.props.userInfo} disState={this.props}/>
                             
 
                       
