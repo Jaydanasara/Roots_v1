@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import LeftMenu from "../leftMenu/leftMenu"
 import ScreenName from "../screenName/screenName";
 import API from "../../utils/API";
+import  {getUser} from"../../store/actions/userActions"
 // import "./roots.css";
 
 class EditProfile extends React.Component {
@@ -81,7 +82,7 @@ console.log(this.props)
                     
                 </section>
                 <section className="messenger-area">
-                <Messenger/>
+                <Messenger  userInfo={this.props.userInfo} />
                 </section>
 
             </div>
@@ -92,6 +93,11 @@ console.log(this.props)
 
 };
 
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        getUser: ( currentUserInfo) => dispatch (getUser(currentUserInfo))
+    }
+}
 
 
 const mapStateToProps = (state)=>{
@@ -103,7 +109,7 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(  mapStateToProps ) (EditProfile);
+export default connect(mapStateToProps,mapDispatchToProps ) (EditProfile);
 
 
 
