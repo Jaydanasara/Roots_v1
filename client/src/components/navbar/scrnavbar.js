@@ -13,7 +13,8 @@ class ScrNavbar extends React.Component {
         isLoading:false,
         search:"",
         allUsers:[],
-        Users:""
+        Users:"",
+        reload:false
 
     }
 
@@ -67,7 +68,7 @@ searchSuggestions(){
   }
     return (
         <ul className="srch_resp_cont">
-        {suggestions.map((item)=> <li className="searchResponse">  <Link to={"/profile/" + item._id}><img className="search-Img" src={item.userPic}/>{item.screenName} </Link> </li>)}
+        {suggestions.map((item)=> <li onClick={this.reloadFunc}  className="searchResponse">  <Link to={"/profile/" + item._id}><img className="search-Img" src={item.userPic}/>{item.screenName} </Link> </li>)}
         </ul> 
         )
          
@@ -75,7 +76,10 @@ searchSuggestions(){
  
 }
 
-
+reloadFunc=()=>{
+    this.setState({reload:!this.state.reload})
+    window.location.reload(false);
+   }
 
 
     logout() {
@@ -96,6 +100,28 @@ searchSuggestions(){
         return (
             this.state.isLoading === true ?<div className="loading">Loading</div> :
             <div className="navigation">
+
+<header>
+                    <div className="navSitePic">
+                    <a href="/" className="">
+                        <img src="/rootsicon.jpg" alt="tree icon" /> 
+                         </a>
+                </div>
+                        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+                   
+                        <label for="nav-toggle" class="nav-toggle-label"onClick={this.props.drawerClickHandler}>
+                            <span></span>
+                        </label>
+                        <ul className="homeButton">
+
+                        <li>
+    <a  id ="home"  href="/"> <i className="fa fa-home"></i> Home </a>
+
+</li>
+
+</ul>
+
+                    </header>
 
                 <div className={this.state.isActive ?"userAccount active": "userAccount" } onClick={this.accountClick} >
 
@@ -153,5 +179,3 @@ searchSuggestions(){
 }
 
 export default ScrNavbar;
-
-

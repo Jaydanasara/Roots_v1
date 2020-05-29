@@ -9,7 +9,8 @@ import LeftMenu from "../../components/leftMenu/leftMenu"
 import LgScreenName from "../screenName/lgScreenName";
 import API from "../../utils/API";
 import  {getUser} from"../../store/actions/userActions"
-
+import ScrSideDrawer from "../../components//sideDrawer/scrSideDrawer";
+import BackDrop from "../sideDrawer/backDrop/backDrop";
 
 // import "./roots.css";
 
@@ -20,7 +21,8 @@ class ScreenLayout extends React.Component {
     this.state= {
         screenNameInfo:{},
         isLoading: true,
-        isUserPage:false
+        isUserPage:false,
+        sideDrawerOpen:false,
     }
     }
     componentDidMount(){
@@ -39,7 +41,16 @@ class ScreenLayout extends React.Component {
         });
     }
 
-    
+    drawToggleClickHandler=()=>{
+        this.setState((prevState)=>{
+            return {sideDrawerOpen:!prevState.sideDrawerOpen};
+        });
+    }
+
+    backDropHandler=()=>{
+        this.setState({sideDrawerOpen:false})
+    };
+
 
     screenNameData = () => {
 
@@ -68,9 +79,11 @@ class ScreenLayout extends React.Component {
 
 
     render() {
-        console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
-console.log(this.props.userInfo)
-console.log(this.state.screenNameInfo)
+        let backDrop;
+       
+        if(this.state.sideDrawerOpen){
+         backDrop = <BackDrop click={this.backDropHandler }/>;
+        }
 
         return (
 
@@ -88,9 +101,11 @@ console.log(this.state.screenNameInfo)
                 <section className="content-Container">
                   
                         
-                <ScrNavbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                <ScrNavbar drawerClickHandler={this.drawToggleClickHandler}  screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                             <LgScreenName userInfo={this.props.userInfo} disState={this.props} screenInfo={this.state.screenNameInfo}/>
-                            
+                            <ScrSideDrawer show={this.state.sideDrawerOpen}/>
+                           {backDrop}   
+
 
                       
                     

@@ -8,6 +8,8 @@ import FriendsList from "../friendsList/friendsList"
 import ScreenName from "../screenName/screenName";
 import API from "../../utils/API";
 import ScrMiniBar from "../navbar/scrMiniBar";
+import SideDrawer from "../../components//sideDrawer/sideDrawer";
+import BackDrop from "../sideDrawer/backDrop/backDrop";
 // import "./roots.css";
 
 class FriendsPage extends React.Component {
@@ -18,7 +20,8 @@ class FriendsPage extends React.Component {
     this.state= {
         screenNameInfo:{},
         isLoading: true,
-        isUserPage:true
+        isUserPage:true,
+        sideDrawerOpen:false,
     }
     }
     componentDidMount(){
@@ -35,6 +38,17 @@ class FriendsPage extends React.Component {
         });
     }
 
+
+    
+    drawToggleClickHandler=()=>{
+        this.setState((prevState)=>{
+            return {sideDrawerOpen:!prevState.sideDrawerOpen};
+        });
+    }
+
+    backDropHandler=()=>{
+        this.setState({sideDrawerOpen:false})
+    };
     
     screenNameData = () => {
 
@@ -53,8 +67,11 @@ class FriendsPage extends React.Component {
     }
 
     render() {
-        console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
-console.log(this.props)
+        let backDrop;
+       
+        if(this.state.sideDrawerOpen){
+         backDrop = <BackDrop click={this.backDropHandler }/>;
+        }
 
         return (
             this.state.isLoading === true ?<div className="loading">Loading</div> :
@@ -70,9 +87,11 @@ console.log(this.props)
                 <section className="content-Container">
                   
                         
-                <Navbar whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                <Navbar drawerClickHandler={this.drawToggleClickHandler}  whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                          
                             <FriendsList userInfo={this.props.userInfo}/>
+                            <SideDrawer show={this.state.sideDrawerOpen}/>
+                           {backDrop}
 
                       
                     

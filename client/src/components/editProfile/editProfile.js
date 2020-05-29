@@ -6,8 +6,11 @@ import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../leftMenu/leftMenu"
 import ScreenName from "../screenName/screenName";
+import ScrMiniBar from "../../components/navbar/scrMiniBar";
 import API from "../../utils/API";
-import  {getUser} from"../../store/actions/userActions"
+import  {getUser} from"../../store/actions/userActions";
+import SideDrawer from "../../components//sideDrawer/sideDrawer";
+import BackDrop from "../sideDrawer/backDrop/backDrop";
 // import "./roots.css";
 
 class EditProfile extends React.Component {
@@ -17,7 +20,8 @@ class EditProfile extends React.Component {
     this.state= {
         screenNameInfo:{},
         isLoading: true,
-        isUserPage:true
+        isUserPage:true,
+        sideDrawerOpen:false,
     }
     }
     componentDidMount(){
@@ -33,6 +37,17 @@ class EditProfile extends React.Component {
             console.log(error);
         });
     }
+
+
+    drawToggleClickHandler=()=>{
+        this.setState((prevState)=>{
+            return {sideDrawerOpen:!prevState.sideDrawerOpen};
+        });
+    }
+
+    backDropHandler=()=>{
+        this.setState({sideDrawerOpen:false})
+    };
 
     
     screenNameData = () => {
@@ -58,15 +73,18 @@ class EditProfile extends React.Component {
 
 
     render() {
-        console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
-console.log(this.props)
-
+        let backDrop;
+       
+        if(this.state.sideDrawerOpen){
+         backDrop = <BackDrop click={this.backDropHandler }/>;
+        }
         return (
             this.state.isLoading === true ?<div className="loading">Loading</div> :
             <div className="app-container">
         
                 <section id="left-menu">
                   <LeftMenu/>
+                  <ScrMiniBar userInfo= {this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
                   <ScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
                 </section>
 
@@ -74,9 +92,11 @@ console.log(this.props)
                 <section className="content-Container">
                   
                         
-                            <Navbar userInfo={this.props.userInfo}/>
+                            <Navbar  drawerClickHandler={this.drawToggleClickHandler}  userInfo={this.props.userInfo}/>
                             <ProfileEditor userInfo={this.props.userInfo} disState={this.props}/>
                             
+                            <SideDrawer show={this.state.sideDrawerOpen}/>
+                           {backDrop}
 
                       
                     

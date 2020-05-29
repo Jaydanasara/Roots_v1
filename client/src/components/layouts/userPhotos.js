@@ -7,6 +7,8 @@ import LeftMenu from "../leftMenu/leftMenu"
 import PhotosPage from "../photosPage/PhotosPage"
 
 import API from "../../utils/API";
+import SideDrawer from "../../components//sideDrawer/sideDrawer";
+import BackDrop from "../sideDrawer/backDrop/backDrop";
 // import "./roots.css";
 
 class UserPhotos extends React.Component {
@@ -17,7 +19,8 @@ class UserPhotos extends React.Component {
         this.state= {
             screenNameInfo:{},
             isLoading: true,
-            isUserPage:true
+            isUserPage:true,
+            sideDrawerOpen:false,
         }
         }
         componentDidMount(){
@@ -34,6 +37,17 @@ class UserPhotos extends React.Component {
             });
         }
     
+
+        drawToggleClickHandler=()=>{
+            this.setState((prevState)=>{
+                return {sideDrawerOpen:!prevState.sideDrawerOpen};
+            });
+        }
+    
+        backDropHandler=()=>{
+            this.setState({sideDrawerOpen:false})
+        };
+
         
         screenNameData = () => {
     
@@ -53,8 +67,11 @@ class UserPhotos extends React.Component {
     
 
     render() {
-        console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
-console.log(this.props)
+        let backDrop;
+       
+        if(this.state.sideDrawerOpen){
+         backDrop = <BackDrop click={this.backDropHandler }/>;
+        }
 
         return (
             this.state.isLoading === true ?<div className="loading">Loading</div> :
@@ -69,9 +86,11 @@ console.log(this.props)
                 <section className="content-Container">
                   
                         
-                <Navbar whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                <Navbar drawerClickHandler={this.drawToggleClickHandler} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                          
                             <PhotosPage userInfo={this.props}/>
+                            <SideDrawer show={this.state.sideDrawerOpen}/>
+                           {backDrop}
 
                       
                     

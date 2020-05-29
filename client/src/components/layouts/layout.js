@@ -8,7 +8,9 @@ import { connect } from "react-redux";
 import LeftMenu from "../../components/leftMenu/leftMenu"
 import ScreenName from "../screenName/screenName";
 import API from "../../utils/API";
-import  {getUser} from"../../store/actions/userActions"
+import  {getUser} from"../../store/actions/userActions";
+import SideDrawer from "../../components//sideDrawer/sideDrawer";
+import BackDrop from "../sideDrawer/backDrop/backDrop";
 
 
 
@@ -21,7 +23,8 @@ class Layout extends React.Component {
     this.state= {
         screenNameInfo:{},
         isLoading: true,
-        isUserPage:true
+        isUserPage:true,
+        sideDrawerOpen:false,
     }
     }
  componentDidMount(){
@@ -45,6 +48,18 @@ class Layout extends React.Component {
     }
 
     
+    drawToggleClickHandler=()=>{
+        this.setState((prevState)=>{
+            return {sideDrawerOpen:!prevState.sideDrawerOpen};
+        });
+    }
+
+    backDropHandler=()=>{
+        this.setState({sideDrawerOpen:false})
+    };
+
+
+
     screenNameData = () => {
 
         API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID, })
@@ -67,8 +82,11 @@ class Layout extends React.Component {
 
 
     render() {
-        console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
-console.log(this.props)
+        let backDrop;
+       
+        if(this.state.sideDrawerOpen){
+         backDrop = <BackDrop click={this.backDropHandler }/>;
+        }
 
         return (
             this.state.isLoading === true ?<div className="loading">Loading</div> :
@@ -84,10 +102,11 @@ console.log(this.props)
                 <section className="content-Container">
                   
                         
-                            <Navbar screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                            <Navbar drawerClickHandler={this.drawToggleClickHandler} screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                           
                             <Content userInfo={this.props.userInfo} disState={this.props}/>
-                            
+                            <SideDrawer show={this.state.sideDrawerOpen}/>
+                           {backDrop}
 
                       
                     

@@ -5,7 +5,8 @@ import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../leftMenu/leftMenu"
 import ScrPhotosPage from "../photosPage/scrPhotosPage"
-
+import ScrSideDrawer from "../../components//sideDrawer/scrSideDrawer";
+import BackDrop from "../sideDrawer/backDrop/backDrop";
 // import "./roots.css";
 
 class ScreenPhotos extends React.Component {
@@ -14,7 +15,8 @@ class ScreenPhotos extends React.Component {
         super(props)
     this.state= {
         screenNameInfo:{},
-        isLoading:true
+        isLoading:true,
+        sideDrawerOpen:false,
 
     }
     }
@@ -27,12 +29,24 @@ class ScreenPhotos extends React.Component {
     }
 
     
+    drawToggleClickHandler=()=>{
+        this.setState((prevState)=>{
+            return {sideDrawerOpen:!prevState.sideDrawerOpen};
+        });
+    }
 
+    backDropHandler=()=>{
+        this.setState({sideDrawerOpen:false})
+    };
 
 
 
     render() {
-        console.log(this.props.userInfo.firstname,this.props.userInfo.lastname)      
+        let backDrop;
+       
+        if(this.state.sideDrawerOpen){
+         backDrop = <BackDrop click={this.backDropHandler }/>;
+        }   
 console.log(this.props)
 
         return (
@@ -47,9 +61,12 @@ console.log(this.props)
                 <section className="content-Container">
                   
                         
-                <ScrNavbar whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                <ScrNavbar drawerClickHandler={this.drawToggleClickHandler}  whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                          
                             <ScrPhotosPage userInfo={this.props}/>
+                            <ScrSideDrawer show={this.state.sideDrawerOpen}/>
+                           {backDrop}   
+
 
                       
                     

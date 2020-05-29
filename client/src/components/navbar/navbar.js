@@ -15,7 +15,6 @@ class Navbar extends React.Component {
         allUsers: [],
         Users: "",
         reload:false
-        
 
     }
 
@@ -37,7 +36,7 @@ class Navbar extends React.Component {
 
 
     getAllUsers = () => {
-          
+        console.log("hit")
         API.getAllUsers()
             .then(res => {
                 this.setState({ allUsers: res.data })
@@ -69,7 +68,7 @@ class Navbar extends React.Component {
         }
         return (
             <ul className="srch_resp_cont">
-                {suggestions.map((item) => <li  onClick={this.reloadFunc} className="searchResponse">  <Link to={"/profile/" + item._id}><img className="search-Img" src={item.userPic} />{item.firstname} {" "}{item.lastname} </Link> </li>)}
+                {suggestions.map((item) => <li onClick={this.reloadFunc}  className="searchResponse">  <Link to={"/profile/" + item._id}><img className="search-Img" src={item.userPic} />{item.firstname} {" "}{item.lastname} </Link> </li>)}
             </ul>
         )
 
@@ -77,11 +76,11 @@ class Navbar extends React.Component {
 
     }
 
-    reloadFunc=()=>{
-     this.setState({reload:!this.state.reload})
-     window.location.reload(false);
-    }
 
+    reloadFunc=()=>{
+        this.setState({reload:!this.state.reload})
+        window.location.reload(false);
+       }
 
     logout() {
         Fire.auth().signOut().then(function () {
@@ -108,21 +107,14 @@ class Navbar extends React.Component {
                          </a>
                 </div>
                         <input type="checkbox" id="nav-toggle" class="nav-toggle" />
-                    <nav>
-                            <ul>
-                                <li> <a href="/">Home</a></li>
-                                <li> <a href="/">About Us</a></li>
-                                <li> <a href="/">Our Trips</a></li>
-                                <li> <a href="/">Contact Us</a></li>
-                            </ul>
-                        </nav>
-                        <label for="nav-toggle" class="nav-toggle-label">
+                 
+                        <label for="nav-toggle" class="nav-toggle-label"onClick={this.props.drawerClickHandler} >
                             <span></span>
                         </label>
                         <ul className="homeButton">
 
                         <li>
-    <a href="/"> <i className="fa fa-home"></i> Home </a>
+    <a id ="home"  href="/"> <i className="fa fa-home"></i> Home </a>
 
 </li>
 
@@ -138,9 +130,11 @@ class Navbar extends React.Component {
                             <i className="fa fa-user">  {this.state.Name}</i>
                         </div>
                         <div className="dropDown">
-                            <a className="dropdown-item" href="/profile/:id">Edit Profile</a>
+                            <ul>
+                            <Link to={"/profile/" + this.props.userInfo.user_ID}><li className="dropdown-item"> Profile</li> </Link>
+                            
                             <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>
-
+                         </ul>
                             <div className="dropdown-divider"></div>
 
                         </div>
@@ -187,5 +181,6 @@ class Navbar extends React.Component {
 }
 
 export default Navbar;
+
 
 

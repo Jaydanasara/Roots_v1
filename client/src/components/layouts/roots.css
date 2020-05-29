@@ -1271,7 +1271,7 @@ header{
 
 /* media querries */
 
-@media screen and (max-width:1041px){
+@media screen and (max-width:1269px){
 
     .composeStatus{
        
@@ -1283,198 +1283,279 @@ header{
             width: 95%;
         }
     
-    
+        .navIcons{
+            position: relative;
+            right:-80%;
+            padding:0px;
+        }
+
+        .chatIcon{
+            padding-left: 0px;
+        }
+
+        .chatFriends.active .chatting{
+            display: none;
+        }
     }
 
+    
+    @media screen and (max-width:1150px){
+        .messengerHead{
+         font-size: 18px;   
+         font-weight: bold;
+        width: 95%;
+        align-items: flex-end;
+    
+        }
+    .friendsInfo{
+        flex-wrap: wrap;
+    }
+    
+    
+    }
+    
 
-@media screen and (max-width:800px){
-header{
-    display: grid;
-    grid-template-columns: 1fr auto minmax(600px,1fr) 1fr
-
-}
-
-.logo{
-    grid-column: 2/3;
-
-}
-
-
-
-header{
-    background: transparent;
-    text-align: center;
-    position: fixed;
-    width: 100%;
-}
-
-.nav-toggle{
-    display: none
-}
-
-.nav-toggle-label{
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 1em;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    margin-top: 30px;
-}
-
-.nav-toggle-label span,
-.nav-toggle-label span::before,
-.nav-toggle-label span::after{
-    display: block;
-    background: white;
-    height: 2px;
-    width: 2em;
-    border-radius: 2px;
-    position: relative;
-}
-.nav-toggle-label span::before,
-.nav-toggle-label span::after{
-content: "";
-position: absolute;
-}
-.nav-toggle-label span::before{
-bottom: 7px;
-}
-.nav-toggle-label span::after{
-top:7px;
-}
-
-
-nav{
- position: absolute;
- text-align: left;
- top: 100%;
- left: 0;
- background: rgb(196, 227, 255);
-transform: scale(1,0);
-transform-origin: top;
-transition: transform 400ms ease-in;
-}
-
-nav ul{
-    margin:0;
-    padding: 0;
-    list-style: none;
-
-}
-
-nav li{
-    margin-left: 1em;
-    margin-bottom: 1em;
-
-}
-
-nav a {
-    color:rgb(177, 12, 39);
-    font-size: 1rem;
-    text-decoration: none;
-    text-transform:uppercase;
-    opacity: 0;
-    transition: opacity 150ms ease-in-out;
-}
-
-
-nav a:hover{
-    color: #000;
-}
-
-.nav-toggle:checked~nav{
-
-transform: scale(1,1)
-
-}
-
-.nav-toggle:checked ~ nav a{
-    opacity: 1;
-    transition: opacity 250ms ease-in-out 250ms;
-}
-}
-
-
-
-
-
-@media screen and (max-width:450px){
-    .app-container{
-     
-        height: 100%;
-        grid-template-columns:100%;
-      
+    @media screen and (max-width:789px){
+        header{
+            display: grid;
+            grid-template-columns: 1fr auto minmax(600px,1fr) 1fr
         
         }
-
-
-    #left-menu{
-            display:none
+        
+        .logo{
+            grid-column: 2/3;
+        
         }
-
-     .messengerContainer{
-            display:none
+        
+        .navIcons{
+            position: relative;
+            right:-80%;
+            padding:0px;
+        }
+        
+        header{
+            background: transparent;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+        }
+        
+        .nav-toggle{
+            display: none
+        }
+        
+        .nav-toggle-label{
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 1em;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            margin-top: 30px;
+        }
+        
+        .nav-toggle-label span,
+        .nav-toggle-label span::before,
+        .nav-toggle-label span::after{
+            display: block;
+            background: white;
+            height: 2px;
+            width: 2em;
+            border-radius: 2px;
+            position: relative;
+        }
+        .nav-toggle-label span::before,
+        .nav-toggle-label span::after{
+        content: "";
+        position: absolute;
+        }
+        .nav-toggle-label span::before{
+        bottom: 7px;
+        }
+        .nav-toggle-label span::after{
+        top:7px;
+        }
+        
+        
+        
+        
+        nav ul{
+            margin:0;
+            padding: 0;
+            list-style: none;
+        
+        }
+        
+        
+        
+        
+        
+        
+        
+        .nav-toggle:checked~nav{
+        
+        transform: scale(1,1)
+        
+        }
+        
+        .nav-toggle:checked ~ nav a{
+            opacity: 1;
+            transition: opacity 250ms ease-in-out 250ms;
+        }
+        
+        .searchInfo{
+            width:80%
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+            .app-container{
+             
+          
+                grid-template-columns:100%;
+              display: inline-block;
+                
+                }
+        
+        
+            #left-menu{
+                    display:none
+                }
+        
+             .messenger-area{
+                    display:none
+                    
+                }
+        
+        
+                .messengerContainer{
+            height: 100%;
             
         }
-
-
-        .messengerContainer{
-    height: 100%;
-    
-}
-
-.searchInfo{
-    
-    width: 75%;
-  float:none;
-    
-    
-}
-
-.searchBox{
-    width: 60%
-}
-
-.searchForm{
-    display:flex;
-    align-items: flex-end;
-    justify-content: center;
-    width: 100%;
-}
-
-.newFeedLink{
-    display:none;
-}
-
-.navSitePic{
-    padding-top: 1px;
-    padding-bottom: 1px;
-   
-    
-
-}
-
-ul.homeButton{
-    padding: 0px;
-    margin-top: 2px;
-    padding-left: 5px;
-
-}
         
-
-
-.my-friends,
-.photos-btn,
-.button-div{
-    font-size: 12px;
-    padding-left: 1px;
-}
-#friend-icon{
-    font-size: 18px;
-    text-align: center;
-    left:18px
-}
-
-}
+        .searchInfo{
+            
+            width: 75%;
+          float:none;
+            
+            
+        }
+        
+        .searchBox{
+            width: 50%
+        }
+        
+        .searchForm{
+            display:flex;
+            align-items: flex-end;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .newFeedLink{
+            display:none;
+        }
+        
+        .navSitePic{
+            padding-top: 1px;
+            padding-bottom: 1px;
+           
+            
+        
+        }
+        
+        ul.homeButton{
+            padding: 0px;
+            margin-top: 2px;
+            padding-left: 5px;
+        
+        }
+                
+        
+        
+        .my-friends,
+        .photos-btn,
+        .button-div{
+            font-size: 12px;
+            padding-left: 1px;
+        }
+        
+        .my-friends{
+            width:25%;
+        }
+        #friend-icon{
+            font-size: 18px;
+            text-align: center;
+            left:18px
+        }
+        
+        .siteName{
+        display: inline-block;
+        }
+        
+        .header_container{
+            
+            flex-direction: column;
+            
+        }
+        
+        .logoSpan{
+            width: 100%;
+            justify-content: center;
+        }
+        .memberLogin{
+        
+            padding-left:10%;
+            display: inline-block;
+            text-align: center;
+            justify-content: center;
+            width: 90%;
+        }
+        .input1{
+           
+            padding-bottom: 2%;
+        }
+        
+        .headerBar{
+            flex-direction: column;
+            align-items: center;
+        width:100%
+          
+           
+        }
+        
+        #signInBtn{
+            width:25%;
+            padding: 3%;
+           
+        }
+        
+        .motto{
+            font-size: 20px;
+            font-weight: bolder;
+        }
+        
+        #appFeatures{
+            font-size: 14px;
+        }
+        
+        #featIcons{
+            font-size: 14px ;
+        }
+        
+        .follow-button{
+            width:25%
+        }
+        
+        #home{
+            font-size: 12px;
+        }
+        
+        }
+        

@@ -1,20 +1,19 @@
 import React from "react";
 import Fire from "../../config/fire";
 import Navbar from "../../components/navbar/navbar";
-import ScrMiniBar from "../../components/navbar/scrMiniBar";
-import LeftMenu from "../../components/leftMenu/leftMenu"
-import ProfileContent from "../content/profileContent";
+
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
-import ScreenName from"../../components/screenName/screenName";
+
 import API from "../../utils/API";
 import  {getUser} from"../../store/actions/userActions"
 import SideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
-// import "./roots.css";
 
-class Profile extends React.Component {
 
+
+
+class MessenLayout extends React.Component {
 
     constructor(props)  {
         super(props)
@@ -23,11 +22,16 @@ class Profile extends React.Component {
         isLoading: true,
         isUserPage:true,
         sideDrawerOpen:false,
-
     }
     }
-    componentDidMount(){
-        this.screenNameData()
+ componentDidMount(){
+        
+        if (this.props.userInfo.emailaddress==="" ){
+            this.logout()
+        }
+        else{
+            this.screenNameData()
+        }
     }
 
 
@@ -40,6 +44,7 @@ class Profile extends React.Component {
         });
     }
 
+
     drawToggleClickHandler=()=>{
         this.setState((prevState)=>{
             return {sideDrawerOpen:!prevState.sideDrawerOpen};
@@ -49,9 +54,6 @@ class Profile extends React.Component {
     backDropHandler=()=>{
         this.setState({sideDrawerOpen:false})
     };
-
-
-
 
     
     screenNameData = () => {
@@ -72,39 +74,44 @@ class Profile extends React.Component {
 
 
 
+
+
+
     render() {
-        let backDrop;
+     
+       let backDrop;
        
-        if(this.state.sideDrawerOpen){
-         backDrop = <BackDrop click={this.backDropHandler }/>;
-        }
+       if(this.state.sideDrawerOpen){
+        backDrop = <BackDrop click={this.backDropHandler }/>;
+       }
 
 
         return (
-            
             this.state.isLoading === true ?<div className="loading">Loading</div> :
             <div className="app-container">
         
                 <section id="left-menu">
-                   <LeftMenu/>
-                   <ScrMiniBar  userInfo={this.props.userInfo}  screenInfo={this.state.screenNameInfo}/>
-                   <ScreenName disState={this.props} userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+               
+                  
                 </section>
 
 
                 <section className="content-Container">
                   
-                        
-                <Navbar drawerClickHandler={this.drawToggleClickHandler} whichName={this.state.isUserPage}  userInfo={this.props.userInfo} />
-                            <ProfileContent userInfo={this.props} disState={this.props} />
-                            
+                
+                            <Navbar drawerClickHandler={this.drawToggleClickHandler} screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                          
+                            <Messenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
                             <SideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}
+
                       
                     
                 </section>
                 <section className="messenger-area">
-                <Messenger userInfo={this.props.userInfo} />
+              
+                
+                
                 </section>
 
             </div>
@@ -115,11 +122,15 @@ class Profile extends React.Component {
 
 };
 
+
+
 const mapDispatchToProps = (dispatch) =>{
     return{
         getUser: ( currentUserInfo) => dispatch (getUser(currentUserInfo))
     }
 }
+
+
 
 const mapStateToProps = (state)=>{
     console.log(state)
@@ -130,7 +141,7 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(  mapStateToProps,mapDispatchToProps) (Profile);
+export default connect(  mapStateToProps,mapDispatchToProps) (MessenLayout);
 
 
 
