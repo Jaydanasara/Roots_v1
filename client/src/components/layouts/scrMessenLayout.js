@@ -98,7 +98,9 @@ class ScrMessenLayout extends React.Component {
                   
                         
                 <ScrNavbar drawerClickHandler={this.drawToggleClickHandler}  screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                
                 <ScreenMessenger userInfo={this.props.userInfo}  screenInfo={this.state.screenNameInfo} />
+                
                 <ScrSideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}   
 
