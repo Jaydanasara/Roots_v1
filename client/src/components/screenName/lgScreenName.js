@@ -250,7 +250,7 @@ addToPhotos =() =>{
 
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    p<div className="user-I">   <Link to={"/screenprofile/" + this.props.screenInfo._id}><img className="user-Img" src={user.userPic} alt="users pic" /> </Link>  </div>
+                    <div className="user-I">   <Link to={"/screenprofile/" + this.props.screenInfo._id}><img className="user-Img" src={user.userPic} alt="users pic" /> </Link>  </div>
                     <div className="buttons">
                         <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
                         <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />

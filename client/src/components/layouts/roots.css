@@ -1556,6 +1556,25 @@ header{
         #home{
             font-size: 12px;
         }
+
+        .app-container{
+            overflow: initial;
+        }
+
+        /* .navigation{
+            
+           position: fixed;
+           top: 0;
+           overflow: hidden;
+            z-index: 1;
+        }
+        .contentArea{
+           z-index: -1;
+            margin-top: 25%;
+            
+        } */
         
         }
+
+        
         
