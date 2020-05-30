@@ -317,21 +317,21 @@ screenNameData =  () => {
             <div className="contentArea ">
                 <div className="profile-container">
                 <div className="profile-image">
-                <img src={this.state.userPic}  alt="users pic"/> 
+                <img src={(this.state.userPic!=undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"}  alt="users pic"/> 
                 </div>
                 <div className="profile-info">
                     {this.props.screenInfo.screenName}
                 </div>
                 <div className="button-div"> 
                 <div className= "follow-button"style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "visible" } : { display:"none" }}  > <Link to={"/editprofile/" + this.props.screenInfo._id}>edit profile</Link>     </div>
-                <button className="friend-btn" onClick={this.addingFriend}>{(this.state.addFriend)?<i id= "friend-icon"class="fa fa-users fa-2x " aria-hidden="true" >+</i>:"UnFriend" }</button>
+                <button className="friend-btn" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}>{(this.state.addFriend)?<i id= "friend-icon"class="fa fa-users fa-2x " aria-hidden="true" >+</i>:"UnFriend" }</button>
                 <button className="photos-btn" ><Link to={"/scrphotos/" +this.props.userInfo.match.params.id}>Photos </Link> </button>
-                <button className="my-friends" ><Link to={"/scrFriends/" +this.props.userInfo.match.params.id} >My Friends </Link> </button>
+                <button className="my-friends" ><Link to={"/scrFriends/" +this.props.userInfo.match.params.id} >My_Friends </Link> </button>
                 </div>
                 </div>
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">  <Link to={"/profile/" + this.props.screenInfo._id}><img className="user-Img" src={this.state.userPic} alr="users image" /> </Link>  </div>
+                    <div className="user-I">  <Link to={"/profile/" + this.props.screenInfo._id}><img className="user-Img" src={(this.state.userPic!=undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users image" /> </Link>  </div>
                     <div className="buttons">
                     <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
                         <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
@@ -358,7 +358,7 @@ screenNameData =  () => {
                 
                 <div className="feed_Container">
                 <div className="friendsPostinfo">
-                    <a className="friends-I" href="/profile"><img className="friendsImg" src={each.post_by_pic} />  </a>
+                    <a className="friends-I" href="/profile"><img className="friendsImg" src={(each.post_by_pic!=undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" />  </a>
                     <div className="friendsInfo"> <a href="/profile" className="friendInfoLink">{each.post_by}</a>shared a  &nbsp;
                    <a href="/profile">{(each.picUrl=== undefined)?  "story":"image"}</a>  </div>
                 </div>
