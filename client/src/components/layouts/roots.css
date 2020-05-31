@@ -141,18 +141,25 @@ width:270px;
 /* END Header Css */
 /* 
 Signup CSS */
-
+.signupContainer{
+    width:100%
+}
 .register{
  text-align: center;
+ width:100%
 }
 .registerName{
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
 }
-
+.signUpForm{
+    width:100%;
+}
 .registerEmail{
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
 }
@@ -172,9 +179,14 @@ Signup CSS */
     margin-top: 5px;
     font-size: 15px;
     background: rgb(18, 187, 209);
-    width: 80px;
+    width: 40%;
     height: 40px;
+    
 }
+.signupButContainer{
+    padding-bottom: 10px;
+}
+
 
 ul {
     list-style-type: none

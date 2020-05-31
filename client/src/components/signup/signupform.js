@@ -78,53 +78,57 @@ class SignupForm extends React.Component {
 
     }
 
-    render() {
-        return (
-            <div className="register">
-                <div className="signup">
-                    <h1> Register</h1>
-                    <p className="text-muted">Like The Branches of a tree we are Connected
-                    </p>
-                </div>
-                <form>
-                    <div className="col-sm-9">
-                        <div className="registerName">
-                            <div className="form-group">
-                                <input value={this.state.firstname} onChange={this.handleChange} type="text" placeholder="First Name" name="firstname" ref="firstName" className="signupInput" />
-                            </div>
-                            <div className="form-group">
-                                <input value={this.state.age} onChange={this.handleChange} type="text" placeholder="Age" name="age" ref="age" className="signupInput" />
-                            </div>
-                            <div className="form-group">
-                                <input value={this.state.lastname} onChange={this.handleChange} type="text" placeholder="Last Name" name="lastname" ref="lastName" className="signupInput" />
-                            </div>
-                            <div className="form-group">
-                                <input value={this.state.screenName} onChange={this.handleChange} type="text" placeholder="Screen Name" name="screenName" ref="screenName" className="signupInput" />
-                            </div>
+ 
+
+render() {
+    return (
+        <div className="register">
+            <div className="signup">
+                <h1> Register</h1>
+                <p className="text-muted">Like The Branches of a tree we are Connected
+                </p>
+            </div>
+            <form className="signUpForm">
+                <div className="signupContainer">
+                    <div className="registerName">
+                        <div className="col-sm-6 form-group">
+                            <input value={this.state.firstname} onChange={this.handleChange} type="text" placeholder="First Name" name="firstname" ref="firstName" className="signupInput" />
                         </div>
-
-
-                        <div className="registerEmail" >
-
-                            <input value={this.state.emailaddress} onChange={this.handleChange} type="email" placeholder="Email Address" name="emailaddress" ref="email" className="signupInput" />
-
-                            <div className="" >
-                                <input value={this.state.password} onChange={this.handleChange} type="password" placeholder="Password" name="password" ref="password" className="signupInput" />
-                                <input value={this.state.name} onChange={this.handleChange} type="password" placeholder="Confirm Password" name="name" ref="confirm" className="signupInput" />
-                            </div>
-
+                        <div className="col-sm-6 form-group">
+                            <input value={this.state.lastname} onChange={this.handleChange} type="text" placeholder="Last Name" name="lastname" ref="lastName" className="signupInput" />
                         </div>
+                        <div className="form-group">
+                            <input value={this.state.age} onChange={this.handleChange} type="text" placeholder="Age" name="age" ref="age" className="signupInput" />
+                        </div>
+                        <div className="col-sm-6 form-group">
+                            <input value={this.state.screenName} onChange={this.handleChange} type="text" placeholder="Screen Name" name="screenName" ref="screenName" className="signupInput" />
+                        </div>
+                    </div>
 
-                        <div className="passmessage"><p>Password must be at least 6 characters</p></div>
-                        <button onClick={this.newSignup} type="submit" className="signupBtn"> Sign up</button>
 
+                    <div className="registerEmail" >
+
+                        <input value={this.state.emailaddress} onChange={this.handleChange} type="email" placeholder="Email Address" name="emailaddress" ref="email" className="signupInput" />
+
+                        <div className="" >
+                            <input value={this.state.password} onChange={this.handleChange} type="password" placeholder="Password" name="password" ref="password" className="signupInput" />
+                            <input value={this.state.name} onChange={this.handleChange} type="password" placeholder="Confirm Password" name="name" ref="confirm" className="signupInput" />
+                        </div>
 
                     </div>
-                </form>
 
-            </div >
-        )
-    }
+                    <div className="passmessage"><p>Password must be at least 6 characters</p></div>
+                    <div className="signupButContainer">
+                    <button onClick={this.newSignup} type="submit" className="signupBtn"> Sign up</button>
+                    </div>
+
+
+                </div>
+            </form>
+
+        </div >
+    )
+}
 };
 
 

@@ -283,6 +283,7 @@ class ProfileContent extends React.Component {
 
     render() {
         const fullName = this.state.first_Name + " " + this.state.last_Name
+       
 
         
         return (
@@ -297,7 +298,7 @@ class ProfileContent extends React.Component {
                     </div>
                     <div className="button-div">
                         <div className="follow-button" style={this.props.userInfo.match.params.id === this.props.userInfo.userInfo.user_ID ? { display: "visible" } : { display: "none" }}  > <Link to={"/editprofile/" + this.props.userInfo.userInfo.user_ID}>edit profile</Link>     </div>
-                        <button className="friend-btn" style={this.props.userInfo.match.params.id === this.props.userInfo.userInfo.user_ID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}>{(this.state.addFriend) ? <i id="friend-icon" className="fa fa-users fa-2x " aria-hidden="true" >+</i> : "UnFriend"}</button>
+                        <button className="friend-btn" style={this.props.userInfo.match.params.id === this.props.userInfo.userInfo.user_ID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}>{(this.props.userInfo.userInfo.friends.includes(this.props.userInfo.match.params.id)) ?"Unfriend": <i id="friend-icon" className="fa fa-users fa-2x " aria-hidden="true" >+</i> }</button>
                         <button className="photos-btn" ><Link to={"/photos/" + this.props.userInfo.match.params.id}>Photos </Link> </button>
                         <button className="my-friends" ><a href="/friends">My_Friends</a> </button>
                     </div>
