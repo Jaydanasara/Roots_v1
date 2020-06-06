@@ -27,7 +27,7 @@ class Header extends React.Component {
             
             Fire.auth().signInWithEmailAndPassword(this.state.emailaddress,this.state.password)
          .catch(err => alert(err));
-    
+            console.log(this.state)
          this.props.getUser(this.state)
     
     
