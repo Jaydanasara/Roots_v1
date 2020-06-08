@@ -1585,6 +1585,10 @@ header{
             overflow: initial;
         }
 
+        .modalBox{
+            top:350px;
+        }
+
         /* .navigation{
             
            position: fixed;
