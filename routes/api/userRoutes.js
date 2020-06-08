@@ -71,7 +71,11 @@ router
  
   router
   .route("/addFriend")
-  .post(usersDataController.connections);
+  .post(usersDataController.addFriendsID);
+
+  router
+  .route("/removeFriend")
+  .post(usersDataController.deleteFriendID);
 
   router
   .route("/addPhoto")
@@ -92,7 +96,11 @@ router
 
   router
   .route("/addScFriend")
-  .post(usersDataController.connections2);
+  .post(usersDataController.addFriendsID2);
+
+  router
+  .route("/removeScFriend")
+  .post(usersDataController.deleteScrFriend);
   
  
   router

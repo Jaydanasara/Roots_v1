@@ -19,23 +19,23 @@ export default {
   
   },
 
-saveComment: function(id,postData){
- 
-  return axios.post("/api/usersData/postData/"+id,postData);
+  saveComment: function(id,postData){
+  
+    return axios.post("/api/usersData/postData/"+id,postData);
 
-},
+  },
 
-likes: function(id,postData){
-  console.log("like working")
-  return axios.post("/api/usersData/likeData/"+id,postData);
+  likes: function(id,postData){
+    console.log("like working")
+    return axios.post("/api/usersData/likeData/"+id,postData);
 
-},
+  },
 
 
-deleteLikes: function(id,postData){
-  return axios.put("/api/usersData/likeData/"+id,postData);
+  deleteLikes: function(id,postData){
+    return axios.put("/api/usersData/likeData/"+id,postData);
 
-},
+  },
 
 
 
@@ -83,15 +83,15 @@ deleteLikes: function(id,postData){
   },
   
 
-getAllUsers:function(){
- 
-  return axios.get("/api/usersData");
-},
+  getAllUsers:function(){
+  
+    return axios.get("/api/usersData");
+  },
 
-getScrUsers:function(){
-  console.log("second part ")
-  return axios.get("/api/usersData/screenData");
-},
+  getScrUsers:function(){
+    console.log("second part ")
+    return axios.get("/api/usersData/screenData");
+  },
 
   postID: function(userData) {
   
@@ -120,70 +120,84 @@ getScrUsers:function(){
     
    },
 
-addPhotos:function(userData){
-
-
-  return axios.post("/api/usersData/addPhoto",userData);
-},
-
-getPhotos: function(userData) {
-
-  return axios.post("/api/usersData/getPhotos",userData);
-
-},
-
-saveScreenName: function(userData) {
-  
-  return axios.post("/api/usersData/screenData",userData);
-
-},
-
-getScreenNameInfo: function(userData) {
-  
-  return axios.post("/api/usersData/getScreenName",userData);
-
-},
-
-friendID2: function(userData) {
-  
-   return axios.post("/api/usersData/addScFriend",userData);
-  
- },
-
-postID2: function(userData) {
+  unfriend: function(userData) {
    
-  return axios.put("/api/usersData/addScreenPhoto",userData);
-},
+    return axios.post("/api/usersData/removeFriend",userData);
+   
+  },
 
-addScreenPhotos:function(userData){
 
 
-  return axios.post("/api/usersData/addScreenPhoto",userData);
-},
+  addPhotos:function(userData){
 
-getConvo: function(chatData) {
+
+    return axios.post("/api/usersData/addPhoto",userData);
+  },
+
+  getPhotos: function(userData) {
+
+    return axios.post("/api/usersData/getPhotos",userData);
+
+  },
+
+  saveScreenName: function(userData) {
+    
+    return axios.post("/api/usersData/screenData",userData);
+
+  },
+
+  getScreenNameInfo: function(userData) {
+    
+    return axios.post("/api/usersData/getScreenName",userData);
+
+  },
+
+  friendID2: function(userData) {
+    
+    return axios.post("/api/usersData/addScFriend",userData);
+    
+  },
+
+  removeScrFriend: function(userData) {
+    
+    return axios.post("/api/usersData/deleteScFriend",userData);
+    
+  },
+
+  postID2: function(userData) {
+    
+    return axios.put("/api/usersData/addScreenPhoto",userData);
+  },
+
+  addScreenPhotos:function(userData){
+
+
+    return axios.post("/api/usersData/addScreenPhoto",userData);
+  },
+
+  getConvo: function(chatData) {
+    
+    return axios.post("/api/usersData/chatData",chatData);
   
-  return axios.post("/api/usersData/chatData",chatData);
- 
-},
-saveChat : function(chatData) {
-  console.log(chatData)
-  return axios.post("/api/usersData/saveChData",chatData);
- 
-},
+  },
+  saveChat : function(chatData) {
+    console.log(chatData)
+    return axios.post("/api/usersData/saveChData",chatData);
+  
+  },
 
-logMessage: function(id,chatData){
- 
-  return axios.post("/api/usersData/chatData/"+id,chatData);
+  logMessage: function(id,chatData){
+  
+    return axios.post("/api/usersData/chatData/"+id,chatData);
 
-},
+  },
 
 
-getPhotos2: function(userData) {
+  getPhotos2: function(userData) {
 
-  return axios.post("/api/usersData/getScrPhotos",userData);
+    return axios.post("/api/usersData/getScrPhotos",userData);
 
-},
+  },
 
 
 };

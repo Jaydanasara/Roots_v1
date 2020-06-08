@@ -129,10 +129,18 @@ findAllScrUsers:function(req, res) {
       .catch(err => res.status(422).json(err));
   },
 
-  connections: function(req, res) {
+  addFriendsID: function(req, res) {
  
     db.usersData
       .findOneAndUpdate({ _id: req.body._id}, {$push:{friends: req.body.friends}},{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+  deleteFriendID: function(req, res) {
+ 
+    db.usersData
+      .findOneAndUpdate({ _id: req.body._id}, {$pull:{friends: req.body.friends}},{new:true})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -236,10 +244,18 @@ createScreenInfo: function(req, res) {
 
   },
 
-  connections2: function(req, res) {
+  addFriendsID2: function(req, res) {
  
     db.screenNameData
       .findOneAndUpdate({ user_ID: req.body.user_ID}, {$push:{friends: req.body.friends}},{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+  deleteScrFriend: function(req, res) {
+ 
+    db.screenNameData
+      .findOneAndUpdate({ user_ID: req.body.user_ID}, {$pull:{friends: req.body.friends}},{new:true})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

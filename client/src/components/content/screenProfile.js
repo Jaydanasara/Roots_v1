@@ -272,6 +272,21 @@ addfriendID = () => {
 
 }
 
+removeFriend = () => {
+
+
+    API.removeScrFriend({
+        user_ID: this.props.screenInfo_id,
+        friends: this.props.userInfo.match.params.id,
+    })
+
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+
+
+
+}
+
 
 confirmEditpro =() =>{
     if(this.props.userInfo.userInfo.user_ID === this.props.screenInfo.user_ID)
@@ -326,7 +341,7 @@ screenNameData =  () => {
                 <div className="button-div"> 
                 <div className= "follow-button"style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "visible" } : { display:"none" }}  > <Link to={"/editprofile/" + this.props.screenInfo._id}>edit profile</Link>     </div>
                 {/* <button className="friend-btn" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}>{(this.state.addFriend)?<i id= "friend-icon"class="fa fa-users fa-2x " aria-hidden="true" >+</i>:"UnFriend" }</button> */}
-                {(this.props.screenInfo.friends.includes(this.props.userInfo.match.params.id)) ?<button className="friend-btn2" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}>Unfriend</button> :  <button className="friend-btn" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}> <i id="friend-icon" className="fa fa-users fa-2x " aria-hidden="true" >+</i> </button>}
+                {(this.props.screenInfo.friends.includes(this.props.userInfo.match.params.id)) ?<button className="friend-btn2" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.removeFriend}>Unfriend</button> :  <button className="friend-btn" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}> <i id="friend-icon" className="fa fa-users fa-2x " aria-hidden="true" >+</i> </button>}
                 <button className="photos-btn" ><Link to={"/scrphotos/" +this.props.userInfo.match.params.id}>Photos </Link> </button>
                 <button className="my-friends" ><Link to={"/scrFriends/" +this.props.userInfo.match.params.id} >My_Friends </Link> </button>
                 </div>
