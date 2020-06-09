@@ -552,7 +552,7 @@ left: -0px;
     background: white;
     height: 40px;
     width: 40px;
-    margin-left: 15px;
+    margin-left: 10px;
    display: flex;
    align-items: center;
    justify-content: center;
@@ -1588,6 +1588,8 @@ header{
         .modalBox{
             top:350px;
         }
+
+        
 
         /* .navigation{
             

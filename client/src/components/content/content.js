@@ -17,6 +17,7 @@ class Content extends React.Component {
         isActive2:false,
         comment: "",
         checkInputID:null,
+       
 
 
 
@@ -187,7 +188,7 @@ class Content extends React.Component {
         this.uploadClick()
         if (event.target.files[0]) {
             const image = event.target.files[0];
-            this.setState(() => ({ image }));
+            this.setState({fileChosen:!this.state.fileChosen},() => ({ image }));
         }
 
 
@@ -263,13 +264,17 @@ class Content extends React.Component {
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
                     <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={(user.userPic!=undefined) ? user.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} /> </Link>  </div>
                     <div className="buttons">
+                        <div className="uploadDiv">
                         <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
                         <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
 
                         <progress className={this.state.isActive ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
                         <button className={this.state.isActive ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                        <span className={this.state.isActive ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
-                        <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i class="fas fa-camera-retro"></i></button>
+                         <span className={this.state.isActive ? "uploadReady active" : "uploadReady"}> File </span> 
+
+                         </div>
+                        <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i class="fas fa-camera-retro"></i></button>:
+
 
 
                         <div className="button video"><i className="fas fa-video"></i> </div>
