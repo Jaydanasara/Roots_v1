@@ -266,7 +266,7 @@ class Content extends React.Component {
                     <div className="buttons">
                       
                         <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
-                        <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
+                        <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} id="previewUpload" src={this.state.url} alt="preview" height="40" width="50" />
 
                         <progress className={this.state.isActive ? "uploadReady active" : "uploadReady"} id="progress"value={this.state.progress} max="100" />
                         <button className={this.state.isActive ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
@@ -338,7 +338,7 @@ class Content extends React.Component {
                                                     <div>
                                                     <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.commentClick(content._id);}}> <i class="far fa-images"></i></button>
                                                     <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
-                                                    <img className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
+                                                    <img className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"}  src={this.state.url} alt="preview" height="40" width="50" />
 
                                                     <progress className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
                                                     <button className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>

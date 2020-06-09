@@ -1592,7 +1592,7 @@ header{
         .buttons{
             bottom: -5px;
             right: 10px;
-            flex-wrap: wrap-reverse;
+            
         }
         
         #progress{
@@ -1605,6 +1605,10 @@ header{
         
         .feed{
             padding-top:40px
+        }
+
+        #previewUpload{
+            margin-right: 5px;
         }
 
         
