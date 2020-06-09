@@ -1592,6 +1592,8 @@ header{
         .buttons{
             bottom: -5px;
             right: 10px;
+            flex-direction: row-reverse;
+            flex-wrap: wrap;
             
         }
         
