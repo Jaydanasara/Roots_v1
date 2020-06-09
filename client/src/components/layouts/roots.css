@@ -1590,7 +1590,7 @@ header{
         }
 
         .buttons{
-            bottom: -10px;
+            bottom: -5px;
             right: 10px;
             flex-wrap: wrap-reverse;
         }
@@ -1601,6 +1601,10 @@ header{
 
         #file{
             padding-top: 10px;
+        }
+        
+        .feed{
+            padding-top:15px
         }
 
         
