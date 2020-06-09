@@ -1514,7 +1514,9 @@ header{
             height: unset;
         }
 
-        
+        .postbutton{
+            font-size: 14px;
+        }
         
         #friend-icon{
             font-size: 24px;
