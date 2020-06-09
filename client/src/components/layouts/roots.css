@@ -1589,6 +1589,20 @@ header{
             top:350px;
         }
 
+        .buttons{
+            bottom: -10px;
+            right: 10px;
+            flex-wrap: wrap-reverse;
+        }
+        
+        #progress{
+            display: none;
+        }
+
+        #file{
+            padding-top: 10px;
+        }
+
         
 
         /* .navigation{
