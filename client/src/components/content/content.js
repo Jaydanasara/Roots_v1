@@ -17,6 +17,7 @@ class Content extends React.Component {
         isActive2:false,
         comment: "",
         checkInputID:null,
+        whichComment:null,
        
 
 
@@ -185,10 +186,11 @@ class Content extends React.Component {
     };
 
     handleImageSelected = event => {
-        this.uploadClick()
+        
         if (event.target.files[0]) {
             const image = event.target.files[0];
-            this.setState({fileChosen:!this.state.fileChosen},() => ({ image }));
+            this.setState(() => ({ image }));
+            this.uploadClick()
         }
 
 
@@ -200,6 +202,7 @@ class Content extends React.Component {
         if (event.target.files[0]) {
             const image = event.target.files[0];
             this.setState(() => ({ image }));
+            this.commentClick(this.state.whichComment)
         }
 
     }
@@ -237,6 +240,10 @@ class Content extends React.Component {
         this.setState({ checkInputID:checkNumber  })
     };
 
+    getID=(id)=>{
+        this.setState({ whichComment:id })
+    }
+
     addToPhotos = () => {
 
         API.addPhotos({
@@ -264,14 +271,7 @@ class Content extends React.Component {
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
                     <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={(user.userPic!=undefined) ? user.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} /> </Link>  </div>
                     <div className="buttons">
-                      <div>
-                        <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
-                        <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} id="previewUpload" src={this.state.url} alt="preview" height="40" width="50" />
-
-                        <progress className={this.state.isActive ? "uploadReady active" : "uploadReady"} id="progress"value={this.state.progress} max="100" />
-                        <button className={this.state.isActive ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                         <span className={this.state.isActive ? "uploadReady active" : "uploadReady"} id ="file"> File </span> 
-                         </div>
+                     
 
                          
                         
@@ -285,6 +285,15 @@ class Content extends React.Component {
                         </div>
                         
                     </div>
+                    <div>
+                        <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
+                        <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} id="previewUpload" src={this.state.url} alt="preview" height="40" width="50" />
+                        </div>
+                        <div>
+                        <progress className={this.state.isActive ? "uploadReady active" : "uploadReady"} id="progress"value={this.state.progress} max="100" />
+                        <button className={this.state.isActive ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
+                         <span className={this.state.isActive ? "uploadReady active" : "uploadReady"} id ="file"> File </span> 
+                         </div>
                 </section>
 
                 <section className="feed ">
@@ -338,18 +347,26 @@ class Content extends React.Component {
                                                 <div className="responseComments">
                                                     <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                 
-                                                    <div>
-                                                    <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.commentClick(content._id);}}> <i class="far fa-images"></i></button>
-                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
-                                                    <img className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"}  src={this.state.url} alt="preview" height="40" width="50" />
+                                                    <div className="commentPhoto">
+                                                    <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.getID(content._id);}}> <i class="far fa-images"></i></button>
+                                                   
+                                        
+                                        
+                                                </div>
+                                                
+                                            
 
-                                                    <progress className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
-                                                    <button className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                                                    <span className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
-                                        
-                                        
                                                 </div>
-                                                </div>
+                                                    <div>
+
+                                                     <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
+                                                        <img className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"}  src={this.state.url} alt="preview" height="40" width="50" />
+
+                                                        <progress className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
+                                                        <button className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
+                                                        <span className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
+                                                    </div>
+                                                
                                                 <div className="commentButtons">
                                                     <div className="replyButton"  onClick={this.state.comment ==="" && this.state.url ===""? null:()=> this.submitComment(content._id)} ><i class="fas fa-share"></i> </div>
 

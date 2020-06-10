@@ -1592,28 +1592,30 @@ header{
             top:350px;
         }
 
-        /* .buttons{
-            bottom: -5px;
-            right: 10px;
-            flex-direction: row-reverse;
-            flex-wrap: wrap;
+        .buttons{
+            /* bottom: -5px;
+            right: 10px; */
             
-        } */
-        
-        #progress{
-            display: none;
+            flex-flow: row wrap;
+            
         }
+        
+     
 
         #file{
             padding-top: 10px;
         }
         
         .feed{
-            padding-top:40px
+            padding-top:15px
         }
 
         #previewUpload{
             margin-right: 5px;
+        }
+
+        .commentPhoto{
+            width: 50px;
         }
 
         
