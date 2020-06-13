@@ -19,7 +19,7 @@ class ProfileContent extends React.Component {
         isActive2:false,
         progress:0,
         checkInputID:null,
-
+        whichComment:null,
     }
     componentDidMount() {
         this.listPost()
@@ -174,10 +174,11 @@ class ProfileContent extends React.Component {
 
 
     handleImageSelected = event => {
-        this.uploadClick()
+        
         if (event.target.files[0]) {
             const image = event.target.files[0];
             this.setState(() => ({ image }));
+            this.uploadClick()
         }
 
     }
@@ -188,6 +189,7 @@ class ProfileContent extends React.Component {
         if (event.target.files[0]) {
             const image = event.target.files[0];
             this.setState(() => ({ image }));
+            this.commentClick(this.state.whichComment)
         }
 
     }
@@ -223,6 +225,11 @@ class ProfileContent extends React.Component {
 
         this.setState({ checkInputID:checkNumber  })
     };
+
+    getID=(id)=>{
+        this.setState({ whichComment:id })
+    }
+
 
 
     addToPhotos = () => {
@@ -328,7 +335,7 @@ class ProfileContent extends React.Component {
                     </div>
                     <div className="button-div">
                         <div className="follow-button" style={this.props.userInfo.match.params.id === this.props.userInfo.userInfo.user_ID ? { display: "visible" } : { display: "none" }}  > <Link to={"/editprofile/" + this.props.userInfo.userInfo.user_ID}>edit profile</Link>     </div>
-                        {/* <button className="friend-btn" style={this.props.userInfo.match.params.id === this.props.userInfo.userInfo.user_ID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}>{(this.props.userInfo.userInfo.friends.includes(this.props.userInfo.match.params.id)) ?"Unfriend": <i id="friend-icon" className="fa fa-users fa-2x " aria-hidden="true" >+</i> }</button> */}
+
                         {(this.props.userInfo.userInfo.friends.includes(this.props.userInfo.match.params.id)) ?<button className="friend-btn2" style={this.props.userInfo.match.params.id === this.props.userInfo.userInfo.user_ID ? { display: "none" } : { display: "visible" }} onClick={this.removeFriend}>Unfriend</button> :  <button className="friend-btn" style={this.props.userInfo.match.params.id === this.props.userInfo.userInfo.user_ID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}> <i id="friend-icon" className="fa fa-users fa-2x " aria-hidden="true" >+</i> </button>}
                         <button className="photos-btn" ><Link to={"/photos/" + this.props.userInfo.match.params.id}>Photos </Link> </button>
                         <button className="my-friends" ><a href="/friends">My Friends</a> </button>
@@ -338,12 +345,7 @@ class ProfileContent extends React.Component {
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
                     <div className="user-I">  <Link to={"/profile/" + this.props.userInfo.userInfo.user_ID}><img className="user-Img"  src={(this.state.userPic!=undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users pic" /> </Link>  </div>
                     <div className="buttons">
-                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
-                        <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
-
-                        <progress className={this.state.isActive ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
-                        <button className={this.state.isActive ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                        <span className={this.state.isActive ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
+                   
                         <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i class="fas fa-camera-retro"></i></button>
 
 
@@ -351,6 +353,14 @@ class ProfileContent extends React.Component {
                         <div className="button send">
                             <button type="submit" className="postbutton" onClick={this.state.statusPost ==="" && this.state.url ===""? null : this.submitPost}>Post </button>
                         </div>
+                    </div>
+                    <div>
+                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
+                        <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
+
+                        <progress className={this.state.isActive ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
+                        <button className={this.state.isActive ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
+                        <span className={this.state.isActive ? "uploadReady active" : "uploadReady"}>File</span>
                     </div>
                 </section>
 
@@ -404,19 +414,24 @@ class ProfileContent extends React.Component {
                                                 )}
                                                 <div className="responseComments">
                                                     <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
-                                                    <div>
-                                                    <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.commentClick(each._id);}}> <i class="far fa-images"></i></button>
-                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
+                                                    <div  className="commentPhoto" >
+                                                    
+                                                    <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.getID(each._id);}}> <i class="far fa-images"></i></button>
+                                                    
+                                                   
+                                          </div>
+                                                </div>
+                                                <div>
+                                                <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
                                                     <img className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
 
                                                     <progress className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
                                                     <button className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                                                    <span className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
+                                                    <span className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"}> File </span>
                       
                                                    
-                                                   
-                                          </div>
                                                 </div>
+
                                                 <div className="commentButtons">
                                                     <div className="replyButton" onClick={this.state.comment ==="" && this.state.url ===""? null:()=> this.submitComment(each._id)}  ><i class="fas fa-share"></i> </div>
 

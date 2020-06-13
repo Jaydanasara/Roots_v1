@@ -20,6 +20,7 @@ class ScrNavbar extends React.Component {
 
         ;
     componentDidMount() {
+
         this.getAll_Scr_Users()
         let displayName = ""
         if (this.props.whichName === true) {
@@ -68,7 +69,7 @@ class ScrNavbar extends React.Component {
         }
         return (
             <ul className="srch_resp_cont">
-                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/profile/" + item._id}><img className="search-Img" src={item.userPic} />{item.screenName} </Link> </li>)}
+                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/screenProfile/" + item._id}><img className="search-Img" src={item.userPic} />{item.screenName} </Link> </li>)}
             </ul>
         )
 
@@ -130,9 +131,12 @@ class ScrNavbar extends React.Component {
                             <i className="fa fa-user">  {this.state.Name}</i>
                         </div>
                         <div className="dropDown">
-                            <a className="dropdown-item" href="/profile/:id">Edit Profile</a>
-                            <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>
+                            <ul className = "screennameDrop">
+                                <Link to={"/screenprofile/" + this.props.screenInfo._id}><li className="dropdown-item"> Profile</li> </Link>
 
+
+                                <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>
+                            </ul>
                             <div className="dropdown-divider"></div>
 
                         </div>

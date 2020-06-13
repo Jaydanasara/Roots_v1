@@ -351,10 +351,7 @@ class Content extends React.Component {
                                                     <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.getID(content._id);}}> <i class="far fa-images"></i></button>
                                                    
                                         
-                                        
                                                 </div>
-                                                
-                                            
 
                                                 </div>
                                                     <div>
@@ -364,7 +361,7 @@ class Content extends React.Component {
 
                                                         <progress className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
                                                         <button className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                                                        <span className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
+                                                        <span className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"}>File </span>
                                                     </div>
                                                 
                                                 <div className="commentButtons">

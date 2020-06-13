@@ -18,7 +18,10 @@ class ScreenProfile extends React.Component {
        url: "",
        isActive: false,
        isActive2:false,
-       progress:0
+       progress:0,
+       checkInputID:null,
+       whichComment:null,
+
 
     }
     componentWillMount(){
@@ -72,12 +75,14 @@ postSort =() =>{
             console.log(res)
 
                 this.setState({ postID: res.data._id }, () => this.addPostID());
-                this.listPost()
+                
             })
 
             .catch(err => console.log(err));
 
             this.setState({ statusPost: "",isActive:false })
+
+           
     }
 
 
@@ -91,6 +96,8 @@ postSort =() =>{
 
             .then(res => console.log(res))
             .catch(err => console.log(err));
+
+             this.listPost()
 
 
 
@@ -112,7 +119,7 @@ postSort =() =>{
             })
             .catch(err => console.log(err));
 
-        this.setState({ comment: "",isActive2:false });
+            this.setState({ comment: "",checkInputID:null });
     }
 
     handleLikes = (id) => {
@@ -172,20 +179,22 @@ postSort =() =>{
     };
 
     handleImageSelected = event => {
-        this.uploadClick()
+        
         if (event.target.files[0]) {
             const image = event.target.files[0];
             this.setState(() => ({ image }));
+            this.uploadClick()
         }
 
     }
 
 
     handleImageSelected2 = event => {
-        this.commentClick()
+      
         if (event.target.files[0]) {
             const image = event.target.files[0];
             this.setState(() => ({ image }));
+            this.commentClick(this.state.whichComment)
         }
 
     }
@@ -217,11 +226,15 @@ postSort =() =>{
         this.setState({ isActive: !this.state.isActive })
     };
 
-    commentClick = () => {
+    commentClick = (checkNumber) =>{
+        
 
-        this.setState({ isActive2: !this.state.isActive2 })
+        this.setState({ checkInputID:checkNumber  })
     };
 
+    getID=(id)=>{
+        this.setState({ whichComment:id })
+    }
 
     addToPhotos = () => {
 
@@ -336,7 +349,7 @@ screenNameData =  () => {
                 <img src={(this.state.userPic!=undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"}  alt="users pic"/> 
                 </div>
                 <div className="profile-info">
-                    {this.props.screenInfo.screenName}
+                    {this.state.screenName}
                 </div>
                 <div className="button-div"> 
                 <div className= "follow-button"style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "visible" } : { display:"none" }}  > <Link to={"/editprofile/" + this.props.screenInfo._id}>edit profile</Link>     </div>
@@ -348,19 +361,22 @@ screenNameData =  () => {
                 </div>
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">  <Link to={"/profile/" + this.props.screenInfo._id}><img className="user-Img" src={(this.state.userPic!=undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users image" /> </Link>  </div>
+                    <div className="user-I">  <Link to={"/screenProfile/" + this.props.screenInfo._id}><img className="user-Img" src={(this.state.userPic!=undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users image" /> </Link>  </div>
                     <div className="buttons">
-                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
-                        <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
-
-                        <progress className={this.state.isActive ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
-                        <button className={this.state.isActive ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                        <span className={this.state.isActive ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
+                   
                         <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i class="fas fa-camera-retro"></i></button>
                         <div className="button video"><i class="fas fa-video"></i></div>
                         <div className="button send">
                             <button type="submit" className="postbutton" onClick={this.submitPost}>Post </button>
                         </div>
+                    </div>
+                    <div>
+                        <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
+                        <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
+
+                        <progress className={this.state.isActive ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
+                        <button className={this.state.isActive ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
+                        <span className={this.state.isActive ? "uploadReady active" : "uploadReady"}>File </span>
                     </div>
                 </section>
 
@@ -377,10 +393,14 @@ screenNameData =  () => {
                 <div className="friendsPostinfo">
                     <a className="friends-I" href="/profile"><img className="friendsImg" src={(each.post_by_pic!=undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" />  </a>
                     <div className="friendsInfo"> <a href="/profile" className="friendInfoLink">{each.post_by}</a>shared a  &nbsp;
-                   <a href="/profile">{(each.picUrl=== undefined)?  "story":"image"}</a>  </div>
+                   {/* <a href="/profile">{(each.picUrl=== undefined)?  "story":"image"}</a>  </div> */}
+                   <Link to={"/profile/" + each.user_ID}>{(each.picUrl === "") ? " story " :  " image "}</Link>  </div>                
                 </div>
                 <div className="uploadedInfo">
-                <div className={`${(each.picUrl === undefined) ? "story" : "upImage"}`}><img className={`${(each.picUrl === undefined) ? "story" : "upImage"}`} src={each.picUrl} alt= "uploaded image"/></div>
+                {/* <div className={`${(each.picUrl === undefined) ? "story" : "upImage"}`}><img className={`${(each.picUrl === undefined) ? "story" : "upImage"}`} src={each.picUrl} alt= "uploaded image"/></div> */}
+                {(each.picUrl === "")? <div className="story"> </div>:
+                <div className= "miniUpImage"><img className={`${(each.picUrl === "") ? "story" : "miniUpImage"}`} src={each.picUrl} alt="uploaded image" /></div>
+                 }
                 </div>
                 <div className="colorBackground">
                     <div className="updateInfo">
@@ -412,21 +432,22 @@ each.likes.map((like) =>
                                                 <div className="responseComments">
                                                     <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                     <div>
-                                                    <button type="button" className="button photo" onClick={() => this.fileInput.click()}> <i class="far fa-images"></i></button>
-                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput = fileInput} />
-                        <img className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
-
-                        <progress className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
-                        <button className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                        <span className={this.state.isActive2 ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
-                      
-                                                   
-                                                   
+                                                    <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.getID(each._id);}}> <i class="far fa-images"></i></button>
+                                                          
                                           </div>
                                                 </div>
+
+                                                <div>
+                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
+                                                    <img className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
+
+                                                    <progress className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
+                                                    <button className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
+                                                    <span className={(this.state.checkInputID === each._id) ? "uploadReady active" : "uploadReady"}> File </span>
+                                                     </div>
                         
                                                 <div className="commentButtons">
-                                                    <div className="replyButton" onClick={this.state.comment ==="" && this.state.url ===""? null:()=> this.submitComment(each._id)}  ><i class="fas fa-share"></i> </div>
+                                                    <div className="replyButton" onClick={this.state.comment ==="" && this.state.url ===""? null:()=> this.submitComment(each._id)}><i class="fas fa-share"></i> </div>
 
                                                     <div className="likessection">
 
@@ -438,7 +459,7 @@ each.likes.map((like) =>
                                                     </div>
 
 
-                                                </div>>
+                                                </div>
 
                     </div>
                 </div>
