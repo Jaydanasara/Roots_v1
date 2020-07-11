@@ -67,7 +67,7 @@ class ScrFriends extends React.Component {
                                       
                                       <a className="friend" href="#"><img className="friend" src= {content.userPic} />  </a>
                                       
-                                      <div className="friend" > <Link to={"/profile/" + content._id}> {content.firstname} {" "} {content.lastname} </Link> </div>
+                                      <div className="friend" > <Link to={"/profile/" + content._id}> {content.screenName} </Link> </div>
 
                                     </div>
 

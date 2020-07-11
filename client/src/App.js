@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import UserPhotos from './components/layouts/userPhotos';
 import ScreenLayout from './components/layouts/screenLayout';
 import ScrProLayout from './components/layouts/scrProLayout';
+import ScrFriendProLayout from './components/layouts/scrFriendProLayout';
 import ScreenPhotos from  './components/layouts/screenPhotos';
 import ScrFriendsPage from './components/layouts/scrFriendsPage';
 import MessenLayout from './components/layouts/messenLayout';
@@ -74,6 +75,7 @@ class App extends Component {
                 <Route exact path="/photos/:id" component={UserPhotos} />
                 <Route exact path="/lgScreen" component={ScreenLayout} />
                 <Route exact path="/screenProfile/:id" component={ScrProLayout} />
+                <Route exact path="/scrFriendProfile/:id" component={ScrFriendProLayout} />
                 <Route exact path="/scrphotos/:id" component={ScreenPhotos} />
                 <Route exact path="/scrFriends/:id" component={ScrFriendsPage} />
                 <Route exact path="/messenger" component={MessenLayout} />

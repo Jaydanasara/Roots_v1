@@ -14,7 +14,7 @@ class Navbar extends React.Component {
         search: "",
         allUsers: [],
         Users: "",
-        reload:false
+        reload: false
 
     }
 
@@ -68,7 +68,7 @@ class Navbar extends React.Component {
         }
         return (
             <ul className="srch_resp_cont">
-                {suggestions.map((item) => <li onClick={this.reloadFunc}  className="searchResponse">  <Link to={"/profile/" + item._id}><img className="search-Img" src={item.userPic} />{item.firstname} {" "}{item.lastname} </Link> </li>)}
+                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/profile/" + item._id}><img className="search-Img" src={item.userPic} />{item.firstname} {" "}{item.lastname} </Link> </li>)}
             </ul>
         )
 
@@ -77,10 +77,10 @@ class Navbar extends React.Component {
     }
 
 
-    reloadFunc=()=>{
-        this.setState({reload:!this.state.reload})
+    reloadFunc = () => {
+        this.setState({ reload: !this.state.reload })
         window.location.reload(false);
-       }
+    }
 
     logout() {
         Fire.auth().signOut().then(function () {
@@ -101,24 +101,24 @@ class Navbar extends React.Component {
             this.state.isLoading === true ? <div className="loading">Loading</div> :
                 <div className="navigation">
                     <header>
-                    <div className="navSitePic">
-                    <a href="/" className="">
-                        <img src="/rootsicon.jpg" alt="tree icon" /> 
-                         </a>
-                </div>
+                        <div className="navSitePic">
+                            <a href="/" className="">
+                                <img src="/rootsicon.jpg" alt="tree icon" />
+                            </a>
+                        </div>
                         <input type="checkbox" id="nav-toggle" class="nav-toggle" />
-                 
-                        <label for="nav-toggle" class="nav-toggle-label"onClick={this.props.drawerClickHandler} >
+
+                        <label for="nav-toggle" class="nav-toggle-label" onClick={this.props.drawerClickHandler} >
                             <span></span>
                         </label>
                         <ul className="homeButton">
 
-                        <li>
-    <a id ="home"  href="/"> <i className="fa fa-home"></i> Home </a>
+                            <li>
+                                <a id="home" href="/"> <i className="fa fa-home"></i> Home </a>
 
-</li>
+                            </li>
 
-</ul>
+                        </ul>
 
                     </header>
 
@@ -131,10 +131,10 @@ class Navbar extends React.Component {
                         </div>
                         <div className="dropDown">
                             <ul>
-                            <Link to={"/profile/" + this.props.userInfo.user_ID}><li className="dropdown-item"> Profile</li> </Link>
-                            
-                            <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>
-                         </ul>
+                                <Link to={"/profile/" + this.props.userInfo.user_ID}><li className="dropdown-item"> Profile</li> </Link>
+
+                                <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>
+                            </ul>
                             <div className="dropdown-divider"></div>
 
                         </div>

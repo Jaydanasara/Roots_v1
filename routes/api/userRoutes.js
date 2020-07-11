@@ -99,7 +99,7 @@ router
   .post(usersDataController.addFriendsID2);
 
   router
-  .route("/removeScFriend")
+  .route("/deleteScFriend")
   .post(usersDataController.deleteScrFriend);
   
  

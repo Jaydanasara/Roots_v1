@@ -37,7 +37,7 @@ class ScrNavbar extends React.Component {
 
 
     getAll_Scr_Users = () => {
-        console.log("hit")
+        
         API.getScrUsers()
             .then(res => {
                 this.setState({ allUsers: res.data })
@@ -69,7 +69,7 @@ class ScrNavbar extends React.Component {
         }
         return (
             <ul className="srch_resp_cont">
-                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/screenProfile/" + item._id}><img className="search-Img" src={item.userPic} />{item.screenName} </Link> </li>)}
+                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/scrFriendProfile/"  + item._id}><img className="search-Img" src={item.userPic} />{item.screenName} </Link> </li>)}
             </ul>
         )
 
@@ -132,7 +132,7 @@ class ScrNavbar extends React.Component {
                         </div>
                         <div className="dropDown">
                             <ul className = "screennameDrop">
-                                <Link to={"/screenprofile/" + this.props.screenInfo._id}><li className="dropdown-item"> Profile</li> </Link>
+                                <Link to={"/screenProfile/" + this.props.screenInfo._id}><li className="dropdown-item"> Profile</li> </Link>
 
 
                                 <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>

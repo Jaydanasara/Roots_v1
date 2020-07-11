@@ -140,8 +140,8 @@ export default {
 
   },
 
-  saveScreenName: function(userData) {
-    
+  saveScreenFriend: function(userData) {
+    console.log(userData);
     return axios.post("/api/usersData/screenData",userData);
 
   },
@@ -153,13 +153,14 @@ export default {
   },
 
   friendID2: function(userData) {
+    console.log(userData)
     
     return axios.post("/api/usersData/addScFriend",userData);
     
   },
 
   removeScrFriend: function(userData) {
-    
+    console.log(userData)
     return axios.post("/api/usersData/deleteScFriend",userData);
     
   },

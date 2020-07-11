@@ -236,6 +236,7 @@ createScreenInfo: function(req, res) {
   },
 
   getScreenInfo: function(req, res) {
+    // console.log(req.body)
     
     db.screenNameData
       .findOne(req.body)
@@ -245,17 +246,18 @@ createScreenInfo: function(req, res) {
   },
 
   addFriendsID2: function(req, res) {
+   
  
     db.screenNameData
-      .findOneAndUpdate({ user_ID: req.body.user_ID}, {$push:{friends: req.body.friends}},{new:true})
+      .findOneAndUpdate({ _id: req.body.user_ID}, {$push:{friends: req.body.friends}},{new:true})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
 
   deleteScrFriend: function(req, res) {
- 
+      
     db.screenNameData
-      .findOneAndUpdate({ user_ID: req.body.user_ID}, {$pull:{friends: req.body.friends}},{new:true})
+      .findOneAndUpdate({ _id: req.body.user_ID}, {$pull:{friends: req.body.friends}},{new:true})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

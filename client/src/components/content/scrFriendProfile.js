@@ -3,7 +3,7 @@ import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { storage } from "../../config/fire";
-class ScreenProfile extends React.Component {
+class ScrFriendProfile extends React.Component {
     state = {
         postID: "",
         statusPost: "",
@@ -27,10 +27,11 @@ class ScreenProfile extends React.Component {
     }
     componentWillMount(){
         this.screenNameData()
+        
     }
     componentDidMount() {
         this.listPost()
-    
+      
     }
 
 
@@ -85,6 +86,39 @@ postSort =() =>{
     }
 
 
+    submitFriendsPost = () => {
+        API.savePost({
+            content: this.state.statusPost,
+            post_by: this.props.screenInfo.screenName,
+            post_by_pic:this.props.screenInfo.userPic,
+            user_ID: this.props.screenInfo._id,
+            picUrl: this.state.url,
+
+        })
+        
+            .then(res => {
+            console.log(res)
+
+                this.setState({ postID: res.data._id }, () => this.addPostID2());
+                
+            })
+
+            .then (result=>{
+                console.log(result)
+                
+
+                this.addPostID()
+            })
+
+            .catch(err => console.log(err));
+
+            this.setState({ statusPost: "",isActive:false })
+
+           
+    }
+
+
+
     addPostID = () => {
 
 
@@ -101,6 +135,24 @@ postSort =() =>{
 
 
     }
+
+    addPostID2 = () => {
+
+
+        API.postID2({
+            _id: this.props.userInfo.match.params.id,
+            post: this.state.postID
+        })
+
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+            
+
+
+
+    }
+
 
 
     submitComment = (id) => {
@@ -245,6 +297,7 @@ postSort =() =>{
             .then(res => console.log(res))
             .catch(err => console.log(err));
     }
+
 addingFriend=()=>{
 this.setState ({addFriend: !this.state.addFriend})
 
@@ -308,11 +361,9 @@ screenNameData =  () => {
 
         })
 
-        .catch(err => console.log(err));       
+        .catch(err => console.log(err));
 
 }
-
-
 
 refreshScreenFriends = () => {
 
@@ -333,15 +384,11 @@ refreshScreenFriends = () => {
 
 
 
+
+
     render() {
         
-        
-       console.log(this.props.screenInfo)
-     
-       
-        
-        
-
+ 
  
         return (
             this.state.screenUserID ===""?<div className="loading">Loading</div> :
@@ -356,20 +403,20 @@ refreshScreenFriends = () => {
                 <div className="button-div"> 
                 <div className= "follow-button"style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "visible" } : { display:"none" }}  > <Link to={"/editprofile/" + this.props.screenInfo._id}>edit profile</Link>     </div>
                 {/* <button className="friend-btn" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}>{(this.state.addFriend)?<i id= "friend-icon"class="fa fa-users fa-2x " aria-hidden="true" >+</i>:"UnFriend" }</button> */}
-                {(this.props.screenInfo.friends.includes(this.props.userInfo.match.params.id)) ?<button className="friend-btn2" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.removeFriend}>Unfriend</button> :  <button className="friend-btn" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}> <i id="friend-icon" className="fa fa-users fa-2x " aria-hidden="true" >+</i> </button>}
+                {(this.state.screenFriends.includes(this.props.userInfo.match.params.id)) ?<button className="friend-btn2" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.removeFriend}>Unfriend</button> :  <button className="friend-btn" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}> <i id="friend-icon" className="fa fa-users fa-2x " aria-hidden="true" >+</i> </button>}
                 <button className="photos-btn" ><Link to={"/scrphotos/" +this.props.userInfo.match.params.id}>Photos </Link> </button>
                 <button className="my-friends" ><Link to={"/scrFriends/" +this.props.userInfo.match.params.id} >My_Friends </Link> </button>
                 </div>
                 </div>
                 <section className="composeStatus">
-                    <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
+                    <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Write on your friends wall?" rows="8" cols="80" />
                     <div className="user-I">  <Link to={"/screenProfile/" + this.props.screenInfo._id}><img className="user-Img" src={(this.state.userPic!=undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users image" /> </Link>  </div>
                     <div className="buttons">
                    
                         <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i class="fas fa-camera-retro"></i></button>
                         <div className="button video"><i class="fas fa-video"></i></div>
                         <div className="button send">
-                            <button type="submit" className="postbutton" onClick={this.submitPost}>Post </button>
+                            <button type="submit" className="postbutton" onClick={this.submitFriendsPost}>Post </button>
                         </div>
                     </div>
                     <div>
@@ -492,4 +539,4 @@ each.likes.map((like) =>
 
 
 
-export default ScreenProfile;
+export default ScrFriendProfile;

@@ -136,7 +136,7 @@ class ScreenMessenger extends React.Component {
                                             <div className="onlineFriendName" onClick={(e) => 
                                                  this.setState({ isOpen: true, chFriendsName: uFriends.firstname + " " + uFriends.lastname, 
                                                 avatar:uFriends.userPic, user_id:uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.getChat()) } > 
-                                            {uFriends.firstname + " " + uFriends.lastname}</div>
+                                            {uFriends.screenName}</div>
                                             <div className="chatting"> <i class="far fa-comment"></i>
                                             </div>
 
