@@ -3,7 +3,7 @@ import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { storage } from "../../config/fire";
 import moment from "moment";
-class ProfileContent extends React.Component {
+class FriendProfile extends React.Component {
     state = {
         postID: "",
         statusPost: "",
@@ -91,10 +91,55 @@ class ProfileContent extends React.Component {
             .then(res => console.log(res))
             .catch(err => console.log(err));
 
+    }
 
+    
+    addPostID2 = () => {
+
+
+        API.postID({
+            _id: this.props.userInfo.match.params.id,
+            post: this.state.postID
+        })
+
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
 
     }
 
+    submitFriendsPost = () => {
+        API.savePost({
+            content: this.state.statusPost,
+            post_by: this.props.userInfo.userInfo.firstname + this.props.userInfo.userInfo.lastname,
+            post_by_pic: this.props.userInfo.userInfo.userPic,
+            user_ID: this.props.userInfo.userInfo.user_ID,
+            picUrl: this.state.url,
+        })
+            
+            .then(res => {
+
+
+                this.setState({ postID: res.data._id,isActive:false }, () => this.addPostID2());
+                console.log(res)
+                
+            })
+            .then (result=>{
+                console.log(result)
+                
+
+                this.addPostID()
+                this.listPost()
+            })
+
+
+            .catch(err => console.log(err));
+
+
+        this.setState({ statusPost: "" });
+        
+    }
+
+   
 
     submitComment = (id) => {
         API.saveComment(id, {
@@ -342,7 +387,7 @@ class ProfileContent extends React.Component {
                     </div>
                 </div>
                 <section className="composeStatus">
-                    <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
+                    <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Write on your friends wall" rows="8" cols="80" />
                     <div className="user-I">  <Link to={"/profile/" + this.props.userInfo.userInfo.user_ID}><img className="user-Img"  src={(this.state.userPic!=undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users pic" /> </Link>  </div>
                     <div className="buttons">
                    
@@ -351,7 +396,7 @@ class ProfileContent extends React.Component {
 
                         <div className="button video"><i class="fas fa-video"></i></div>
                         <div className="button send">
-                            <button type="submit" className="postbutton" onClick={this.state.statusPost ==="" && this.state.url ===""? null : this.submitPost}>Post </button>
+                            <button type="submit" className="postbutton" onClick={this.state.statusPost ==="" && this.state.url ===""? null : this.submitFriendsPost}>Post </button>
                         </div>
                     </div>
                     <div>
@@ -476,4 +521,4 @@ class ProfileContent extends React.Component {
 
 
 
-export default ProfileContent;
+export default FriendProfile;

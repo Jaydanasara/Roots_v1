@@ -81,6 +81,12 @@ export default {
     return axios.post("/api/usersData",userData);
   
   },
+
+  getFriendsinfo: function(userData) {
+  
+    return axios.post("/api/usersData/getFriendsInfo",userData);
+  
+  },
   
 
   getAllUsers:function(){

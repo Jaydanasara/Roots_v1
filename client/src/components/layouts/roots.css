@@ -1061,6 +1061,7 @@ button:focus {
     flex:1fr;
     max-width:300px ;
     margin: 2px;
+    padding: 5px;
 }
 
 

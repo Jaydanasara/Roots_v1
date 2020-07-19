@@ -89,6 +89,10 @@ router
 .route("/getScrPhotos")
 .post(usersDataController.showPics2);
 
+router
+.route("/getFriendsInfo")
+.post(usersDataController.getFriendsInfo);
+
   router
   .route("/screenData")
   .get(usersDataController.findAllScrUsers)

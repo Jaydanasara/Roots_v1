@@ -1,32 +1,32 @@
 import React from "react";
 import Fire from "../../config/fire";
 import Navbar from "../navbar/navbar";
+import ScrMiniBar from "../navbar/scrMiniBar";
+import LeftMenu from "../leftMenu/leftMenu"
+import FriendProfile from "../content/friendProfile";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
-import LeftMenu from "../leftMenu/leftMenu"
-import FriendsList from "../friendsList/friendsList"
-import ScreenName from "../screenName/screenName";
+import ScreenName from"../screenName/screenName";
 import API from "../../utils/API";
-import ScrMiniBar from "../navbar/scrMiniBar";
-import SideDrawer from "../../components//sideDrawer/sideDrawer";
+import  {getUser} from"../../store/actions/userActions"
+import SideDrawer from "../sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 // import "./roots.css";
 
-class FriendsPage extends React.Component {
+class FriendProfileLayout extends React.Component {
 
-   
+
     constructor(props)  {
         super(props)
-        this.state= {
+    this.state= {
         screenNameInfo:{},
         isLoading: true,
         isUserPage:true,
         sideDrawerOpen:false,
-        friends:[]
+
     }
     }
     componentDidMount(){
-        this.getFriends()
         this.screenNameData()
     }
 
@@ -40,20 +40,6 @@ class FriendsPage extends React.Component {
         });
     }
 
-    getFriends=() =>{
-        API.getFriendsinfo({_id:this.props.match.params.id})
-
-        .then (res=>{
-            this.setState({friends:res.data[0].friends})
-            
-        })
-        .catch(err=> console.log(err));
-    }
-
-
-
-
-    
     drawToggleClickHandler=()=>{
         this.setState((prevState)=>{
             return {sideDrawerOpen:!prevState.sideDrawerOpen};
@@ -63,6 +49,10 @@ class FriendsPage extends React.Component {
     backDropHandler=()=>{
         this.setState({sideDrawerOpen:false})
     };
+
+
+
+
     
     screenNameData = () => {
 
@@ -80,34 +70,36 @@ class FriendsPage extends React.Component {
 
     }
 
+
+
     render() {
-        
         let backDrop;
        
         if(this.state.sideDrawerOpen){
          backDrop = <BackDrop click={this.backDropHandler }/>;
         }
 
+
         return (
+            
             this.state.isLoading === true ?<div className="loading">Loading</div> :
             <div className="app-container">
         
                 <section id="left-menu">
-                  <LeftMenu/>
-                  <ScrMiniBar userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
-                  <ScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+                   <LeftMenu/>
+                   <ScrMiniBar  userInfo={this.props.userInfo}  screenInfo={this.state.screenNameInfo}/>
+                   <ScreenName disState={this.props} userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
                 </section>
 
 
                 <section className="content-Container">
                   
                         
-                <Navbar drawerClickHandler={this.drawToggleClickHandler}  whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
-                         
-                            <FriendsList userInfo={this.props.userInfo} friendsinfo={this.state.friends}/>
+                <Navbar drawerClickHandler={this.drawToggleClickHandler} whichName={this.state.isUserPage}  userInfo={this.props.userInfo} />
+                            <FriendProfile userInfo={this.props} disState={this.props} />
+                            
                             <SideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}
-
                       
                     
                 </section>
@@ -123,7 +115,11 @@ class FriendsPage extends React.Component {
 
 };
 
-
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        getUser: ( currentUserInfo) => dispatch (getUser(currentUserInfo))
+    }
+}
 
 const mapStateToProps = (state)=>{
     console.log(state)
@@ -134,7 +130,7 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(  mapStateToProps ) (FriendsPage);
+export default connect(  mapStateToProps,mapDispatchToProps) (FriendProfileLayout);
 
 
 

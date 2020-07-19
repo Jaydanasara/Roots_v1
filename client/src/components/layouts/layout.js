@@ -28,13 +28,13 @@ class Layout extends React.Component {
     }
     }
  componentDidMount(){
-        
-        if (this.props.userInfo.emailaddress==="" ){
-            this.logout()
-        }
-        else{
-            this.screenNameData()
-        }
+    this.screenNameData()
+        // if (this.props.userInfo.emailaddress==="" ){
+        //     this.logout()
+        // }
+        // else{
+        //     this.screenNameData()
+        // }
     }
 
 
@@ -61,6 +61,7 @@ class Layout extends React.Component {
 
 
     screenNameData = () => {
+        console.log(this.props)
 
         API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID, })
 
@@ -95,7 +96,7 @@ class Layout extends React.Component {
                 <section id="left-menu">
                   <LeftMenu/>
                   <ScrMiniBar userInfo= {this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
-                    <ScreenName disState={this.props} userInfo= {this.props.userInfo} screenInfo={this.state.screenNameInfo} />
+                    <ScreenName screenInfo={this.state.screenNameInfo} disState={this.props} userInfo= {this.props.userInfo}  />
                 </section>
 
 

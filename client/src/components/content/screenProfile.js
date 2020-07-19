@@ -393,10 +393,10 @@ refreshScreenFriends = () => {
                 
                 <div className="feed_Container">
                 <div className="friendsPostinfo">
-                    <a className="friends-I" href="/profile"><img className="friendsImg" src={(each.post_by_pic!=undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" />  </a>
-                    <div className="friendsInfo"> <a href="/profile" className="friendInfoLink">{each.post_by}</a>shared a  &nbsp;
+                    <a className="friends-I" ><Link to ={"/scrFriendProfile/"+ each.user_ID}><img className="friendsImg" src={(each.post_by_pic!=undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /> </Link> </a>
+                    <div className="friendsInfo"> <div> <Link to ={"/scrFriendProfile/"+each.user_ID}>{each.post_by} </Link> </div> &nbsp; shared a &nbsp;
                    {/* <a href="/profile">{(each.picUrl=== undefined)?  "story":"image"}</a>  </div> */}
-                   <Link to={"/profile/" + each.user_ID}>{(each.picUrl === "") ? " story " :  " image "}</Link>  </div>                
+                   <Link to={"/scrFriendProfile/" + each.user_ID}>{(each.picUrl === "") ? " story " :  " image "}</Link>  </div>                
                 </div>
                 <div className="uploadedInfo">
                 {/* <div className={`${(each.picUrl === undefined) ? "story" : "upImage"}`}><img className={`${(each.picUrl === undefined) ? "story" : "upImage"}`} src={each.picUrl} alt= "uploaded image"/></div> */}

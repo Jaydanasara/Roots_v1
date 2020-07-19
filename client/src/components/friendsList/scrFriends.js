@@ -52,7 +52,7 @@ class ScrFriends extends React.Component {
         return (
             <div className="contentArea ">
 
-                <div className="friendsHeader"><h1>Your Friends</h1></div>
+                <div className="friendsHeader"><h1>{this.props.screenInfo.screenName }'s Friends</h1></div>
                 <section className="feed ">
 
                     {this.state.allUsersFriends.length ? (
@@ -67,7 +67,7 @@ class ScrFriends extends React.Component {
                                       
                                       <a className="friend" href="#"><img className="friend" src= {content.userPic} />  </a>
                                       
-                                      <div className="friend" > <Link to={"/profile/" + content._id}> {content.screenName} </Link> </div>
+                                      <div className="friend" > <Link to={"/screenProfile/" + content._id}> {content.screenName} </Link> </div>
 
                                     </div>
 

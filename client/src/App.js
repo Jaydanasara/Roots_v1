@@ -6,6 +6,7 @@ import Fire from "./config/fire";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Lostpassword from "./components/lostpassword/lostPassword";
 import Profile from "./components/layouts/profile";
+import FriendProfileLayout from "./components/layouts/friendProfileLayout";
 import EditProfile from "./components/editProfile/editProfile";
 import FriendsPage from "./components/layouts/friendsPage";
 import { connect } from "react-redux";
@@ -37,7 +38,7 @@ class App extends Component {
 
   authListener() {
     Fire.auth().onAuthStateChanged((user) => {
-      console.log(user);
+      
       if (user) {
         this.setState({ user });
 
@@ -70,8 +71,9 @@ class App extends Component {
                 <Route exact path="/" render={() => this.state.user ? (<Layout />) : (<Homelayout />)} />
                 <Route path="/lostPassword" component={Lostpassword} />
                 <Route exact path="/profile/:id" component={Profile} />
+                <Route exact path="/friendProfile/:id" component={FriendProfileLayout} />
                 <Route exact path="/editprofile/:id" component={EditProfile } />
-                <Route exact path="/friends" component={FriendsPage } />
+                <Route exact path="/friends/:id" component={FriendsPage } />
                 <Route exact path="/photos/:id" component={UserPhotos} />
                 <Route exact path="/lgScreen" component={ScreenLayout} />
                 <Route exact path="/screenProfile/:id" component={ScrProLayout} />

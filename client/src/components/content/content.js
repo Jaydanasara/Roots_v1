@@ -100,6 +100,8 @@ class Content extends React.Component {
 
     }
 
+    
+
 
     refreshState = () => {
         const updatePost = {
@@ -308,8 +310,8 @@ class Content extends React.Component {
 
                                     <div className="feed_Container" key={content._id} >
                                         <div className="friendsPostinfo">
-                                            <a className="friends-I" > <Link to={"/profile/" + content.user_ID}> <img className="friendsImg" src={(content.post_by_pic!=undefined) ? content.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /></Link>  </a>
-                                            <div className="friendsInfo"> <Link to={"/profile/" + content.user_ID}>{content.post_by}</Link> &nbsp; shared a &nbsp; <a href="#">{(content.picUrl === "") ? "story" : "image"}</a>  </div>
+                                            <a className="friends-I" > <Link to={"/friendProfile/" + content.user_ID}> <img className="friendsImg" src={(content.post_by_pic!=undefined) ? content.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /></Link>  </a>
+                                            <div className="friendsInfo"> <Link to={"/friendProfile/" + content.user_ID}>{content.post_by}</Link> &nbsp; shared a &nbsp; <a href="#">{(content.picUrl === "") ? "story" : "image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
                                             {(content.picUrl === "") ? <div className="story"> </div> :

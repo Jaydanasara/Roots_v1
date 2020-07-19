@@ -21,7 +21,10 @@ class FriendsList extends React.Component {
 
     listUsersFriends = () => {
 
-        API.getFriendsList({ friends: this.props.userInfo.friends, })
+        console.log(this.props.userInfo.friends)
+        
+        console.log(this.props.friendsinfo)
+        API.getFriendsList({ friends: this.props.friendsinfo })
 
             .then(res => {
                 

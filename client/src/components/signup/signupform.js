@@ -56,7 +56,7 @@ class SignupForm extends React.Component {
             );
         } else if (this.state.password !== this.state.name) {
             alert("You Passwords do not match");
-        }else if (this.state.age<18 || this.state.age.length==0){
+        }else if (this.state.age<18 || this.state.age.length===0){
             alert("You must be 18 or older to join this site");
         }else if(isNaN(this.state.age)){
             alert("You must enter a number")
