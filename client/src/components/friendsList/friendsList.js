@@ -1,7 +1,7 @@
 import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
-import { storage } from "../../config/fire";
+
 class FriendsList extends React.Component {
     state = {
        
@@ -48,13 +48,13 @@ class FriendsList extends React.Component {
  
 
     render() {
-        const user = this.props.userInfo
+      
        
 
         return (
             <div className="contentArea ">
 
-                <div className="friendsHeader"><h1>Your Friends</h1></div>
+                <div className="friendsHeader"><h1>{this.props.firstName}'s Friends</h1></div>
                 <section className="feed ">
 
                     {this.state.allUsersFriends.length ? (
@@ -67,7 +67,7 @@ class FriendsList extends React.Component {
 
                                     <div className="friends"  key={content._id} >
                                       
-                                      <a className="friend" href="#"><img className="friend" src= {content.userPic} />  </a>
+                                      <div className="friend"><Link to={"/profile/" + content._id}><img className="friend" src= {content.userPic} alt= "users pic" /></Link>  </div>
                                       
                                       <div className="friend" > <Link to={"/profile/" + content._id}> {content.firstname} {" "} {content.lastname} </Link> </div>
 

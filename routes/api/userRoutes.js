@@ -130,6 +130,10 @@ router
   .post(usersDataController.saveChats);
 
   router
+  .route("/getChData")
+  .post(usersDataController.getAllChats);
+
+  router
   .route("/addScreenPhoto")
   .put(usersDataController.update2);
 

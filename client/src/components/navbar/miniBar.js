@@ -12,7 +12,6 @@ class MiniBar extends React.Component {
 
 
 
-        const user = this.props.userInfo;
         return (
 
             <div className="navigation">

@@ -22,7 +22,9 @@ class FriendsPage extends React.Component {
         isLoading: true,
         isUserPage:true,
         sideDrawerOpen:false,
-        friends:[]
+        friends:[],
+        firstname:"",
+        lastname:"",
     }
     }
     componentDidMount(){
@@ -44,8 +46,8 @@ class FriendsPage extends React.Component {
         API.getFriendsinfo({_id:this.props.match.params.id})
 
         .then (res=>{
-            this.setState({friends:res.data[0].friends})
-            
+            this.setState({friends:res.data[0].friends,firstname:res.data[0].firstname,lastname:res.data[0].lastname})
+            console.log(res.data)
         })
         .catch(err=> console.log(err));
     }
@@ -104,13 +106,13 @@ class FriendsPage extends React.Component {
                         
                 <Navbar drawerClickHandler={this.drawToggleClickHandler}  whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                          
-                            <FriendsList userInfo={this.props.userInfo} friendsinfo={this.state.friends}/>
+                            <FriendsList userInfo={this.props.userInfo} friendsinfo={this.state.friends} firstName={this.state.firstname} lastName={this.state.lastname}/>
                             <SideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}
 
                       
                     
-                </section>
+                </section> 
                 <section className="messenger-area">
                 <Messenger userInfo={this.props.userInfo} />
                 </section>

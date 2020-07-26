@@ -68,7 +68,7 @@ class Navbar extends React.Component {
         }
         return (
             <ul className="srch_resp_cont">
-                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/profile/" + item._id}><img className="search-Img" src={item.userPic} />{item.firstname} {" "}{item.lastname} </Link> </li>)}
+                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/friendProfile/" + item._id}><img className="search-Img" src={item.userPic} alt ="users pic"/>{item.firstname} {" "}{item.lastname} </Link> </li>)}
             </ul>
         )
 
@@ -96,7 +96,7 @@ class Navbar extends React.Component {
 
 
 
-        const user = this.props.userInfo;
+       
         return (
             this.state.isLoading === true ? <div className="loading">Loading</div> :
                 <div className="navigation">
@@ -147,10 +147,10 @@ class Navbar extends React.Component {
 
                             <button id="searchButton" className="btn btn-outline-secondary" type="submit"><i id="searchIcon" className="fa fa-search"></i> </button>
                             <div className="navIcons">
-                                <div className="bellNotifications">
-                                    <i id="bell" className="fas fa-bell"></i>
-                                    <div className="notificationNumber">13</div>
-                                </div>
+                            <Link to = "/inbox"> <div className="bellNotifications">
+                                   <i id="bell" className="fas fa-bell"></i>
+                                    <div className="notificationNumber">12</div>
+                                </div></Link>
                                 <div className="commentNotifications">
                                     <i id="note" className="fas fa-sticky-note"></i>
                                     <div className="notificationNumber">13</div>

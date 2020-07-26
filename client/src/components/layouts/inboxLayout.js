@@ -2,7 +2,7 @@ import React from "react";
 import Fire from "../../config/fire";
 import Navbar from "../../components/navbar/navbar";
 import ScrMiniBar from "../../components/navbar/scrMiniBar";
-import Content from "../content/content";
+import Inbox from "../../components/inbox/inbox";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../../components/leftMenu/leftMenu"
@@ -16,7 +16,7 @@ import BackDrop from "../sideDrawer/backDrop/backDrop";
 
 
 
-class Layout extends React.Component {
+class InboxLayout extends React.Component {
 
     constructor(props)  {
         super(props)
@@ -105,7 +105,7 @@ class Layout extends React.Component {
                         
                             <Navbar drawerClickHandler={this.drawToggleClickHandler} screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                           
-                            <Content userInfo={this.props.userInfo} disState={this.props}/>
+                            <Inbox userInfo={this.props.userInfo} disState={this.props}/>
                             <SideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}
 
@@ -145,7 +145,7 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(  mapStateToProps,mapDispatchToProps) (Layout);
+export default connect(  mapStateToProps,mapDispatchToProps) (InboxLayout);
 
 
 

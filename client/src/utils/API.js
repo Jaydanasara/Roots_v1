@@ -193,6 +193,13 @@ export default {
   
   },
 
+  getAllMessages : function(chatData) {
+    console.log(chatData)
+    return axios.post("/api/usersData/getChData",chatData);
+  
+  },
+
+
   logMessage: function(id,chatData){
   
     return axios.post("/api/usersData/chatData/"+id,chatData);

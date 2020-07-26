@@ -16,9 +16,10 @@ class Modal extends React.Component {
 
 
 
-    
 
-    componentDidMount(){
+
+    componentDidMount() {
+        console.log(this.props.isOpen)
         this.initSocket()
     }
 
@@ -32,25 +33,25 @@ class Modal extends React.Component {
 
 
 
-	initSocket = ()=>{
+    initSocket = () => {
 
-		const socket = io(socketUrl)
-
-
-
-		socket.on('connect', ()=>{
-
-			console.log("Connected");
-
-		})
-        this.setState({socket})
+        const socket = io(socketUrl)
 
 
-        
 
-		
+        socket.on('connect', () => {
 
-	}
+            console.log("Connected");
+
+        })
+        this.setState({ socket })
+
+
+
+
+
+
+    }
 
 
 
@@ -62,10 +63,10 @@ class Modal extends React.Component {
 
 
     sendChat = (id) => {
-        socket.emit("message",this.state.content)
+        socket.emit("message", this.state.content)
         API.logMessage(id, {
             content: this.state.content,
-            sender: this.props.userInfo.firstname,
+            sender: this.props.sender,
             receiverHasRead: false
         })
 
@@ -75,10 +76,10 @@ class Modal extends React.Component {
                 console.log(res)
             })
             .catch(err => console.log(err));
-            socket.on('message', (data) => {
-                console.log(data);
-                this.props.getChat()
-              })
+        socket.on('message', (data) => {
+            console.log(data);
+            this.props.getChat()
+        })
     }
 
 
@@ -90,18 +91,21 @@ class Modal extends React.Component {
 
 
 
-        console.log(this.props.userInfo.firstname)
+        console.log(this.props.allChatInfo)
 
         return (
             !this.props.isOpen ?
                 <div></div>
                 :
 
-                this.props.allChatInfo.length === 0 ?
-                    <div></div>
-                    :
+                // this.props.allChatInfo.length === 0 ?
+                //     <div>
 
-                    this.state.newChatInfo.length === 0 ?
+
+                //     </div>
+                //     :
+
+                //     this.state.newChatInfo.length === 0 ?
 
                         <div className="modalContainer ">
 
@@ -113,23 +117,33 @@ class Modal extends React.Component {
 
 
                             <div className="modalContainer">
+                            <div className="messageDisplay" id="messageScroll"  >
+                                <div className="modalHeader">
+                                    <div className="chatFriendName" >{this.props.chFriendsName} <button className="close" onClick={this.props.onClose}>X</button></div>
+                                </div>
+                                
+
                                 {this.props.allChatInfo.map(chats => {
 
                                     return (
 
-                                        <div>
+                                        <div key={chats._id}>
 
 
-                                            <div className="messageDisplay" id="messageScroll"  key={chats._id} >
-                                                <div className="modalHeader">
-                                                    <div className="chatFriendName" >{chats.usersFirstNames} <button className="close" onClick={this.props.onClose}>X</button></div>
-                                                </div>
+                                            
+
 
 
                                                 <div>
+                                                {
+                                              
+                                                (chats.messages.length==null)?
+                                                       <div className="mapMesages">test</div>:
 
-
-                                                    <div className="mapMesages">{
+                                                    <div className="mapMesages">
+                                                       
+                                                        
+                                                        {
                                                         chats.messages.map((message) =>
                                                             <div className="messageContainer" id>
                                                                 <div >
@@ -141,16 +155,18 @@ class Modal extends React.Component {
 
                                                         )}
 
-
+                                                        
                                                     </div>
+                                }
                                                 </div>
 
-                                            </div>
+                                            
                                         </div>
 
                                     );
                                 })
                                 }
+                                </div>
                             </div>
 
 
@@ -173,8 +189,8 @@ class Modal extends React.Component {
                             </div>
 
                         </div>
-                        :
-                        <div></div>
+                        // :
+                        // <div></div>
 
         )
     }

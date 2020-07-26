@@ -223,7 +223,7 @@ addToPhotos =() =>{
                                         </div>
                                         <div className="uploadedInfo">
                                               {(content.picUrl === "")? <div className="story"> </div>:
-                                            <div className= "miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl} alt="uploaded image" /></div>
+                                            <div className= "miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl}  /></div>
                                                 }
                                         </div>
                                         <div className="colorBackground">

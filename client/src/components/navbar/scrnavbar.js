@@ -69,7 +69,7 @@ class ScrNavbar extends React.Component {
         }
         return (
             <ul className="srch_resp_cont">
-                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/scrFriendProfile/"  + item._id}><img className="search-Img" src={item.userPic} />{item.screenName} </Link> </li>)}
+                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/scrFriendProfile/"  + item._id}><img className="search-Img" src={item.userPic} alt="users pic" />{item.screenName} </Link> </li>)}
             </ul>
         )
 
@@ -97,7 +97,6 @@ class ScrNavbar extends React.Component {
 
 
 
-        const user = this.props.userInfo;
         return (
             this.state.isLoading === true ? <div className="loading">Loading</div> :
                 <div className="navigation">

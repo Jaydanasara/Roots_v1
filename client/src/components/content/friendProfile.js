@@ -373,7 +373,7 @@ class FriendProfile extends React.Component {
             <div className="contentArea ">
                 <div className="profile-container">
                     <div className="profile-image">
-                        <img src={(this.state.userPic!=undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users pic" />
+                        <img src={(this.state.userPic!==undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users pic" />
                     </div>
                     <div className="profile-info">
                         {fullName}
@@ -388,7 +388,7 @@ class FriendProfile extends React.Component {
                 </div>
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Write on your friends wall" rows="8" cols="80" />
-                    <div className="user-I">  <Link to={"/profile/" + this.props.userInfo.userInfo.user_ID}><img className="user-Img"  src={(this.state.userPic!=undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users pic" /> </Link>  </div>
+                    <div className="user-I">  <Link to={"/profile/" + this.props.userInfo.userInfo.user_ID}><img className="user-Img"  src={(this.state.userPic!==undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users pic" /> </Link>  </div>
                     <div className="buttons">
                    
                         <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i class="fas fa-camera-retro"></i></button>
@@ -420,13 +420,13 @@ class FriendProfile extends React.Component {
 
                                     <div className="feed_Container" key={each.user_ID}>
                                         <div className="friendsPostinfo">
-                                            <a className="friends-I"><Link to ={"/profile/"+ each.user_ID}><img className="friendsImg" src={(each.post_by_pic!=undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /> </Link> </a>
+                                            <div className="friends-I"><Link to ={"/profile/"+ each.user_ID}><img className="friendsImg" src={(each.post_by_pic!==undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /> </Link> </div>
                                             <div className="friendsInfo"> <Link to ={"/profile/"+ each.user_ID}>{each.post_by}</Link> shared a &nbsp;
                                             <a href="/profile">{(each.picUrl === "") ? "story" : "image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
                                         {(each.picUrl === "") ? <div className="story"> </div> :
-                                         <div className="miniUpImage"><img className={`${(each.picUrl === "") ? "story" : "upImage"}`} src={each.picUrl} alt="uploaded image" /></div>}
+                                         <div className="miniUpImage"><img className={`${(each.picUrl === "") ? "story" : "upImage"}`} src={each.picUrl} alt="uploaded pic" /></div>}
                                             
                                         </div>
                                         <div className="colorBackground">

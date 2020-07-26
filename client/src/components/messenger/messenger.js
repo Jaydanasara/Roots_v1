@@ -1,7 +1,6 @@
 import React from "react";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
-import Content from "../content/content";
 import Modal from "../modal/modal";
 
 
@@ -13,7 +12,7 @@ class Messenger extends React.Component {
         allFriends: [],
         isOpen:false,
         chFriendsName:"",
-        user_id:"",
+        chFriends_id:"",
         avatar:"",
         chFriendsEmailaddress:"",
         messageID:"",
@@ -25,6 +24,7 @@ class Messenger extends React.Component {
     
     componentWillMount() {
         this.listFriends()
+       
     }
 
 
@@ -35,7 +35,7 @@ class Messenger extends React.Component {
 
     listFriends = () => {
 
-        API.getFriendsList({ friends: this.props.userInfo.friends, })
+        API.getFriendsList({friends: this.props.userInfo.friends})
 
             .then(res => {
 
@@ -52,12 +52,14 @@ class Messenger extends React.Component {
 
     getChat=()=>{
     
-        let chatMembers=[this.state.chFriendsEmail, this.props.userInfo.emailaddress]
+        let chatMembers=[this.state.chFriends_id, this.props.userInfo.user_ID]
         chatMembers.sort()
         console.log (chatMembers)
         API.getConvo({users:chatMembers})
         
         .then(res => {
+            console.log(res)
+            console.log(this.state.isOpen)
             if (res.data===null){
                 this.saveConvo()
             }else{
@@ -73,19 +75,20 @@ class Messenger extends React.Component {
     
     saveConvo=()=>{
 
-        let chatMembers=[this.state.chFriendsEmail, this.props.userInfo.emailaddress]
+        let chatMembers=[this.state.chFriends_id, this.props.userInfo.user_ID]
         chatMembers.sort()
         console.log (chatMembers)
 
         API.saveChat({
-            usersFirstNames:[this.state.chFriendsName],
+            usersFirstNames:[this.state.chFriendsName,this.props.userInfo.firstname],
            
             users:chatMembers,
-            user_id:this.state.user_id
+            user_id:this.state.chFriends_id
         })
     
         .then(res => {
-            this.setState({messageID:res.data._id})
+            console.log(res)
+            this.setState({messageID:res.data._id, allChatInfo:[res.data]})
         })
         .catch(err => console.log(err));
      
@@ -127,12 +130,12 @@ class Messenger extends React.Component {
                                         <div className="chatFriends active">
                                             <div className="onlineFriendI">
                                                 <a className="friends-I" > 
-                                                <Link to={"/profile/" + uFriends._id}> <img className="onlineFriendImg" src={uFriends.userPic} /> 
+                                                <Link to={"/profile/" + uFriends._id}> <img className="onlineFriendImg" src={(uFriends.userPic!==undefined) ? uFriends.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"}  alt = " friends pic" /> 
                                                 </Link> </a>
                                             </div>
                                             <div className="onlineFriendName" onClick={(e) => 
                                                  this.setState({ isOpen: true, chFriendsName: uFriends.firstname + " " + uFriends.lastname, 
-                                                avatar:uFriends.userPic, user_id:uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.getChat()) } > 
+                                                avatar:uFriends.userPic, chFriends_id:uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.getChat()) } > 
                                             {uFriends.firstname + " " + uFriends.lastname}</div>
                                             <div className="chatting"> <i class="far fa-comment"></i>
                                             </div>
@@ -148,7 +151,7 @@ class Messenger extends React.Component {
                     </div>
                     <div className="modalBox">
 
-                        <Modal allChatInfo={this.state.allChatInfo} userInfo={this.props.userInfo}  isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
+                        <Modal allChatInfo={this.state.allChatInfo} userInfo={this.props.userInfo} sender={this.props.userInfo.firstname} isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
                         user_id={this.state.user_id} messageID={this.state.messageID} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })} />
                     </div>
                     <div className="chatSearch">

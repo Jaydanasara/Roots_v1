@@ -26,8 +26,8 @@ class Header extends React.Component {
             e.preventDefault();
             
             Fire.auth().signInWithEmailAndPassword(this.state.emailaddress,this.state.password)
-            .then(u=>{
-                console.log(u)
+            .then(authRes=>{
+                console.log(authRes)
                 this.props.getUser(this.state)
             })
             

@@ -291,6 +291,16 @@ createScreenInfo: function(req, res) {
 
   },
 
+  getAllChats:function(req, res) {
+    console.log(req.body.user_id)
+    db.chatsData
+     .find({user_id:req.body.user_id})
+     
+     .then(dbModel => res.json(dbModel))
+     .catch(err => res.status(422).json(err));
+
+  },
+
   updateMessage: function(req, res) {
    let theMessage={content:req.body.content,sender:req.body.sender};
 

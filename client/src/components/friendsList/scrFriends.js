@@ -1,7 +1,7 @@
 import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
-import { storage } from "../../config/fire";
+
 class ScrFriends extends React.Component {
     state = {
        
@@ -45,8 +45,7 @@ class ScrFriends extends React.Component {
  
 
     render() {
-        const user = this.props.userInfo
-        console.log(this.props)
+        
        
 
         return (
@@ -65,7 +64,7 @@ class ScrFriends extends React.Component {
 
                                     <div className="friends"  key={content._id} >
                                       
-                                      <a className="friend" href="#"><img className="friend" src= {content.userPic} />  </a>
+                                      <a className="friend" href="#"><img className="friend" src= {content.userPic} alt="friends pic"/>  </a>
                                       
                                       <div className="friend" > <Link to={"/screenProfile/" + content._id}> {content.screenName} </Link> </div>
 

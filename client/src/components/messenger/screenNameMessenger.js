@@ -1,7 +1,6 @@
 import React from "react";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
-import Content from "../content/content";
 import Modal from "../modal/modal";
 
 
@@ -13,7 +12,7 @@ class ScreenMessenger extends React.Component {
         allFriends: [],
         isOpen:false,
         chFriendsName:"",
-        user_id:"",
+        chatFriends_id:"",
         avatar:"",
         chFriendsEmailaddress:"",
         messageID:"",
@@ -24,6 +23,7 @@ class ScreenMessenger extends React.Component {
 
     
     componentWillMount() {
+        console.log(this.props.screenInfo)
          this.listFriends()
     }
 
@@ -35,7 +35,7 @@ class ScreenMessenger extends React.Component {
 
     listFriends = () => {
 
-        API. getScreenFriends({ friends:this.props.screenInfo.friends })
+        API.getScreenFriends({ friends:this.props.screenInfo.friends })
 
             .then(res => {
 
@@ -55,7 +55,7 @@ class ScreenMessenger extends React.Component {
 
     getChat=()=>{
     
-        let chatMembers=[this.state.chFriendsEmail, this.props.userInfo.emailaddress]
+        let chatMembers=[this.state.chFriends_id, this.props.screenInfo._id]
         chatMembers.sort()
         console.log (chatMembers)
         API.getConvo({users:chatMembers})
@@ -76,19 +76,19 @@ class ScreenMessenger extends React.Component {
     
     saveConvo=()=>{
 
-        let chatMembers=[this.state.chFriendsEmail, this.props.userInfo.emailaddress]
+        let chatMembers=[this.state.chFriends_id, this.props.screenInfo._id]
         chatMembers.sort()
         console.log (chatMembers)
 
         API.saveChat({
-            usersFirstNames:[this.state.chFriendsName],
+            usersFirstNames:[this.state.chFriendsName, this.props.screenInfo.screenName],
            
             users:chatMembers,
-            user_id:this.state.user_id
+            user_id:this.state.chFriends_id
         })
     
         .then(res => {
-            this.setState({messageID:res.data._id})
+            this.setState({messageID:res.data._id, allChatInfo:[res.data]})
         })
         .catch(err => console.log(err));
      
@@ -125,17 +125,18 @@ class ScreenMessenger extends React.Component {
 
                             <div>
                                 {this.state.allFriends.map(uFriends => {
+                                  
                                     return (
 
                                         <div className="chatFriends active">
                                             <div className="onlineFriendI">
                                                 <a className="friends-I" > 
-                                                <Link to={"/profile/" + uFriends._id}> <img className="onlineFriendImg" src={uFriends.userPic} /> 
+                                                <Link to={"/profile/" + uFriends._id}> <img className="onlineFriendImg" src={(uFriends.userPic!==undefined) ? uFriends.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt = "friends pic" /> 
                                                 </Link> </a>
                                             </div>
                                             <div className="onlineFriendName" onClick={(e) => 
-                                                 this.setState({ isOpen: true, chFriendsName: uFriends.firstname + " " + uFriends.lastname, 
-                                                avatar:uFriends.userPic, user_id:uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.getChat()) } > 
+                                                 this.setState({ isOpen: true, chFriendsName: uFriends.screenName, 
+                                                avatar:uFriends.userPic, chFriends_id:uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.getChat()) } > 
                                             {uFriends.screenName}</div>
                                             <div className="chatting"> <i class="far fa-comment"></i>
                                             </div>
@@ -151,7 +152,7 @@ class ScreenMessenger extends React.Component {
                     </div>
                     <div className="modalBox">
 
-                        <Modal allChatInfo={this.state.allChatInfo} userInfo={this.props.userInfo}  isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
+                        <Modal allChatInfo={this.state.allChatInfo} userInfo={this.props.userInfo} sender={this.props.userInfo.screenName} isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
                         user_id={this.state.user_id} messageID={this.state.messageID} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })} />
                     </div>
                     <div className="chatSearch">

@@ -250,7 +250,7 @@ addToPhotos =() =>{
 
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">   <Link to={"/screenprofile/" + this.props.screenInfo._id}><img className="user-Img" src={(user.userPic!=undefined) ? user.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"}   alt="users pic" /> </Link>  </div>
+                    <div className="user-I">   <Link to={"/screenprofile/" + this.props.screenInfo._id}><img className="user-Img" src={(user.userPic!==undefined) ? user.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"}   alt="users pic" /> </Link>  </div>
                     <div className="buttons">
                         <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
                         <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
@@ -280,13 +280,13 @@ addToPhotos =() =>{
 
                                     <div className="feed_Container"  key={content._id} >
                                         <div className="friendsPostinfo">
-                                            <a className="friends-I" > <Link to={"/scrFriendProfile/"  + content.user_ID}> <img className="friendsImg" src={(content.post_by_pic!=undefined) ? content.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"}    /></Link>  </a>
+                                            <a className="friends-I" > <Link to={"/scrFriendProfile/"  + content.user_ID}> <img className="friendsImg" src={(content.post_by_pic!==undefined) ? content.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"}    /></Link>  </a>
                                             <div className="friendsInfo"> <div><Link to={"/scrFriendProfile/"  + content.user_ID}>{content.post_by} </Link></div> &nbsp; shared a &nbsp;
                                             <Link to={"/scrFriendProfile/" + content.user_ID}>{(content.picUrl === "") ? " story " :  " image "}</Link>  </div>
                                         </div>
                                         <div className="uploadedInfo">
                                               {(content.picUrl === "")? <div className="story"> </div>:
-                                            <div className= "miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl} alt="uploaded image" /></div>
+                                            <div className= "miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl} alt="uploaded pic" /></div>
                                                 }
                                         </div>
                                         <div className="colorBackground">
@@ -315,7 +315,7 @@ addToPhotos =() =>{
                                             <div className="mapComments">{
                                             content.comments.map((comment,picUrl)=>
                                             <div key={picUrl}className="commentList">{moment(comment.dateCreated).calendar()} <span> &nbsp; <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
-                                                 <div className={comment.picUrl ===""?"commentPic":"nocommentPic"}><img className="commentUrl" src={comment.picUrl}/></div></div>
+                                                 <div className={comment.picUrl ===""?"commentPic":"nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt = "commentpic"/></div></div>
                                                 )}
                                                 <div className="responseComments">
                                                 <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />

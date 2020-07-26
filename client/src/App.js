@@ -18,6 +18,7 @@ import ScreenPhotos from  './components/layouts/screenPhotos';
 import ScrFriendsPage from './components/layouts/scrFriendsPage';
 import MessenLayout from './components/layouts/messenLayout';
 import ScrMessenLayout from './components/layouts/scrMessenLayout';
+import InboxLayout from "./components/layouts/inboxLayout";
 
 class App extends Component {
   constructor(props) {
@@ -82,6 +83,7 @@ class App extends Component {
                 <Route exact path="/scrFriends/:id" component={ScrFriendsPage} />
                 <Route exact path="/messenger" component={MessenLayout} />
                 <Route exact path="/scrmessenger" component={ScrMessenLayout} />
+                <Route exact path="/inbox" component={InboxLayout} />
               </Switch>
             </div>
           </Router>
