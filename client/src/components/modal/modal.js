@@ -147,8 +147,8 @@ class Modal extends React.Component {
                                                         chats.messages.map((message) =>
                                                             <div className="messageContainer" id>
                                                                 <div >
-                                                                    <div className={`${(message.sender === this.props.userInfo.firstname) ? "sender" : "otherSender"}`}>  {message.sender} </div>
-                                                                    <div className={`${(message.sender === this.props.userInfo.firstname) ? "theMessage" : "otherMessage"}`}><p>{message.content}</p> </div>
+                                                                    <div className={`${(message.sender === this.props.sender) ? "sender" : "otherSender"}`}>  {message.sender} </div>
+                                                                    <div className={`${(message.sender === this.props.sender) ? "theMessage" : "otherMessage"}`}><p>{message.content}</p> </div>
 
                                                                 </div>
                                                             </div>
@@ -185,6 +185,12 @@ class Modal extends React.Component {
                             <div className="messageBtnDiv">
 
                                 <button type="submit" className="messageBtn" onClick={() => this.sendChat(this.props.messageID)}>  send    </button>
+                               <div  className = "attachFile">
+                                <button type="button" className="attachFileBtn"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
+                                </div>
+
+                                <div className="callFriend"> <button type = "button" className="phoneButton"><i class="fa fa-phone" aria-hidden="true"></i></button></div>
+
 
                             </div>
 

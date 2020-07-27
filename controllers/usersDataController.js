@@ -163,7 +163,7 @@ findAllScrUsers:function(req, res) {
   },
 
   updateLikes: function(req, res) {
-    console.log("controler")
+   
     db.postData
       .findByIdAndUpdate({ _id: req.params.id },  {$push:{likes: req.body}},{new:true})
       .then(dbModel => res.json(dbModel))
@@ -245,7 +245,7 @@ createScreenInfo: function(req, res) {
   },
 
   getScreenInfo: function(req, res) {
-    // console.log(req.body)
+  
     
     db.screenNameData
       .findOne(req.body)
@@ -292,7 +292,7 @@ createScreenInfo: function(req, res) {
   },
 
   getAllChats:function(req, res) {
-    console.log(req.body.user_id)
+    
     db.chatsData
      .find({user_id:req.body.user_id})
      
