@@ -152,7 +152,7 @@ class ScreenMessenger extends React.Component {
                     </div>
                     <div className="modalBox">
 
-                        <Modal allChatInfo={this.state.allChatInfo} userInfo={this.props.userInfo} sender={this.props.userInfo.screenName} isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
+                        <Modal allChatInfo={this.state.allChatInfo} userInfo={this.props.userInfo} sender={this.props.userInfo.screenName} fullName={this.props.userInfo.screenName} isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
                         user_id={this.state.user_id} messageID={this.state.messageID} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })} />
                     </div>
                     <div className="chatSearch">

@@ -17,6 +17,7 @@ import ScrFriendProLayout from './components/layouts/scrFriendProLayout';
 import ScreenPhotos from  './components/layouts/screenPhotos';
 import ScrFriendsPage from './components/layouts/scrFriendsPage';
 import MessenLayout from './components/layouts/messenLayout';
+import VideoChatLayout from './components/layouts/videoChatLayout';
 import ScrMessenLayout from './components/layouts/scrMessenLayout';
 import InboxLayout from "./components/layouts/inboxLayout";
 
@@ -83,6 +84,7 @@ class App extends Component {
                 <Route exact path="/scrFriends/:id" component={ScrFriendsPage} />
                 <Route exact path="/messenger" component={MessenLayout} />
                 <Route exact path="/scrmessenger" component={ScrMessenLayout} />
+                <Route exact path="/videoChat/:id" component={VideoChatLayout} />
                 <Route exact path="/inbox" component={InboxLayout} />
               </Switch>
             </div>

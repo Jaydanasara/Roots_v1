@@ -46,6 +46,7 @@ class PhotosPage extends React.Component {
 
     render() {
        console.log ( this.props.userInfo.match.params.id )
+       console.log(this.state.allUsersPhotos)
 
         return (
             <div className="contentArea ">
@@ -63,7 +64,7 @@ class PhotosPage extends React.Component {
 
                                     <div className="friends"  key={photo} >
                                       
-                                      <a className="friend" href="#"><img className="friend" src= {photo} />  </a>
+                                     <img className="friend" src= {photo} />  
                                       
                                       
 

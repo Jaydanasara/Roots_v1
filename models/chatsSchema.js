@@ -10,7 +10,9 @@ const chatsSchema = new Schema({
        content:{ type: String, required: true },
        sender:{ type: String, required: true },
        dateCreated:{ type: Date,default: Date.now },
-       avatar:{type:String,required:false}
+       avatar:{type:String,required:false},
+       picUrl:{ type: String, required: false },
+       vidUrl:{ type: String, required: false }
       }],
      users:[],
      receiverHasRead:{type:Boolean,default:false}

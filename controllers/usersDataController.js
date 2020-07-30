@@ -302,7 +302,7 @@ createScreenInfo: function(req, res) {
   },
 
   updateMessage: function(req, res) {
-   let theMessage={content:req.body.content,sender:req.body.sender};
+   let theMessage={content:req.body.content,sender:req.body.sender,picUrl:req.body.picUrl, vidUrl:req.body.vidUrl};
 
   
     

@@ -8,7 +8,8 @@ const app = express();
 
 const PORT = process.env.PORT || 3001;
 var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+const socket=require('socket.io');
+const io =socket(http);
 
 // Define middleware here
 
@@ -34,37 +35,61 @@ app.use(routes);
 
 mongoose.connect(
 
-  process.env.MONGODB_URI || 
+  process.env.MONGODB_URI ||
 
   "mongodb://localhost:27017/usersDatabase",
 
- 
+
 
 
 
 );
 
+const users = {};
+
+io.on('connection', function (socket) {
+  console.log('a user connected');
+
+  
+
+  if (!users[socket.id]) {
+    users[socket.id] = socket.id;
+  }
+  socket.emit("yourID", socket.id);
+  io.sockets.emit("allUsers", users);
+
+  socket.on('message', (data) => {
+  
+    io.emit("message", data);
+  })
+
+
+  socket.on('disconnect', function () {
+    delete users[socket.id];
+    console.log('user disconnected');
+  })
+
+
+  socket.on("callUser", (data) => {
+   
+    io.to(data.userToCall).emit('hey', { signal: data.signalData, from: data.from });
+  })
+
+  socket.on("acceptCall", (data) => {
+    io.to(data.to).emit('callAccepted', data.signal);
+  })
+
+});
+
+
 
 
 // Start the API server
 
-http.listen(PORT, function() {
+http.listen(PORT, function () {
 
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 
 });
 
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-
-    socket.on('message', (data) => {
-      console.log(data);
-      io.emit("message",data);
-  })
-
- 
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
-});

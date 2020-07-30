@@ -135,7 +135,7 @@ class Messenger extends React.Component {
                                             </div>
                                             <div className="onlineFriendName" onClick={(e) => 
                                                  this.setState({ isOpen: true, chFriendsName: uFriends.firstname + " " + uFriends.lastname, 
-                                                avatar:uFriends.userPic, chFriends_id:uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.getChat()) } > 
+                                                avatar:uFriends.userPic, chFriends_id: uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.getChat()) } > 
                                             {uFriends.firstname + " " + uFriends.lastname}</div>
                                             <div className="chatting"> <i class="far fa-comment"></i>
                                             </div>
@@ -151,8 +151,8 @@ class Messenger extends React.Component {
                     </div>
                     <div className="modalBox">
 
-                        <Modal allChatInfo={this.state.allChatInfo} userInfo={this.props.userInfo} sender={this.props.userInfo.firstname} isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
-                        user_id={this.state.user_id} messageID={this.state.messageID} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })} />
+                        <Modal allChatInfo={this.state.allChatInfo} userInfo={this.props.userInfo} sender={this.props.userInfo.firstname} fullName={this.props.userInfo.firstname + "_" + this.props.userInfo.lastname} isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
+                        user_id={this.state.user_id} messageID={this.state.messageID} chFriends_id={this.state.chFriends_id} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })} />
                     </div>
                     <div className="chatSearch">
                         <input type="text " className="chatInput" placeholder="Search" />
