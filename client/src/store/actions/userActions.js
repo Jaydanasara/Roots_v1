@@ -17,6 +17,7 @@ return(dispatch, getState) => {
     .then(res =>  {
                 console.log(res.data)
                 dispatch({type:"USER_PROFILE",userPro:res.data[0]})
+                
             })
     .catch(err => console.log(err));
     

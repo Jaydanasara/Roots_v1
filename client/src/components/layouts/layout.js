@@ -11,6 +11,7 @@ import API from "../../utils/API";
 import  {getUser} from"../../store/actions/userActions";
 import SideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
+import VideoChat from "../messenger/videoChat"
 
 
 
@@ -25,10 +26,12 @@ class Layout extends React.Component {
         isLoading: true,
         isUserPage:true,
         sideDrawerOpen:false,
+        isOnCall:false,
+        friendsPhId:""
     }
     }
  componentDidMount(){
-    this.screenNameData()
+    // this.screenNameData()
         if (this.props.userInfo.emailaddress==="" ){
             this.logout()
         }
@@ -77,8 +80,15 @@ class Layout extends React.Component {
 
     }
 
+    callScreen=(id)=>{
+        console.log(id)
+        this.setState({isOnCall:true, friendsPhId:id})
 
+    }
 
+    callScreenClose = ()=>{
+        this.setState({isOnCall:false})
+    }
 
 
 
@@ -104,9 +114,14 @@ class Layout extends React.Component {
                   
                         
                             <Navbar drawerClickHandler={this.drawToggleClickHandler} screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
-                          
+                            {
+                            this.state.isOnCall===true?
+                            <VideoChat userInfo={this.props}  callEnded={this.callScreenClose} friendsPhId={this.state.friendsPhId} /> :
+                            null
+                            }
                             <Content userInfo={this.props.userInfo} disState={this.props}/>
                             <SideDrawer show={this.state.sideDrawerOpen}/>
+                            
                            {backDrop}
 
                       
@@ -114,7 +129,7 @@ class Layout extends React.Component {
                 </section>
                 <section className="messenger-area">
               
-                <Messenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+                <Messenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} openCallWindow={this.callScreen}/>
                 
                 </section>
 

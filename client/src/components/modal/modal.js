@@ -5,7 +5,7 @@ import { storage } from "../../config/fire";
 import io from 'socket.io-client';
 
 
-const socket = io.connect("http://localhost:3001")
+const socket = io.connect("/")
 class Modal extends React.Component {
 
 
@@ -167,7 +167,7 @@ class Modal extends React.Component {
     render() {
 
 
-
+console.log(this.props)
 
  
 
@@ -309,7 +309,7 @@ class Modal extends React.Component {
                             <button type="button" className="attachVideoBtn" onClick={() => this.fileInput2.click()}><i class="fa fa-file-video"></i> </button>
                         </div>
 
-                        <div className="callFriend"> <Link to ={"/videoChat/" + this.props.chFriends_id} className="phoneButton"> <i class="fas fa-video"></i> <i class="fa fa-phone" aria-hidden="true"></i></Link></div>
+                        <div className="callFriend"> <button onClick={()=>this.props.callAFriend(this.props.chFriends_id)}><i class="fas fa-video"></i> <i class="fa fa-phone" aria-hidden="true"></i></button></div>
 
 
                     </div>

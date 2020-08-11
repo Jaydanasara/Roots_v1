@@ -3,7 +3,7 @@ import "./components/layouts/roots.css";
 import Homelayout from "./components/layouts/home";
 import Layout from "./components/layouts/layout";
 import Fire from "./config/fire";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Lostpassword from "./components/lostpassword/lostPassword";
 import Profile from "./components/layouts/profile";
 import FriendProfileLayout from "./components/layouts/friendProfileLayout";
@@ -14,7 +14,7 @@ import UserPhotos from './components/layouts/userPhotos';
 import ScreenLayout from './components/layouts/screenLayout';
 import ScrProLayout from './components/layouts/scrProLayout';
 import ScrFriendProLayout from './components/layouts/scrFriendProLayout';
-import ScreenPhotos from  './components/layouts/screenPhotos';
+import ScreenPhotos from './components/layouts/screenPhotos';
 import ScrFriendsPage from './components/layouts/scrFriendsPage';
 import MessenLayout from './components/layouts/messenLayout';
 import VideoChatLayout from './components/layouts/videoChatLayout';
@@ -23,7 +23,7 @@ import InboxLayout from "./components/layouts/inboxLayout";
 
 class App extends Component {
   constructor(props) {
-        super(props);
+    super(props);
     this.state = {
       user: {}
     }
@@ -31,7 +31,7 @@ class App extends Component {
 
   componentDidMount() {
     this.authListener();
-    
+
 
   }
 
@@ -40,12 +40,15 @@ class App extends Component {
 
   authListener() {
     Fire.auth().onAuthStateChanged((user) => {
-      
+      console.log(user)
+
       if (user) {
         this.setState({ user });
+        console.log("woking")
 
       } else {
         this.setState({ user: null });
+        console.log("not working")
 
       }
     });
@@ -53,29 +56,31 @@ class App extends Component {
   }
 
 
-  
+
 
 
 
   render() {
-    
-    
+
+
     return (
 
       <div className="app">
 
-        
+
         <div>
 
           <Router>
             <div>
               <Switch>
+
                 <Route exact path="/" render={() => this.state.user ? (<Layout />) : (<Homelayout />)} />
+                <Route exact path="/layout" component={Layout} />
                 <Route path="/lostPassword" component={Lostpassword} />
                 <Route exact path="/profile/:id" component={Profile} />
                 <Route exact path="/friendProfile/:id" component={FriendProfileLayout} />
-                <Route exact path="/editprofile/:id" component={EditProfile } />
-                <Route exact path="/friends/:id" component={FriendsPage } />
+                <Route exact path="/editprofile/:id" component={EditProfile} />
+                <Route exact path="/friends/:id" component={FriendsPage} />
                 <Route exact path="/photos/:id" component={UserPhotos} />
                 <Route exact path="/lgScreen" component={ScreenLayout} />
                 <Route exact path="/screenProfile/:id" component={ScrProLayout} />
@@ -95,7 +100,7 @@ class App extends Component {
       </div>
 
 
-     
+
 
 
 
@@ -103,15 +108,15 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state) => {
   console.log(state)
-  return{
-userInfo:state.userR.userProfile
-  
- 
+  return {
+    userInfo: state.userR.userProfile
+
+
   }
 }
 
 
-export default connect(  mapStateToProps ) (App);
+export default connect(mapStateToProps)(App);
 

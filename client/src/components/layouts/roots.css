@@ -327,6 +327,7 @@ width:90%
     height: calc(100% - 99px);
     overflow: auto;
     padding: 0 15px 0 7px;
+    z-index: 985;
     
   
 
@@ -1152,7 +1153,7 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
     .modalBox{
        max-width: 900px; 
        max-height: 400px;
-       z-index: 999; 
+       z-index: 997; 
        position: fixed;
 
        top:375px;
@@ -1361,6 +1362,13 @@ header{
 
 
 /* Videochat css */
+.videoChatContainer{
+    height: 95%;
+    width: 95%;
+    z-index:999 ;
+    background-color: #1b1b1b;
+}
+
 .videoWindows{
     display: flex;
     margin-top: 20px;
@@ -1691,6 +1699,18 @@ header{
             
             flex-flow: row wrap;
             
+        }
+
+        .senderVideo{
+            max-width: 75px;
+        }
+        
+        .receiverVidContainer{
+            border:2px solid black; 
+        
+        }
+        .receiverVideo{
+            max-width: 250px;
         }
         
      

@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from 'react-router'
 import Fire from "../../config/fire";
 import "../../components/layouts/roots.css";
 import { connect } from "react-redux";
@@ -24,11 +25,15 @@ class Header extends React.Component {
             // Preventing the default behavior of the form submit (which is to refresh the page)
     
             e.preventDefault();
-            
             Fire.auth().signInWithEmailAndPassword(this.state.emailaddress,this.state.password)
             .then(authRes=>{
-                console.log(authRes)
+               
                 this.props.getUser(this.state)
+                 console.log(authRes)
+            })
+            .then(()=>{
+                this.props.history.push('/layout')
+
             })
             
          .catch(err => alert(err));
@@ -62,8 +67,7 @@ class Header extends React.Component {
 
 
     render() {
-        
-        
+    
         return (
             <div className="container">
                 <div className="header_container">
@@ -123,5 +127,5 @@ const mapStateToProps = (state)=>{
     // newPost: state.post.userCred
     }
 }
-
-export default connect(  mapStateToProps, mapDispatchToProps) (Header);
+let headerWithRouter= withRouter(Header);
+export default  connect(  mapStateToProps, mapDispatchToProps) (headerWithRouter) 
