@@ -11,6 +11,7 @@ var http = require('http').createServer(app);
 const socket=require('socket.io');
 const io =socket(http);
 
+
 // Define middleware here
 
 app.use(express.urlencoded({ extended: true }));
@@ -53,17 +54,11 @@ io.on('connection', function (socket) {
     console.log(Name,userId)
     // socket.join(Name)
     socket.broadcast.emit('user-connected',Name, userId)
-  
-  
-
-  
     let user={
       "name":Name,
       "userid":userId,
       "socketId":socket.id
     }
-   
-    console.log(users)
   
 
   socket.emit("yourinfo", user);
@@ -76,8 +71,21 @@ io.on('connection', function (socket) {
   })
 
 
+  
+
+  socket.on("callUser", (data) => {
+   console.log(data)
+    io.to(data.userToCall).emit('hey', { signal: data.signalData, from: data.from });
+    console.log("this is the Data @@@@@@@@@@@@@@@")
+    console.log(data.userToCall)
+  })
+
+  socket.on("acceptCall", (data) => {
+    io.to(data.to).emit('callAccepted', data.signal);
+
+  })
+
   socket.on('disconnect', function () {
-    console.log(users)
     socket.broadcast.emit("user-disconnected",(socket.id))
     
     users.forEach(function(obj) { 
@@ -96,15 +104,7 @@ io.on('connection', function (socket) {
   })
 
 
-  socket.on("callUser", (data) => {
-  
-    io.to(data.userToCall).emit('hey', { signal: data.signalData, from: data.from });
-    console.log(data.userToCall)
-  })
 
-  socket.on("acceptCall", (data) => {
-    io.to(data.to).emit('callAccepted', data.signal);
-  })
   })
 });
 

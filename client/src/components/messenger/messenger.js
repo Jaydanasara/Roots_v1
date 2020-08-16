@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import Modal from "../modal/modal";
 
 
-
-
 class Messenger extends React.Component {
-
-    state = {
+    constructor(props){
+        super(props);
+      
+    this.state = {
         allFriends: [],
         isOpen:false,
         chFriendsName:"",
@@ -18,12 +18,16 @@ class Messenger extends React.Component {
         messageID:"",
         allChatInfo:[],
         socket:null,
+      
 
     }
-
+    }
     
     componentWillMount() {
         this.listFriends()
+
+
+
        
     }
 
@@ -127,7 +131,7 @@ class Messenger extends React.Component {
                                 {this.state.allFriends.map(uFriends => {
                                     return (
 
-                                        <div className="chatFriends active">
+                                        <div className={(this.props.onlineFriends.includes(uFriends._id))?"chatFriends active":"chatFriends"}>
                                             <div className="onlineFriendI">
                                                 <a className="friends-I" > 
                                                 <Link to={"/profile/" + uFriends._id}> <img className="onlineFriendImg" src={(uFriends.userPic!==undefined) ? uFriends.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"}  alt = " friends pic" /> 
@@ -137,7 +141,7 @@ class Messenger extends React.Component {
                                                  this.setState({ isOpen: true, chFriendsName: uFriends.firstname + " " + uFriends.lastname, 
                                                 avatar:uFriends.userPic, chFriends_id: uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.getChat()) } > 
                                             {uFriends.firstname + " " + uFriends.lastname}</div>
-                                            <div className="chatting"> <i class="far fa-comment"></i>
+                                            <div className={(this.props.onlineFriends.includes(uFriends._id))?"onChatting":"chatting"}> <i  class="far fa-comment"></i>
                                             </div>
 
                                         </div>

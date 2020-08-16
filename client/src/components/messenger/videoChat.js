@@ -1,7 +1,9 @@
 import React from "react";
-import io from "socket.io-client";
+import socketIOClient from "socket.io-client";
 import Peer from "simple-peer"
-import { createRef } from "react";
+import{socket} from "../layouts/layout"
+import friendProfileLayout from "../layouts/friendProfileLayout";
+// import { createRef } from "react";
 
 // const socket = io()
 // console.log(socket)
@@ -11,14 +13,14 @@ let phoneRinging = new Audio("./phoneRing.mp3")
 class VideoChat extends React.Component {
     constructor(props) {
         super(props);
-        this.socket = createRef();
+        // this.socket = createRef();
         this.state = {
-            yourInfo: {},
-            users:[],
+            yourInfo:this.props.yourInfo,
+            users:this.props.users,
             stream: null,
-            receivingCall: false,
-            caller: {},
-            callerSignal: null,
+            receivingCall: this.props.receivingCall,
+            caller:this.props.caller,
+            callerSignal: this.props.callerSignal,
             callAccepted: false,
             btnHidden:false
  
@@ -27,31 +29,32 @@ class VideoChat extends React.Component {
     
     componentDidMount() {
         
-        
+         
        
-        this.socket.current = io.connect("/");
-        this.socket.current.emit("join-room",this.props.userInfo.userInfo.firstname, this.props.userInfo.userInfo.user_ID)
-        this.getVideo()
+        // this.socket.current =socketIOClient("/");
+          this.getVideo()
+        // this.socket.current.emit("join-room",this.props.userInfo.userInfo.firstname, this.props.userInfo.userInfo.user_ID)
        
-        this.socket.current.on("yourinfo", (info) => {
-            console.log(info)
-            this.setState({ yourInfo: info });
-        })
-        this.socket.current.on("allUsers", (users) => {
-            console.log(users)
-            this.setState({ users: users });
-        })
+       
+        // this.socket.current.on("yourinfo", (info) => {
+        //     console.log(info)
+        //     this.setState({ yourInfo: info });
+        // })
+        // this.socket.current.on("allUsers", (users) => {
+        //     console.log(users)
+        //     this.setState({ users: users });
+        // })
 
-        this.socket.current.on("hey", (data) => {
-            console.log("hey front end ")
-            this.setState({ receivingCall: true, caller: data.from, callerSignal: data.signal })
+        // this.socket.current.on("hey", (data) => {
+        //     console.log("hey front end ")
+        //     this.setState({ receivingCall: true, caller: data.from, callerSignal: data.signal })
 
-        })
+        // })
 
-        this.socket.current.on("user-disconnect", (usersid) => {
-            console.log(usersid )
+        // this.socket.current.on("user-disconnect", (usersid) => {
+        //     console.log(usersid )
            
-          })
+        //   })
 
 
     }
@@ -93,7 +96,7 @@ class VideoChat extends React.Component {
 
 
     callPeer = (id) => {
-       this.phoneRingFn()
+    //    this.phoneRingFn()
         const peer = new Peer({
             initiator: true,
             trickle: false,
@@ -103,8 +106,9 @@ class VideoChat extends React.Component {
         console.log(peer)
 
         peer.on("signal", data => {
-            console.log(data)
-            this.socket.current.emit("callUser", { userToCall: id, signalData: data, from: this.state.yourInfo })
+        
+            socket.emit("callUser", { userToCall: id, signalData: data, from: this.state.yourInfo })
+            console.log("call placed")
         })
 
         peer.on("stream", stream => {
@@ -112,7 +116,7 @@ class VideoChat extends React.Component {
             video.srcObject = stream;
         });
 
-        this.socket.current.on("callAccepted", signal => {
+        socket.on("callAccepted", signal => {
             this.setState({ callAccepted: true })
             phoneRinging.pause()
             phoneRinging.currentTime = 0;
@@ -124,8 +128,8 @@ class VideoChat extends React.Component {
 
 
     acceptCall = () => {
-        phoneRinging.pause()
-        phoneRinging.currentTime = 0;
+        // phoneRinging.pause()
+        // phoneRinging.currentTime = 0;
         this.setState({ callAccepted: true })
         console.log("1")
         const peer = new Peer({
@@ -137,7 +141,7 @@ class VideoChat extends React.Component {
             console.log("2")
             console.log(this.state.caller)
 
-            this.socket.current.emit("acceptCall", { signal: data, to: this.state.caller.socketId })
+            socket.emit("acceptCall", { signal: data, to: this.state.caller.socketId })
         })
 
         peer.on("stream", stream => {

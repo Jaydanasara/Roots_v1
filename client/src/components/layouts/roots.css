@@ -987,10 +987,20 @@ padding: 5px 0px;
         display: none;
         align-items: center;
         justify-content: flex-end;
-          color: white;
+          color:white;
           
       }
 
+      
+      .onChatting{
+        width: 20%;
+     
+      align-items: center;
+      justify-content: flex-end;
+        color: blue;
+        
+    }
+   
       .chatFriends:hover .onlineFriendImg{
         opacity: 1;
     }
@@ -1003,7 +1013,7 @@ padding: 5px 0px;
         
 .chatFriends.active .onlineFriendName{
     font-weight: 700;
-    color: white;
+    color: blue;
 }
 
 

@@ -3,7 +3,7 @@ import "./components/layouts/roots.css";
 import Homelayout from "./components/layouts/home";
 import Layout from "./components/layouts/layout";
 import Fire from "./config/fire";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Lostpassword from "./components/lostpassword/lostPassword";
 import Profile from "./components/layouts/profile";
 import FriendProfileLayout from "./components/layouts/friendProfileLayout";
