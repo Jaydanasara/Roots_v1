@@ -35,7 +35,7 @@ class Layout extends React.Component {
         callerSignal: null,
         yourInfo: {},
         users:[],
-        endpoint:"http://localhost:3001/",
+        endpoint:"/",
         onlineFriends:[]
         
     }
