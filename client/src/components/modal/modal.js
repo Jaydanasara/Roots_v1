@@ -2,10 +2,10 @@ import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
 import { storage } from "../../config/fire";
-import io from 'socket.io-client';
+import{socket} from "../messenger/messenger";
 
 
-const socket = io.connect("/")
+// const socket = io.connect("/")
 class Modal extends React.Component {
 
 

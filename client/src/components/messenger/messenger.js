@@ -2,7 +2,8 @@ import React from "react";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import Modal from "../modal/modal";
-
+import socketIOClient from "socket.io-client";
+var socket;
 
 class Messenger extends React.Component {
     constructor(props){
@@ -18,15 +19,46 @@ class Messenger extends React.Component {
         messageID:"",
         allChatInfo:[],
         socket:null,
+        receivingCall: false,
+        caller: {},
+        callerSignal: null,
+        yourInfo: {},
+        users:[],
+        endpoint:"/",
+        onlineFriends:[]
       
 
     }
+    socket =  socketIOClient(this.state.endpoint);
     }
     
     componentWillMount() {
         this.listFriends()
 
+        socket.emit("join-room",this.props.userInfo.firstname, this.props.userInfo.user_ID)
+       
+       
+        socket.on("yourinfo", (info) => {
+            console.log(info)
+            this.setState({ yourInfo: info },()=>{this.props.yourInfo(this.state.yourInfo)});
+        })
+        socket.on("allUsers", (users) => {
+            console.log(users)
+            this.setState({ users: users },()=>{this.friendsOnline()})
+            this.props.users(users)
+        })
 
+        socket.on("hey", (data) => {
+            console.log("hey front end ")
+            this.setState({ receivingCall: true, caller: data.from, callerSignal: data.signal },()=>
+            {this.props.incomingCallScreen(this.state.receivingCall, this.state.caller, this.state.callerSignal)})
+
+        })
+
+        socket.on("user-disconnect", (usersid) => {
+            console.log(usersid )
+           
+          })
 
        
     }
@@ -101,7 +133,22 @@ class Messenger extends React.Component {
     messageHasBeenRead=()=>{
         
     }
+    
 
+    friendsOnline=()=>{
+        let onlineFriends = []
+        this.state.users.forEach(user=> {
+            console.log(user.userid)
+            if (this.props.userInfo.friends.includes(user.userid)){
+                
+                onlineFriends.push(user.userid)
+            }
+           
+        });
+
+        this.setState({onlineFriends :onlineFriends})
+        console.log(onlineFriends)
+    }
 
 
     render() {
@@ -131,7 +178,7 @@ class Messenger extends React.Component {
                                 {this.state.allFriends.map(uFriends => {
                                     return (
 
-                                        <div className={(this.props.onlineFriends.includes(uFriends._id))?"chatFriends active":"chatFriends"}>
+                                        <div className={(this.state.onlineFriends.includes(uFriends._id))?"chatFriends active":"chatFriends"}>
                                             <div className="onlineFriendI">
                                                 <a className="friends-I" > 
                                                 <Link to={"/profile/" + uFriends._id}> <img className="onlineFriendImg" src={(uFriends.userPic!==undefined) ? uFriends.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"}  alt = " friends pic" /> 
@@ -141,7 +188,7 @@ class Messenger extends React.Component {
                                                  this.setState({ isOpen: true, chFriendsName: uFriends.firstname + " " + uFriends.lastname, 
                                                 avatar:uFriends.userPic, chFriends_id: uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.getChat()) } > 
                                             {uFriends.firstname + " " + uFriends.lastname}</div>
-                                            <div className={(this.props.onlineFriends.includes(uFriends._id))?"onChatting":"chatting"}> <i  class="far fa-comment"></i>
+                                            <div className={(this.state.onlineFriends.includes(uFriends._id))?"onChatting":"chatting"}> <i  class="far fa-comment"></i>
                                             </div>
 
                                         </div>
@@ -174,5 +221,5 @@ class Messenger extends React.Component {
 
 };
 
-
+export {socket}
 export default Messenger;

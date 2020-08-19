@@ -12,17 +12,16 @@ import  {getUser} from"../../store/actions/userActions";
 import SideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 import VideoChat from "../messenger/videoChat"
-import socketIOClient from "socket.io-client";
+
 // import { createRef } from "react";
 
 
-var socket;
 
 class Layout extends React.Component {
 
     constructor(props)  {
         super(props)
-        // this.socket = createRef();
+       
     this.state= {
         screenNameInfo:{},
         isLoading: true,
@@ -35,11 +34,9 @@ class Layout extends React.Component {
         callerSignal: null,
         yourInfo: {},
         users:[],
-        endpoint:"/",
-        onlineFriends:[]
         
     }
-     socket =  socketIOClient(this.state.endpoint);
+    
     }
  componentDidMount(){
     // this.screenNameData()
@@ -52,29 +49,7 @@ class Layout extends React.Component {
 
         
       
-        socket.emit("join-room",this.props.userInfo.firstname, this.props.userInfo.user_ID)
-       
-       
-        socket.on("yourinfo", (info) => {
-            console.log(info)
-            this.setState({ yourInfo: info });
-        })
-        socket.on("allUsers", (users) => {
-            console.log(users)
-            this.setState({ users: users },()=>{this.friendsOnline()});
-        })
-
-        socket.on("hey", (data) => {
-            console.log("hey front end ")
-            this.setState({ receivingCall: true, caller: data.from, callerSignal: data.signal },()=>
-            {this.incomingCallScreen()})
-
-        })
-
-        socket.on("user-disconnect", (usersid) => {
-            console.log(usersid )
-           
-          })
+      
 
 
     }
@@ -126,31 +101,30 @@ class Layout extends React.Component {
     }
 
 
-    incomingCallScreen=()=>{
-        
+    incomingCallScreen=(receivingCall, caller, callerSignal)=>{
+        this.setState({ receivingCall: receivingCall, caller: caller, callerSignal: callerSignal,isOnCall:true })
         console.log("incoming call screen")
-        this.setState({isOnCall:true})
+       
 
     }
 
     callScreenClose = ()=>{
         this.setState({isOnCall:false})
     }
+ 
+    getYourInfo=(yourInfo)=>{
+        console.log(yourInfo)
 
-    friendsOnline=()=>{
-        let onlineFriends = []
-        this.state.users.forEach(user=> {
-            console.log(user.userid)
-            if (this.props.userInfo.friends.includes(user.userid)){
-                
-                onlineFriends.push(user.userid)
-            }
-           
-        });
+        this.setState({yourInfo:yourInfo})
 
-        this.setState({onlineFriends :onlineFriends})
-        console.log(onlineFriends)
     }
+
+    getUsers=(users)=>{
+        console.log(users)
+        this.setState({users:users})
+
+    }
+   
 
     render() {
         let backDrop;
@@ -193,7 +167,7 @@ class Layout extends React.Component {
                 <section className="messenger-area">
               
                 <Messenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} openCallWindow={this.callScreen}
-                            onlineFriends={this.state.onlineFriends} />
+                             incomingCallScreen={this.incomingCallScreen} users={this.getUsers} yourInfo={this.getYourInfo}/>
                 
                 </section>
 
@@ -223,7 +197,7 @@ const mapStateToProps = (state)=>{
    
     }
 }
-export {socket}
+
 export default connect(  mapStateToProps,mapDispatchToProps) (Layout);
 
 
