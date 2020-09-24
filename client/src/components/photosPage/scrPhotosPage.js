@@ -1,7 +1,6 @@
 import React from "react";
 import API from "../../utils/API"
-import { Link } from "react-router-dom";
-import { storage } from "../../config/fire";
+
 class ScrPhotosPage extends React.Component {
     state = {
        screenName:"",
@@ -63,7 +62,7 @@ class ScrPhotosPage extends React.Component {
 
                                     <div className="friends"  key={photo} >
                                       
-                                      <a className="friend" href="#"><img className="friend" src= {photo} />  </a>
+                                      <a className="friend" href="#"><img className="friend" src= {photo} alt="friends snapshot" />  </a>
                                       
                                       
 

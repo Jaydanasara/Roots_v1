@@ -195,7 +195,7 @@ addToPhotos =() =>{
                         <progress className={this.state.isActive ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
                         <button className={this.state.isActive ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
                         <span className={this.state.isActive ? "uploadReady active" : "uploadReady"}>no file chosen yet </span>
-                        <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i class="fas fa-camera-retro"></i></button>
+                        <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i className="fas fa-camera-retro"></i></button>
 
 
                         <div className="button video"><i className="fas fa-video"></i> </div>
@@ -217,13 +217,13 @@ addToPhotos =() =>{
 
                                     <div className="feed_Container"  key={content._id} >
                                         <div className="friendsPostinfo">
-                                            <a className="friends-I" > <Link to={"/scrFriendProfile/"  + content.user_ID}> <img className="friendsImg" src={(content.post_by_pic!==undefined) ? content.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="posted by"/></Link>  </a>
+                                            <Link to={"/scrFriendProfile/"  + content.user_ID}> <img className="friendsImg" src={(content.post_by_pic!==undefined) ? content.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="posted by"/></Link>  
                                             <div className="friendsInfo"> <Link to={"/scrFriendProfile/" + content.user_ID}>{content.post_by} </Link>&nbsp; shared a &nbsp;
                                             <a href="/profile/">{(content.picUrl === "") ? "story" : "image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
                                               {(content.picUrl === "")? <div className="story"> </div>:
-                                            <div className= "miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl}  /></div>
+                                            <div className= "miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl} alt="posted snapshot"  /></div>
                                                 }
                                         </div>
                                         <div className="colorBackground">
@@ -252,14 +252,14 @@ addToPhotos =() =>{
                                             <div className="mapComments">{
                                             content.comments.map((comment,picUrl)=>
                                             <div key={picUrl}className="commentList">{moment(comment.dateCreated).calendar()} <span> &nbsp; <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
-                                            <div className={comment.picUrl ===""?"commentPic":"nocommentPic"}><img className="commentUrl" src={comment.picUrl}/></div></div>
+                                            <div className={comment.picUrl ===""?"commentPic":"nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt= "comment snapshot"/></div></div>
                                                 )}
                                                 <div className="responseComments">
                                                 <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                 </div>
                                                 <div className="commentButtons">
-                                                    <div className="replyButton" onClick={() => this.submitComment(content._id)} ><i class="fas fa-share"></i> </div>
-                                                    <div className="likeButton"><i class="far fa-thumbs-up"></i></div>
+                                                    <div className="replyButton" onClick={() => this.submitComment(content._id)} ><i className="fas fa-share"></i> </div>
+                                                    <div className="likeButton"><i className="far fa-thumbs-up"></i></div>
                                                 </div>
                                             
                                             </div>

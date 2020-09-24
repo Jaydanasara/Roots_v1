@@ -277,7 +277,7 @@ class Content extends React.Component {
 
                          
                         
-                        <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i class="fas fa-camera-retro"></i></button>
+                        <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i className="fas fa-camera-retro"></i></button>
 
 
 
@@ -310,7 +310,7 @@ class Content extends React.Component {
 
                                     <div className="feed_Container" key={content._id} >
                                         <div className="friendsPostinfo">
-                                            <a className="friends-I" > <Link to={"/friendProfile/" + content.user_ID}> <img className="friendsImg" src={(content.post_by_pic!=undefined) ? content.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /></Link>  </a>
+                                         <Link to={"/friendProfile/" + content.user_ID}> <img className="friendsImg" src={(content.post_by_pic!==undefined) ? content.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /></Link>  
                                             <div className="friendsInfo"> <Link to={"/friendProfile/" + content.user_ID}>{content.post_by}</Link> &nbsp; shared a &nbsp; <a href="#">{(content.picUrl === "") ? "story" : "image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
@@ -350,7 +350,7 @@ class Content extends React.Component {
                                                     <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                 
                                                     <div className="commentPhoto">
-                                                    <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.getID(content._id);}}> <i class="far fa-images"></i></button>
+                                                    <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.getID(content._id);}}> <i className="far fa-images"></i></button>
                                                    
                                         
                                                 </div>
@@ -367,13 +367,13 @@ class Content extends React.Component {
                                                     </div>
                                                 
                                                 <div className="commentButtons">
-                                                    <div className="replyButton"  onClick={this.state.comment ==="" && this.state.url ===""? null:()=> this.submitComment(content._id)} ><i class="fas fa-share"></i> </div>
+                                                    <div className="replyButton"  onClick={this.state.comment ==="" && this.state.url ===""? null:()=> this.submitComment(content._id)} ><i className="fas fa-share"></i> </div>
 
                                                     <div className="likessection">
 
                                                         {(content.likes.findIndex(i => i.user_id === this.props.userInfo.user_ID) > -1) ?
                                                             <div className="likeButton" onClick={() => this.removeLikes(content._id)}>Unlike</div>
-                                                            : <div className="likeButton" onClick={() => this.handleLikes(content._id)}><i class="far fa-thumbs-up"></i></div>
+                                                            : <div className="likeButton" onClick={() => this.handleLikes(content._id)}><i className="far fa-thumbs-up"></i></div>
 
                                                         }
                                                     </div>

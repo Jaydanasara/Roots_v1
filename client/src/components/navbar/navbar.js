@@ -106,9 +106,9 @@ class Navbar extends React.Component {
                                 <img src="/rootsicon.jpg" alt="tree icon" />
                             </a>
                         </div>
-                        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+                        <input type="checkbox" id="nav-toggle" className="nav-toggle" />
 
-                        <label for="nav-toggle" class="nav-toggle-label" onClick={this.props.drawerClickHandler} >
+                        <label htmlFor="nav-toggle" className="nav-toggle-label" onClick={this.props.drawerClickHandler} >
                             <span></span>
                         </label>
                         <ul className="homeButton">

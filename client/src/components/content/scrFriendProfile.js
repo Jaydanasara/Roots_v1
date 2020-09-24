@@ -440,7 +440,7 @@ refreshScreenFriends = () => {
                 
                 <div className="feed_Container">
                 <div className="friendsPostinfo">
-                    <a className="friends-I"> <Link to={"/screenProfile/"+each.user_ID }><img className="friendsImg" src={(each.post_by_pic!==undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /> </Link> </a>
+                 <Link to={"/screenProfile/"+each.user_ID }><img className="friendsImg" src={(each.post_by_pic!==undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /> </Link> 
                     <div className="friendsInfo"> <div> <Link to ={"/screenProfile/"+ each.user_ID}>{each.post_by}</Link></div> &nbsp; shared a &nbsp;
                    {/* <a href="/profile">{(each.picUrl=== undefined)?  "story":"image"}</a>  </div> */}
                    <Link to={"/screenprofile/" + each.user_ID}>{(each.picUrl === "") ? " story " :  " image "}</Link>  </div>                

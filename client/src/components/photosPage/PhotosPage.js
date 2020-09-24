@@ -1,7 +1,6 @@
 import React from "react";
 import API from "../../utils/API"
-import { Link } from "react-router-dom";
-import { storage } from "../../config/fire";
+
 class PhotosPage extends React.Component {
     state = {
        fullName:"",
@@ -64,7 +63,7 @@ class PhotosPage extends React.Component {
 
                                     <div className="friends"  key={photo} >
                                       
-                                     <img className="friend" src= {photo} />  
+                                     <img className="friend" src= {photo} alt="friends snapshot" />  
                                       
                                       
 

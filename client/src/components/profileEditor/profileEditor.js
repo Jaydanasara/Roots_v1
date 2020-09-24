@@ -1,6 +1,6 @@
 import React from "react";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
+
 import { storage } from "../../config/fire";
 
 class ProfileEditor extends React.Component {
@@ -180,7 +180,7 @@ class ProfileEditor extends React.Component {
             <div className="contentArea ">
                 <div className="profile-container">
                     <div className="profile-image">
-                        <img src={this.props.userInfo.userPic} />
+                        <img src={this.props.userInfo.userPic} alt= "users snapshot"/>
                     </div>
                     <div className="profile-info">
                         {fullName}

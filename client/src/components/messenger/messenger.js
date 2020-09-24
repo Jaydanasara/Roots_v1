@@ -160,13 +160,13 @@ class Messenger extends React.Component {
 
                 <div className="messengerHead">
                     <div className="chatIcon">
-                        <i class="far fa-comments"></i>
+                        <i className="far fa-comments"></i>
                     </div>
                     <div className="messengerTitle">
                         Messenger
                     </div>
                     <div className="optionIcon">
-                        <i class="fas fa-ellipsis-v"></i>
+                        <i className="fas fa-ellipsis-v"></i>
                     </div>
                 </div>
                 <div className="onlineFriends">
@@ -178,17 +178,17 @@ class Messenger extends React.Component {
                                 {this.state.allFriends.map(uFriends => {
                                     return (
 
-                                        <div className={(this.state.onlineFriends.includes(uFriends._id))?"chatFriends active":"chatFriends"}>
+                                        <div key={uFriends._id} className={(this.state.onlineFriends.includes(uFriends._id))?"chatFriends active":"chatFriends"}>
                                             <div className="onlineFriendI">
-                                                <a className="friends-I" > 
+                                                
                                                 <Link to={"/profile/" + uFriends._id}> <img className="onlineFriendImg" src={(uFriends.userPic!==undefined) ? uFriends.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"}  alt = " friends pic" /> 
-                                                </Link> </a>
+                                                </Link> 
                                             </div>
                                             <div className="onlineFriendName" onClick={(e) => 
                                                  this.setState({ isOpen: true, chFriendsName: uFriends.firstname + " " + uFriends.lastname, 
                                                 avatar:uFriends.userPic, chFriends_id: uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.getChat()) } > 
                                             {uFriends.firstname + " " + uFriends.lastname}</div>
-                                            <div className={(this.state.onlineFriends.includes(uFriends._id))?"onChatting":"chatting"}> <i  class="far fa-comment"></i>
+                                            <div className={(this.state.onlineFriends.includes(uFriends._id))?"onChatting":"chatting"}> <i  className="far fa-comment"></i>
                                             </div>
 
                                         </div>

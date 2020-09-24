@@ -130,9 +130,9 @@ class ScreenMessenger extends React.Component {
 
                                         <div className="chatFriends active">
                                             <div className="onlineFriendI">
-                                                <a className="friends-I" > 
+                                                
                                                 <Link to={"/profile/" + uFriends._id}> <img className="onlineFriendImg" src={(uFriends.userPic!==undefined) ? uFriends.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt = "friends pic" /> 
-                                                </Link> </a>
+                                                </Link> 
                                             </div>
                                             <div className="onlineFriendName" onClick={(e) => 
                                                  this.setState({ isOpen: true, chFriendsName: uFriends.screenName, 

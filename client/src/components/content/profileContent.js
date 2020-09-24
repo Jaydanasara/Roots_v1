@@ -350,7 +350,7 @@ class ProfileContent extends React.Component {
                     <div className="user-I">  <Link to={"/profile/" + this.props.userInfo.userInfo.user_ID}><img className="user-Img"  src={(this.state.userPic!==undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users pic" /> </Link>  </div>
                     <div className="buttons">
                    
-                        <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i class="fas fa-camera-retro"></i></button>
+                        <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i className="fas fa-camera-retro"></i></button>
 
 
                         <div className="button video"><i class="fas fa-video"></i></div>
@@ -379,7 +379,7 @@ class ProfileContent extends React.Component {
 
                                     <div className="feed_Container" key={each.user_ID}>
                                         <div className="friendsPostinfo">
-                                            <a className="friends-I"><Link to ={"/profile/"+ each.user_ID}><img className="friendsImg" src={(each.post_by_pic!==undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /> </Link> </a>
+                                            <Link to ={"/profile/"+ each.user_ID}><img className="friendsImg" src={(each.post_by_pic!==undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /> </Link> 
                                             <div className="friendsInfo"> <Link to ={"/profile/"+ each.user_ID}>{each.post_by}</Link> shared a &nbsp;
                                             <a href="/profile">{(each.picUrl === "") ? "story" : "image"}</a>  </div>
                                         </div>

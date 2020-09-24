@@ -1,8 +1,8 @@
 import React from "react";
-import socketIOClient from "socket.io-client";
+
 import Peer from "simple-peer"
 import{socket} from "../messenger/messenger"
-import friendProfileLayout from "../layouts/friendProfileLayout";
+
 // import { createRef } from "react";
 
 // const socket = io()
