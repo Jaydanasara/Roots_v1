@@ -332,7 +332,7 @@ class ProfileContent extends React.Component {
             <div className="contentArea ">
                 <div className="profile-container">
                     <div className="profile-image">
-                        <img src={(this.state.userPic!==undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users pic" />
+                        <img src={(this.state.userPic!==undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic" />
                     </div>
                     <div className="profile-info">
                         {fullName}
@@ -347,7 +347,7 @@ class ProfileContent extends React.Component {
                 </div>
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">  <Link to={"/profile/" + this.props.userInfo.userInfo.user_ID}><img className="user-Img"  src={(this.state.userPic!==undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="users pic" /> </Link>  </div>
+                    <div className="user-I">  <Link to={"/profile/" + this.props.userInfo.userInfo.user_ID}><img className="user-Img"  src={(this.state.userPic!==undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic" /> </Link>  </div>
                     <div className="buttons">
                    
                         <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i className="fas fa-camera-retro"></i></button>
@@ -379,7 +379,7 @@ class ProfileContent extends React.Component {
 
                                     <div className="feed_Container" key={each.user_ID}>
                                         <div className="friendsPostinfo">
-                                            <Link to ={"/profile/"+ each.user_ID}><img className="friendsImg" src={(each.post_by_pic!==undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt="friendspic" /> </Link> 
+                                            <Link to ={"/profile/"+ each.user_ID}><img className="friendsImg" src={(each.post_by_pic!==undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="friendspic" /> </Link> 
                                             <div className="friendsInfo"> <Link to ={"/profile/"+ each.user_ID}>{each.post_by}</Link> shared a &nbsp;
                                             <a href="/profile">{(each.picUrl === "") ? "story" : "image"}</a>  </div>
                                         </div>

@@ -10,14 +10,20 @@ html, body, #root{
 
 
 body{
-    background: rgba(251,220,64,1);
+    /* background: rgba(251,220,64,1);
 background: -moz-linear-gradient(left, rgba(251,220,64,1) 0%, rgba(231,56,39,1) 72%, rgba(231,56,39,1) 100%);
 background: -webkit-gradient(left top, right top, color-stop(0%, rgba(251,220,64,1)), color-stop(72%, rgba(231,56,39,1)), color-stop(100%, rgba(231,56,39,1)));
 background: -webkit-linear-gradient(left, rgba(251,220,64,1) 0%, rgba(231,56,39,1) 72%, rgba(231,56,39,1) 100%);
 background: -o-linear-gradient(left, rgba(251,220,64,1) 0%, rgba(231,56,39,1) 72%, rgba(231,56,39,1) 100%);
 background: -ms-linear-gradient(left, rgba(251,220,64,1) 0%, rgba(231,56,39,1) 72%, rgba(231,56,39,1) 100%);
 background: linear-gradient(to right, rgba(251,220,64,1) 0%, rgba(231,56,39,1) 72%, rgba(231,56,39,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbdc40', endColorstr='#e73827', GradientType=1 );
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbdc40', endColorstr='#e73827', GradientType=1 ); */
+
+/* background-color: #e056fd;
+background-image: linear-gradient(315deg, #e056fd 0%, #000000 74%); */
+
+background: rgb(161,67,181);
+background: radial-gradient(circle, rgba(161,67,181,1) 5%, rgba(93,45,98,1) 63%);
 
 }
 
@@ -29,6 +35,18 @@ font-size: 150px;
 
 
 
+a{
+
+    text-decoration-color: #eeda74;
+    color: #eeda74;
+}
+
+
+
+.friendsInfo{
+    
+    color: #eeda74;
+}
 
 .app-container{
     width: 100%;
@@ -54,7 +72,13 @@ font-size: 150px;
         padding-bottom: 15px;
         
         
+
     
+    }
+
+    .siteLogo{
+        height: 70px;
+        width: 70px;
     }
     
     .groups{
@@ -493,8 +517,8 @@ cursor: pointer;
 
 .user-Img{
 
-height: 40px;
-width: 40px;
+height: 50px;
+width: 50px;
 background-position: center center;
 background-size: cover;
 background-repeat: no-repeat;
@@ -686,10 +710,9 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
 .friendsImg{
     
     display: inline-block;
-    /* background: 
-    url("https://images-na.ssl-images-amazon.com/images/M/MV5BNTczMzk1MjU1MV5BMl5BanBnXkFtZTcwNDk2MzAyMg@@._V1_UY256_CR2,0,172,256_AL_.jpg" ); */
-    height: 40px;
-    width: 40px;
+ 
+    height: 50px;
+    width: 50px;
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -869,11 +892,8 @@ display: flex;
 height: 50px;
 font-size: 25px;
 padding: 10px 0px;
-background: #1e9600;
-background: -moz-linear-gradient(left, #1e9600 0%, #fff200 50%, #ff0000 100%);
-background: -webkit-linear-gradient(left, #1e9600 0%, #fff200 50%, #ff0000 100%);
-background: linear-gradient(to left, #1e9600 0%, #fff200 50%, #ff0000 100%);
-box-shadow: 0 0 15px -3px #1b1b1b
+background: #eeda74;
+
 }
 
 
@@ -1594,8 +1614,18 @@ header{
         .newFeedLink{
             display:none;
         }
+
+
+        .smScrnLogo{
+
+            width: 40px;
+            height: 40px;
+
+        }
         
         .navSitePic{
+            width: 40px;
+            height: 40px;
             padding-top: 1px;
             padding-bottom: 1px;
            
