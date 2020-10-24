@@ -14,7 +14,7 @@ class MiniBar extends React.Component {
 
         return (
 
-            <div className="navigation">
+            <div className="miniNavigation">
 
 
                 <div className="miniUserName"><Link to={"/"}><div>{this.props.userInfo.firstname + " " + this.props.userInfo.lastname}</div></Link></div>

@@ -15,7 +15,7 @@ class ScrMiniBar extends React.Component {
        
         return (
 
-            <div className="navigation">
+            <div className="miniNavigation">
 
 
 <div className="miniScreenName"><Link to ={"/lgScreen"}><div>{this.props.userInfo.screenName}</div> </Link></div>
