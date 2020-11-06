@@ -71,7 +71,7 @@ a{
         padding-top: 15px;
         padding-bottom: 10px;
         border: solid 5px #eeda74;;
-        background: #d21404;
+        background: #ae0e36ff;
         border-top: 0;
         border-right: 0;
 
@@ -102,6 +102,8 @@ a{
 
 /* HeaderCSS */
 .sitePic1{
+    width:20%;
+    padding-top: 10px;
    position: relative;
    top: -10px;
     
@@ -129,11 +131,11 @@ width:270px;
 
 .memberLogin{
     justify-content: flex-end;
-    align-items: center; 
+    align-items: flex-start; 
     display: flex;
     padding-right: 30px;
-    padding-top: 5px;
-    /* float: right; */
+    padding-top: 20px;
+    
 }
 
 .passmessage2{
@@ -370,7 +372,7 @@ width:90%
 box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.45);
 border-bottom: solid 5px #eeda74;
 
-background: #d21404;
+background: #ae0e36ff;
 
 
 }
@@ -900,7 +902,7 @@ height: 50px;
 font-size: 25px;
 padding: 10px 0px;
 border-bottom: solid 5px #eeda74;;
-background: #d21404;
+background: #ae0e36ff;
 
 }
 

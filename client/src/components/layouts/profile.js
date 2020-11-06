@@ -1,5 +1,5 @@
 import React from "react";
-import Fire from "../../config/fire";
+import { auth } from "../../config/firebase"
 import Navbar from "../../components/navbar/navbar";
 import ScrMiniBar from "../../components/navbar/scrMiniBar";
 import LeftMenu from "../../components/leftMenu/leftMenu"
@@ -12,7 +12,7 @@ import  {getUser} from"../../store/actions/userActions"
 import SideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 import VideoChat from "../messenger/videoChat"
-// import "./roots.css";
+
 
 class Profile extends React.Component {
 
@@ -42,7 +42,7 @@ class Profile extends React.Component {
 
 
     logout() {
-        Fire.auth().signOut().then(function () {
+        auth.auth().signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);

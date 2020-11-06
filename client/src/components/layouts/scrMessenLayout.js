@@ -1,5 +1,5 @@
 import React from "react";
-import Fire from "../../config/fire";
+import { auth } from "../../config/firebase"
 import ScrNavbar from "../navbar/scrnavbar";
 import ScreenMessenger from "../messenger/screenNameMessenger";
 import { connect } from "react-redux";
@@ -10,7 +10,7 @@ import BackDrop from "../sideDrawer/backDrop/backDrop";
 
 
 
-// import "./roots.css";
+
 
 class ScrMessenLayout extends React.Component {
 
@@ -32,7 +32,7 @@ class ScrMessenLayout extends React.Component {
 
 
     logout() {
-        Fire.auth().signOut().then(function () {
+        auth.auth().signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);

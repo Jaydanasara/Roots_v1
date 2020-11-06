@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default {
+export default  {
  
   getUsersPost: function(userData) {
   
@@ -143,6 +143,12 @@ export default {
   getPhotos: function(userData) {
 
     return axios.post("/api/usersData/getPhotos",userData);
+
+  },
+
+  saveScreenName: function(userData) {
+    
+    return axios.post("/api/usersData/screenData",userData);
 
   },
 

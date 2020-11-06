@@ -1,7 +1,7 @@
 import React from "react";
 import API from "../../utils/API";
 
-import { storage } from "../../config/fire";
+import { storage } from "../../config/firebase";
 
 class ProfileEditor extends React.Component {
     state = {

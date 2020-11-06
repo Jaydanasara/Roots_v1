@@ -2,7 +2,7 @@ import React from "react";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { storage } from "../../config/fire";
+import { storage } from "../../config/firebase";
 class ScreenProfile extends React.Component {
     state = {
         postID: "",
@@ -395,11 +395,11 @@ refreshScreenFriends = () => {
                 <div className="friendsPostinfo">
                     <Link to ={"/scrFriendProfile/"+ each.user_ID}><img className="friendsImg" src={(each.post_by_pic!==undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="friendspic" /> </Link> 
                     <div className="friendsInfo"> <div> <Link to ={"/scrFriendProfile/"+each.user_ID}>{each.post_by} </Link> </div> &nbsp; shared a &nbsp;
-                   {/* <a href="/profile">{(each.picUrl=== undefined)?  "story":"image"}</a>  </div> */}
+                 
                    <Link to={"/scrFriendProfile/" + each.user_ID}>{(each.picUrl === "") ? " story " :  " image "}</Link>  </div>                
                 </div>
                 <div className="uploadedInfo">
-                {/* <div className={`${(each.picUrl === undefined) ? "story" : "upImage"}`}><img className={`${(each.picUrl === undefined) ? "story" : "upImage"}`} src={each.picUrl} alt= "uploaded image"/></div> */}
+               
                 {(each.picUrl === "")? <div className="story"> </div>:
                 <div className= "miniUpImage"><img className={`${(each.picUrl === "") ? "story" : "miniUpImage"}`} src={each.picUrl} alt="uploaded pic" /></div>
                  }

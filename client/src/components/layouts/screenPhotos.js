@@ -1,5 +1,5 @@
 import React from "react";
-import Fire from "../../config/fire";
+import { auth } from "../../config/firebase"
 import ScrNavbar from "../navbar/scrnavbar";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
@@ -7,7 +7,7 @@ import LeftMenu from "../leftMenu/leftMenu"
 import ScrPhotosPage from "../photosPage/scrPhotosPage"
 import ScrSideDrawer from "../../components//sideDrawer/scrSideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
-// import "./roots.css";
+
 
 class ScreenPhotos extends React.Component {
 
@@ -21,7 +21,7 @@ class ScreenPhotos extends React.Component {
     }
     }
     logout() {
-        Fire.auth().signOut().then(function () {
+        auth.auth().signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);

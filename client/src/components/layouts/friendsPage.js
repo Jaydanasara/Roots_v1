@@ -1,5 +1,5 @@
 import React from "react";
-import Fire from "../../config/fire";
+import {auth} from "../../config/firebase";
 import Navbar from "../navbar/navbar";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
@@ -35,7 +35,7 @@ class FriendsPage extends React.Component {
 
 
     logout() {
-        Fire.auth().signOut().then(function () {
+        auth.auth().signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);

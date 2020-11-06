@@ -1,5 +1,5 @@
 import React from "react";
-import Fire from "../../config/fire";
+import { auth } from "../../config/firebase"
 import Navbar from "../navbar/navbar";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
@@ -9,7 +9,7 @@ import VideoChat from "../messenger/videoChat"
 import API from "../../utils/API";
 import SideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
-// import "./roots.css";
+
 
 class VideoChatLayout extends React.Component {
     
@@ -30,7 +30,7 @@ class VideoChatLayout extends React.Component {
     
     
         logout() {
-            Fire.auth().signOut().then(function () {
+            auth.auth().signOut().then(function () {
                 console.log("Sign-out successful")
             }).catch((error) => {
                 console.log(error);

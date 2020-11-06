@@ -1,7 +1,7 @@
 import React from "react";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
-import { storage } from "../../config/fire";
+import { storage } from "../../config/firebase";
 import moment from "moment";
 class FriendProfile extends React.Component {
     state = {

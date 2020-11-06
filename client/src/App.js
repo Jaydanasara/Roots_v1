@@ -1,15 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import "./components/layouts/roots.css";
 import Homelayout from "./components/layouts/home";
 import Layout from "./components/layouts/layout";
-import Fire from "./config/fire";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Lostpassword from "./components/lostpassword/lostPassword";
 import Profile from "./components/layouts/profile";
 import FriendProfileLayout from "./components/layouts/friendProfileLayout";
 import EditProfile from "./components/editProfile/editProfile";
 import FriendsPage from "./components/layouts/friendsPage";
-import { connect } from "react-redux";
 import UserPhotos from './components/layouts/userPhotos';
 import ScreenLayout from './components/layouts/screenLayout';
 import ScrProLayout from './components/layouts/scrProLayout';
@@ -20,47 +18,19 @@ import MessenLayout from './components/layouts/messenLayout';
 import VideoChatLayout from './components/layouts/videoChatLayout';
 import ScrMessenLayout from './components/layouts/scrMessenLayout';
 import InboxLayout from "./components/layouts/inboxLayout";
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: {}
-    }
-  }
-
-  componentDidMount() {
-    this.authListener();
+import PrivateRoute from "./components/PrivateRoute";
+import {AuthProvider} from"./context/AuthContext";
 
 
-  }
-
-
-
-
-  authListener() {
-    Fire.auth().onAuthStateChanged((user) => {
-      console.log(user)
-
-      if (user) {
-        this.setState({ user });
-        console.log("woking")
-
-      } else {
-        this.setState({ user: null });
-        console.log("not working")
-
-      }
-    });
-
-  }
+function App () {
+  
 
 
 
 
 
 
-  render() {
+  
 
 
     return (
@@ -71,12 +41,13 @@ class App extends Component {
         <div>
 
           <Router>
-            <div>
+          <AuthProvider>
               <Switch>
 
-                <Route exact path="/" render={() => this.state.user ? (<Layout />) : (<Homelayout />)} />
-                <Route exact path="/layout" component={Layout} />
-                <Route path="/lostPassword" component={Lostpassword} />
+                {/* <Route exact path="/" render={() => this.state.user ? (<Layout />) : (<Homelayout />)} /> */}
+                <PrivateRoute exact path="/" component={Layout} />
+                <Route exact path="/landingPage" component={Homelayout} />
+                <Route exact path="/lostPassword" component={Lostpassword} />
                 <Route exact path="/profile/:id" component={Profile} />
                 <Route exact path="/friendProfile/:id" component={FriendProfileLayout} />
                 <Route exact path="/editprofile/:id" component={EditProfile} />
@@ -92,7 +63,7 @@ class App extends Component {
                 <Route exact path="/videoChat/:id" component={VideoChatLayout} />
                 <Route exact path="/inbox" component={InboxLayout} />
               </Switch>
-            </div>
+            </AuthProvider>
           </Router>
         </div>
 
@@ -105,18 +76,11 @@ class App extends Component {
 
 
     );
-  }
-}
-
-const mapStateToProps = (state) => {
-  console.log(state)
-  return {
-    userInfo: state.userR.userProfile
-
-
-  }
+  
 }
 
 
-export default connect(mapStateToProps)(App);
+
+
+ export default(App);
 

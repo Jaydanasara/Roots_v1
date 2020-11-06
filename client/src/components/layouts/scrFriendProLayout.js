@@ -1,5 +1,5 @@
 import React from "react";
-import Fire from "../../config/fire";
+import { auth } from "../../config/firebase"
 import ScrNavbar from "../../components/navbar/scrnavbar";
 import MiniBar from "../../components/navbar/miniBar";
 import MiniContent from "../content/miniContent";
@@ -12,7 +12,7 @@ import ScrSideDrawer from "../../components//sideDrawer/scrSideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 
 
-// import "./roots.css";
+
 
 class ScrFriendProLayout extends React.Component {
 
@@ -35,7 +35,7 @@ class ScrFriendProLayout extends React.Component {
 
 
     logout() {
-        Fire.auth().signOut().then(function () {
+        auth.auth().signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);

@@ -41,12 +41,16 @@ console.log(newUser)
         })
             .then(res => {
                 dispatch({type:"CREATE_USER",newProfile:res.data})
+                console.log(res.data)
                 API.saveScreenName({
                     firstname:res.data.firstname,
                     lastname:res.data.lastname,
                     user_ID:res.data._id,
                     screenName:res.data.screenName
                     
+                })
+                .then(res=>{
+                    console.log(res.data)
                 })
             })          
             .catch(err => console.log(err));

@@ -1,8 +1,10 @@
 import React from "react";
 import "../../components/layouts/roots.css";
-import Fire from "../../config/fire";
+
+import { auth } from "../../config/firebase"
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
+import { Link,withRouter } from "react-router-dom";
+
 
 
 class Navbar extends React.Component {
@@ -82,12 +84,16 @@ class Navbar extends React.Component {
         window.location.reload(false);
     }
 
-    logout() {
-        Fire.auth().signOut().then(function () {
+    logout= async ()=> {
+        auth.signOut().signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);
         });
+
+      
+    
+
         sessionStorage.clear();
     }
 
@@ -133,7 +139,7 @@ class Navbar extends React.Component {
                             <ul>
                                 <Link to={"/profile/" + this.props.userInfo.user_ID}><li className="dropdown-item"> Profile</li> </Link>
 
-                                <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>
+                                <a className="dropdown-item" href="/landingPage" onClick={this.logout}>Logout</a>
                             </ul>
                             <div className="dropdown-divider"></div>
 
@@ -179,8 +185,9 @@ class Navbar extends React.Component {
         )
     }
 }
+let NavbarWithRouter= withRouter(Navbar);
 
-export default Navbar;
+export default NavbarWithRouter;
 
 
 

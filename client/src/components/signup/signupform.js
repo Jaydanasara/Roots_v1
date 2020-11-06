@@ -1,71 +1,71 @@
-import React from "react";
-import Fire from "../../config/fire";
-
+import React, {useState } from 'react'
+import { useAuth } from "../../context/AuthContext"
+import {useHistory} from "react-router-dom"
 import { connect } from 'react-redux';
 import {createUser} from "../../store/actions/userActions";
-// import "../../components/layouts/roots.css";
-class SignupForm extends React.Component {
 
+ function SignupForm(props) {
+   
+    const { signup} = useAuth()
+    // const [error, setError] = useState("")
+    // const [loading, setLoading] = useState(false)
+    const history = useHistory()
 
-
-    state = {
+    const [user,setUser]=useState({
         firstname: "",
         lastname: "",
         password: "",
         emailaddress: "",
         screenName:"",
-        name:"",
+        passwordCfm:"",
         age:""
 
-    }
+    })
+   
 
 
+    const handleChange = e => {
 
 
-    handleChange = e => {
-
-
-        this.setState({
-            [e.target.name]: e.target.value
+        setUser({...user,[e.target.name]: e.target.value
         });
     };
 
 
-
-    newSignup = e => {
+    const newSignup = async  e => {
 
         e.preventDefault();
 
-        
-        // const newUserInfo ={
-        //     firstname: this.state.firstName,
-        //         lastname: this.state.lastName,
-        //         emailaddress: this.state.email,
-        //         password: this.state.password,
-        //         screenName:this.state.screenName
-        // }
-
-
-
-        if (!this.state.firstname || !this.state.lastname|| !this.state.screenName) {
+        if (!user.firstname || !user.lastname|| !user.screenName) {
             alert("Fill out your first, last name and Screen Name please!");
-        } else if (this.state.password.length < 6) {
+        } else if (user.password.length < 6) {
             alert(
-                `Choose a more secure password ${this.state.firstname} ${this.state
+                `Choose a more secure password ${user.firstname} ${user
                     .lastname}`
             );
-        } else if (this.state.password !== this.state.name) {
+        } else if (user.password !== user.passwordCfm) {
             alert("You Passwords do not match");
-        }else if (this.state.age<18 || this.state.age.length===0){
+        }else if (user.age<18 || user.age.length===0){
             alert("You must be 18 or older to join this site");
-        }else if(isNaN(this.state.age)){
+        }else if(isNaN(user.age)){
             alert("You must enter a number")
         }
         else {
 
-            Fire.auth().createUserWithEmailAndPassword(this.state.emailaddress, this.state.password)
-            .catch(err => alert(err));
-            this.props.createUser(this.state)
+            
+        try {
+            // setError("")
+            // setLoading(true)
+            await signup(user.emailaddress, user.password)
+            await props.createUser(user)
+            history.push('/')
+        } catch (error) {
+            alert(error)
+           
+
+        }
+    
+      
                 
 
          
@@ -78,61 +78,57 @@ class SignupForm extends React.Component {
 
     }
 
- 
 
-render() {
+
+
     return (
         <div className="register">
-            <div className="signup">
-                <h1> Register</h1>
-                <p className="text-muted">Like The Branches of a tree we are Connected
-                </p>
-            </div>
-            <form className="signUpForm">
-                <div className="signupContainer">
-                    <div className="registerName">
-                        <div className="col-sm-6 form-group">
-                            <input value={this.state.firstname} onChange={this.handleChange} type="text" placeholder="First Name" name="firstname" ref="firstName" className="signupInput" />
-                        </div>
-                        <div className="col-sm-6 form-group">
-                            <input value={this.state.lastname} onChange={this.handleChange} type="text" placeholder="Last Name" name="lastname" ref="lastName" className="signupInput" />
-                        </div>
-                        <div className="form-group">
-                            <input value={this.state.age} onChange={this.handleChange} type="text" placeholder="Age" name="age" ref="age" className="signupInput" />
-                        </div>
-                        <div className="col-sm-6 form-group">
-                            <input value={this.state.screenName} onChange={this.handleChange} type="text" placeholder="Screen Name" name="screenName" ref="screenName" className="signupInput" />
-                        </div>
+        <div className="signup">
+            <h1> Register</h1>
+            <p className="text-muted">Like The Branches of a tree we are Connected
+            </p>
+        </div>
+        <form className="signUpForm">
+            <div className="signupContainer">
+                <div className="registerName">
+                    <div className="col-sm-6 form-group">
+                        <input value={user.firstname} onChange={handleChange} type="text" placeholder="First Name" name="firstname" className="signupInput" />
                     </div>
-
-
-                    <div className="registerEmail" >
-
-                        <input value={this.state.emailaddress} onChange={this.handleChange} type="email" placeholder="Email Address" name="emailaddress" ref="email" className="signupInput" />
-
-                        <div className="" >
-                            <input value={this.state.password} onChange={this.handleChange} type="password" placeholder="Password" name="password" ref="password" className="signupInput" />
-                            <input value={this.state.name} onChange={this.handleChange} type="password" placeholder="Confirm Password" name="name" ref="confirm" className="signupInput" />
-                        </div>
-
+                    <div className="col-sm-6 form-group">
+                        <input value={user.lastname} onChange={handleChange} type="text" placeholder="Last Name" name="lastname"  className="signupInput" />
                     </div>
-
-                    <div className="passmessage"><p>Password must be at least 6 characters</p></div>
-                    <div className="signupButContainer">
-                    <button onClick={this.newSignup} type="submit" className="signupBtn"> Sign up</button>
+                    <div className="form-group">
+                        <input value={user.age} onChange={handleChange} type="text" placeholder="Age" name="age"  className="signupInput" />
                     </div>
+                    <div className="col-sm-6 form-group">
+                        <input value={user.screenName} onChange={handleChange} type="text" placeholder="Screen Name" name="screenName"  className="signupInput" />
+                    </div>
+                </div>
 
+
+                <div className="registerEmail" >
+
+                    <input value={user.emailaddress} onChange={handleChange} type="email" placeholder="Email Address" name="emailaddress"  className="signupInput" />
+
+                    <div className="" >
+                        <input value={user.password} onChange={handleChange} type="password" placeholder="Password" name="password"  className="signupInput" />
+                        <input value={user.passwordCfm} onChange={handleChange} type="password" placeholder="Confirm Password" name="passwordCfm"  className="signupInput" />
+                    </div>
 
                 </div>
-            </form>
 
-        </div >
+                <div className="passmessage"><p>Password must be at least 6 characters</p></div>
+                <div className="signupButContainer">
+                <button onClick={newSignup} type="submit" className="signupBtn"> Sign up</button>
+                </div>
+
+
+            </div>
+        </form>
+
+    </div >
     )
 }
-};
-
-
-
 const mapDispatchToProps = (dispatch) =>{
     return{
         createUser: ( newUserInfo) => dispatch (createUser(newUserInfo))

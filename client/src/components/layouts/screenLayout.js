@@ -1,5 +1,5 @@
 import React from "react";
-import Fire from "../../config/fire";
+import { auth } from "../../config/firebase"
 import ScrNavbar from "../navbar/scrnavbar";
 import MiniBar from "../navbar/miniBar";
 import MiniContent from "../content/miniContent";
@@ -12,7 +12,7 @@ import  {getUser} from"../../store/actions/userActions"
 import ScrSideDrawer from "../../components//sideDrawer/scrSideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 
-// import "./roots.css";
+
 
 class ScreenLayout extends React.Component {
 
@@ -34,7 +34,7 @@ class ScreenLayout extends React.Component {
 
 
     logout() {
-        Fire.auth().signOut().then(function () {
+        auth.auth().signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);

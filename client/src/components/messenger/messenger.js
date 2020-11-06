@@ -136,6 +136,7 @@ class Messenger extends React.Component {
     
 
     friendsOnline=()=>{
+        if(this.props.userInfo.friends){
         let onlineFriends = []
         this.state.users.forEach(user=> {
             console.log(user.userid)
@@ -148,6 +149,9 @@ class Messenger extends React.Component {
 
         this.setState({onlineFriends :onlineFriends})
         console.log(onlineFriends)
+    }else {
+        return
+    }
     }
 
 

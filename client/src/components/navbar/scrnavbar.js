@@ -1,8 +1,9 @@
 import React from "react";
 import "../../components/layouts/roots.css";
-import Fire from "../../config/fire";
+import { auth } from "../../config/firebase"
+
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
+import { Link,withRouter } from "react-router-dom";
 
 
 class ScrNavbar extends React.Component {
@@ -83,12 +84,16 @@ class ScrNavbar extends React.Component {
     }
 
 
-    logout() {
-        Fire.auth().signOut().then(function () {
+    logout= async ()=> {
+        auth.signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);
         });
+
+       
+    
+
         sessionStorage.clear();
     }
 
@@ -134,7 +139,7 @@ class ScrNavbar extends React.Component {
                                 <Link to={"/screenProfile/" + this.props.screenInfo._id}><li className="dropdown-item"> Profile</li> </Link>
 
 
-                                <a className="dropdown-item" href="/" onClick={this.logout}>Logout</a>
+                                <a className="dropdown-item" href="/landingPage" onClick={this.logout}>Logout</a>
                             </ul>
                             <div className="dropdown-divider"></div>
 
@@ -181,4 +186,5 @@ class ScrNavbar extends React.Component {
     }
 }
 
-export default ScrNavbar;
+let ScrNavbarWithRouter= withRouter(ScrNavbar);
+export default ScrNavbarWithRouter;

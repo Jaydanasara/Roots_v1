@@ -1,5 +1,5 @@
 import React from "react";
-import Fire from "../../config/fire";
+import { auth } from "../../config/firebase"
 import Navbar from "../navbar/navbar";
 import ScrMiniBar from "../navbar/scrMiniBar";
 import LeftMenu from "../leftMenu/leftMenu"
@@ -12,7 +12,7 @@ import  {getUser} from"../../store/actions/userActions"
 import SideDrawer from "../sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 import VideoChat from "../messenger/videoChat"
-// import "./roots.css";
+
 
 class FriendProfileLayout extends React.Component {
 
@@ -42,7 +42,7 @@ class FriendProfileLayout extends React.Component {
 
 
     logout() {
-        Fire.auth().signOut().then(function () {
+        auth.auth().signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);

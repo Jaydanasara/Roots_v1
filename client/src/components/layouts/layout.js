@@ -1,5 +1,5 @@
 import React from "react";
-import Fire from "../../config/fire";
+import { auth } from "../../config/firebase"
 import Navbar from "../../components/navbar/navbar";
 import ScrMiniBar from "../../components/navbar/scrMiniBar";
 import Content from "../content/content";
@@ -13,7 +13,6 @@ import SideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 import VideoChat from "../messenger/videoChat"
 
-// import { createRef } from "react";
 
 
 
@@ -39,13 +38,8 @@ class Layout extends React.Component {
     
     }
  componentDidMount(){
-    // this.screenNameData()
-        if (this.props.userInfo.emailaddress==="" ){
-            this.logout()
-        }
-        else{
-            this.screenNameData()
-        }
+    this.screenNameData()
+      
 
         
       
@@ -55,14 +49,17 @@ class Layout extends React.Component {
     }
 
 
+    
 
     logout() {
-        Fire.auth().signOut().then(function () {
+        auth.auth().signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);
         });
     }
+
+   
 
     
     drawToggleClickHandler=()=>{
@@ -75,7 +72,7 @@ class Layout extends React.Component {
         this.setState({sideDrawerOpen:false})
     };
 
-
+  
 
     screenNameData = () => {
         console.log(this.props)

@@ -3,7 +3,7 @@ import Signupform from "../../components/signup/signupform";
 import Header from "../../components/header/header";
 import Featurelist from "../../components/features/features";
 
-// import "../../components/layouts/roots.css";
+
 
 
 

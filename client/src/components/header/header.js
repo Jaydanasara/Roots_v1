@@ -1,47 +1,42 @@
-import React from "react";
-import { withRouter } from 'react-router'
-import Fire from "../../config/fire";
+import React, {useState } from 'react';
+import { useHistory,Link } from 'react-router-dom';
 import "../../components/layouts/roots.css";
 import { connect } from "react-redux";
-import  {getUser} from"../../store/actions/userActions"
+import  {getUser} from"../../store/actions/userActions";
+import {useAuth} from "../../context/AuthContext";
 
 
-class Header extends React.Component {
-  state={
-      emailaddress:"",
-      password:""
-  }
-// componentDidMount()
+function Header(props) {
 
 
+    const { login} = useAuth()
+const [user,setUser]=useState({
+    emailaddress:"",
+    password:""
+})
 
-
+const history = useHistory()
 
     
         
 
-        login = e => {
+     const   loginInfo =async e => {
 
             // Preventing the default behavior of the form submit (which is to refresh the page)
     
             e.preventDefault();
-            Fire.auth().signInWithEmailAndPassword(this.state.emailaddress,this.state.password)
-            .then(authRes=>{
-               
-                this.props.getUser(this.state)
-                 console.log(authRes)
-            })
-            .then(()=>{
-                this.props.history.push('/layout')
 
-            })
+            try {
+                // setError("")
+                // setLoading(true)
+                await login(user.emailaddress,user.password)
+                props.getUser(user)
             
-         .catch(err => alert(err));
-            console.log(this.state)
-
-            
-          
+                history.push('/')
+            } catch (error) {
+                alert(error)
     
+            }
     
     
            }
@@ -53,11 +48,10 @@ class Header extends React.Component {
 
 
 
-    handleChange = e => {
+    const handleChange = e => {
 
 
-        this.setState({
-            [e.target.name]: e.target.value
+        setUser({...user,[e.target.name]: e.target.value
         });
     };
 
@@ -66,13 +60,13 @@ class Header extends React.Component {
 
 
 
-    render() {
+    
     
         return (
             <div className="container">
                 <div className="header_container">
                     <span className="logoSpan">
-                        <img className="sitePic1" src="./treeicon.png" alt="tree icon" /><h2 className="siteName">Roots of Our Tree</h2>
+                        <img className="sitePic1" src="https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802" alt="tree icon" /><h2 className="siteName">Roots of Our Tree</h2>
                     </span>
                     <div className="memberLogin">
                         <form  id="signin" className="headerBar">
@@ -80,32 +74,29 @@ class Header extends React.Component {
                                 <span className="input-group-addon1">
                                     <i className="fa fa-user-circle" id="loginIcon" aria-hidden="true"></i>
                                 </span>
-                                <input value={this.state.emailaddress} onChange={this.handleChange} type="email" placeholder="Email Address" name="emailaddress" ref="email" className="loginInput" />
+                                <input value={user.emailaddress} onChange={handleChange} type="email" placeholder="Email Address" name="emailaddress"  className="loginInput" />
                             </div>
                             <div className="input1">
                                 <span className="input-group-addon1">
                                     <i className="fa fa-key" id="loginIcon" aria-hidden="true"></i>
                                 </span>
-                                <input value={this.state.password} onChange={this.handleChange} type="password" placeholder="Password" name="password" ref="password" className="loginInput" />
+                                <input value={user.password} onChange={handleChange} type="password" placeholder="Password" name="password"  className="loginInput" />
                             </div>
-                            <button type="submit" onClick={this.login} className="btn btn-primary">Login</button>
+                            <button type="submit" onClick={loginInfo} className="btn btn-primary">Login</button>
                         </form>
 
                     </div>
 
                 </div>
                 <div className="passmessage2">
-                    <a href="/lostPassword" className="lost">Lost Password</a>
+                    <Link to="/lostPassword" className="lost">Lost Password</Link>
                     
                 </div>
             </div>
         )
-    }
-};
-// Header.propTypes={
-//     getPost:PropTypes.func.isRequired,
 
-// }
+};
+
 
 const mapDispatchToProps = (dispatch) =>{
     return{
@@ -122,10 +113,8 @@ const mapStateToProps = (state)=>{
     return{
  userProfile:state.userR.userProfile
     
-    // post:state.postRed.email,
-    // post:state.postRed.password,
-    // newPost: state.post.userCred
+
     }
 }
-let headerWithRouter= withRouter(Header);
-export default  connect(  mapStateToProps, mapDispatchToProps) (headerWithRouter) 
+
+export default  connect(  mapStateToProps, mapDispatchToProps) (Header) 

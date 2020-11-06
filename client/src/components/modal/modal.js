@@ -1,11 +1,11 @@
 import React from "react";
 import API from "../../utils/API"
 
-import { storage } from "../../config/fire";
+import { storage } from "../../config/firebase";
 import{socket} from "../messenger/messenger";
 
 
-// const socket = io.connect("/")
+
 class Modal extends React.Component {
 
 
@@ -39,25 +39,6 @@ class Modal extends React.Component {
 
 
 
-    // initSocket = () => {
-
-    //     const socket = io(socketUrl)
-
-
-
-    //     socket.on('connect', () => {
-
-    //         console.log("Connected");
-
-    //     })
-    //     this.setState({ socket })
-
-
-
-
-
-
-    // }
 
 
 
@@ -151,17 +132,7 @@ class Modal extends React.Component {
         this.setState({ isActive2: !this.state.isActive })
     };
 
-    // addToPhotos = () => {
-
-    //     API.addPhotos({
-    //         photos: this.state.url,
-    //         id: this.props.userInfo.user_ID
-    //     })
-
-    //         .then(res => console.log(res))
-    //         .catch(err => console.log(err));
-    // }
-
+   
 
 
     render() {
@@ -176,14 +147,7 @@ console.log(this.props)
                 <div></div>
                 :
 
-                // this.props.allChatInfo.length === 0 ?
-                //     <div>
-
-
-                //     </div>
-                //     :
-
-                //     this.state.newChatInfo.length === 0 ?
+              
 
                 <div className="modalContainer ">
 
@@ -316,8 +280,7 @@ console.log(this.props)
 
 
                 </div>
-            // :
-            // <div></div>
+           
 
         )
     }
