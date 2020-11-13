@@ -6,7 +6,7 @@
   "dependencies": {
     "@google-cloud/storage": "^2.5.0",
     "axios": "^0.18.1",
-    "firebase": "^5.9.0",
+    "firebase": "8.0.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-redux": "^7.0.3",
