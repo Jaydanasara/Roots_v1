@@ -85,7 +85,7 @@ class Navbar extends React.Component {
     }
 
     logout= async ()=> {
-        auth.signOut().signOut().then(function () {
+        auth.signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);

@@ -38,7 +38,12 @@ class Layout extends React.Component {
     
     }
  componentDidMount(){
-    this.screenNameData()
+
+    
+    //  if (this.props.userInfo.emailadress == undefined){
+    //      this.logout();
+    //  }
+    this.screenNameData();
       
 
         
@@ -52,7 +57,7 @@ class Layout extends React.Component {
     
 
     logout() {
-        auth.auth().signOut().then(function () {
+        auth.signOut().then(function () {
             console.log("Sign-out successful")
         }).catch((error) => {
             console.log(error);

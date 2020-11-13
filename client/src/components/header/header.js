@@ -30,7 +30,7 @@ const history = useHistory()
                 // setError("")
                 // setLoading(true)
                 await login(user.emailaddress,user.password)
-                props.getUser(user)
+                await props.getUser(user)
             
                 history.push('/')
             } catch (error) {

@@ -12,13 +12,20 @@ class ScreenName extends React.Component {
         url: "",
         isActive: false,
         comment:"",
+        isLoading:true,
        
 
 
     }
     componentDidMount() {
         console.log(this.props.screenInfo)
+        if(this.props.screenInfo!==""){
+            this.setState({isLoading:false})
+        }
+        else {
+        
         this.listScrFriendsPost()
+    }
 
 
     }
@@ -186,6 +193,8 @@ addToPhotos =() =>{
         console.log(this.props.userInfo)
 
         return (
+
+            this.state.isLoading === true ?<div className="loading">Loading</div> :
             <div className="screenNameArea ">
                
                 <section className="miniComposeStatus">
