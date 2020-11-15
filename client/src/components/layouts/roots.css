@@ -6,7 +6,7 @@ html, body, #root{
     --mainBackgroundColor:#808080;
     --borderColor: rgb(161,67,181); 
     --radiantPurplColor:radial-gradient(circle, rgba(161,67,181,1) 5%, rgba(93,45,98,1) 63%);
-    --scrBackgroundColor:#2d545e;
+    --scrBackgroundColor:teal;
 
   }
 
