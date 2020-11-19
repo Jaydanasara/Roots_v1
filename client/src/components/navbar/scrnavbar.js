@@ -108,8 +108,8 @@ class ScrNavbar extends React.Component {
 
                     <header>
                         <div className="navSitePic">
-                            <a href="/" className="">
-                                <img src="/rootsicon.jpg" alt="tree icon" />
+                        <a href="/" className="">
+                                <img class="smScrnLogo" src="/logo500.png" alt="tree icon" />
                             </a>
                         </div>
                         <input type="checkbox" id="nav-toggle" class="nav-toggle" />

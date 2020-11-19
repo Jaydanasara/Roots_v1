@@ -6,7 +6,7 @@ html, body, #root{
     --mainBackgroundColor:#808080;
     --borderColor: rgb(161,67,181); 
     --radiantPurplColor:radial-gradient(circle, rgba(161,67,181,1) 5%, rgba(93,45,98,1) 63%);
-    --scrBackgroundColor:teal;
+    --scrBackgroundColor:#c600219d;
 
   }
 
@@ -42,8 +42,8 @@ font-size: 150px;
 
 a{
 
-    text-decoration-color: #eeda74;
-    color: #eeda74;
+    /* text-decoration-color: #eeda74;
+    color: #eeda74; */
 }
 
 
@@ -1136,6 +1136,7 @@ button:focus {
     margin-top: 20px;
     background: var(--scrBackgroundColor);
     
+    
   
 
 }
@@ -1453,6 +1454,7 @@ header{
     
         .feed_Container{
             width: 95%;
+            margin: 0;
         }
     
         .navIcons{
@@ -1492,6 +1494,10 @@ header{
             display: grid;
             grid-template-columns: 1fr auto minmax(600px,1fr) 1fr
         
+        }
+
+        .userAccount{
+            padding-bottom:5px ;
         }
         
         .logo{
@@ -1741,7 +1747,8 @@ header{
         
         
         #home{
-            font-size: 12px;
+            font-size: 11px;
+            line-height: 0.5;
         }
 
         .app-container{
