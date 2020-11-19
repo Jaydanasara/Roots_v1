@@ -8,8 +8,8 @@ return(dispatch, getState) => {
    
     API.getUserInfo({
         
-        emailaddress:currentUser.emailaddress,
-        password: currentUser.password
+        emailaddress:currentUser
+        // password: currentUser.password
                
         
     })

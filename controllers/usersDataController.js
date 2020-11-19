@@ -41,7 +41,7 @@ module.exports = {
 
   
 findUserinfo:function(req, res) {
- 
+ console.log(req.body)
   db.usersData
    .find({emailaddress:req.body.emailaddress})
    

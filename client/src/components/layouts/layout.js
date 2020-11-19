@@ -39,10 +39,10 @@ class Layout extends React.Component {
     }
  componentDidMount(){
 
-    
-    //  if (this.props.userInfo.emailadress == undefined){
-    //      this.logout();
-    //  }
+        
+     if (auth.currentUser && this.props.userInfo.emailaddress ===""){
+        this.props.getUser( auth.currentUser.email)
+     }
     this.screenNameData();
       
 

@@ -77,6 +77,7 @@ export default  {
 
 
   getUserInfo: function(userData) {
+    console.log(userData)
   
     return axios.post("/api/usersData",userData);
   
