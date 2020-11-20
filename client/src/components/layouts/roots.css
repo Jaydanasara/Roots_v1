@@ -37,8 +37,9 @@ font-size: 150px;
 
 }
 
-
-
+.largeScrName{
+    background: var(--scrBackgroundColor);
+}
 
 a{
 

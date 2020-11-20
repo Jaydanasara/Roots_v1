@@ -250,7 +250,7 @@ class LgScreenName extends React.Component {
         console.log(this.props.screenInfo)
 
         return (
-            <div className="contentArea ">
+            <div className="contentArea largeScrName">
 
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
