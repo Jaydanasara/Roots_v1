@@ -297,7 +297,8 @@ addToPhotos =() =>{
                                             
                                             <div className="mapComments">{
                                             content.comments.map((comment,picUrl)=>
-                                                <div  key={picUrl} className="commentList"> {moment(comment.dateCreated).calendar()}  <span> <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}</div>
+                                                <div  key={picUrl} className="commentList"> {moment(comment.dateCreated).calendar()}  <span> <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
+                                                     <div className={comment.picUrl !== "" ? "commentPic" : "nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt="comment pic" /></div></div>
                                                 )}
                                                 <div className="responseComments">
                                                 <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
