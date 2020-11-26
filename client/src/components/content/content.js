@@ -339,7 +339,7 @@ class Content extends React.Component {
 
                                             <div className="mapComments">{
                                                 content.comments.map((comment, picUrl) =>
-                                                    <div key={picUrl} className="commentList">{moment(comment.dateCreated).calendar()} <span> &nbsp; <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
+                                                    <div key={picUrl} className="commentList"><div className="timeStamp">{moment(comment.dateCreated).calendar()} </div><span> &nbsp; <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
                                                         <div className={comment.picUrl !== "" ? "commentPic" : "nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt="comment pic" /></div></div>
                                                 )}
                                                 <div className="responseComments">
