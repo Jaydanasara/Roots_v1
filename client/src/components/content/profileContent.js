@@ -291,11 +291,8 @@ class ProfileContent extends React.Component {
 
 
     refreshState = () => {
-        const updatePost = {
-            emailaddress: this.props.userInfo.userInfo.emailaddress,
-            password: this.props.userInfo.userInfo.password
-        }
-        this.props.disState.getUser(updatePost)
+        
+        this.props.disState.getUser(this.props.userInfo.userInfo.emailaddress)
 
     }
 
