@@ -25,6 +25,29 @@ export default  {
 
   },
 
+
+  deleteComment: function(id,postData){
+    return axios.put("/api/usersData/commentData/"+id,postData);
+
+  },
+
+
+  changePost: function(id,postData){
+  
+    return axios.put("/api/usersData/postData/"+id,postData);
+
+  },
+
+
+  editComment: function(id,postData){
+  
+    return axios.put("/api/usersData/editComment/"+id,postData);
+
+  },
+
+
+
+
   likes: function(id,postData){
     console.log("like working")
     return axios.post("/api/usersData/likeData/"+id,postData);
@@ -34,6 +57,11 @@ export default  {
 
   deleteLikes: function(id,postData){
     return axios.put("/api/usersData/likeData/"+id,postData);
+
+  },
+
+  deletePost: function(id){
+    return axios.delete("/api/usersData/postData/"+id);
 
   },
 

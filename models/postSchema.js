@@ -7,6 +7,7 @@ const postSchema = new Schema({
     user_ID: { type: String, required: false },
     post_by: { type: String, required: true },
     picUrl:{ type: String, required: false },
+    videoUrl:{ type: String, required: false },
     post_by_pic:{ type: String, required: false },
     tags: [],
     likes: [ {

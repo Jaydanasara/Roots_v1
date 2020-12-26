@@ -3,6 +3,10 @@ import API from "../../utils/API"
 import { Link } from "react-router-dom";
 import { storage } from "../../config/firebase";
 import moment from "moment";
+import BackDrop from "../sideDrawer/backDrop/backDrop";
+import EditPostModal from "../modal/editPostModal";
+import EditCommentModal from "../modal/EditCommentModal"
+import VideoPost from "../videoPost/VideoPost"
 
 class LgScreenName extends React.Component {
     state = {
@@ -11,11 +15,20 @@ class LgScreenName extends React.Component {
         allUserPost: [],
         image: null,
         url: "",
+        video: "",
         isActive: false,
         isActive2: false,
         comment: "",
         checkInputID: null,
         whichComment: null,
+        optionId: "",
+        edit_id: "",
+        editContent: "",
+        editPicture: "",
+        comment_id: "",
+        comOption_id: "",
+        postComment_id: "",
+        editComment: "",
 
     }
     componentDidMount() {
@@ -47,7 +60,7 @@ class LgScreenName extends React.Component {
     refreshState = () => {
         const updatePost = {
             emailaddress: this.props.userInfo.emailaddress,
-            password: this.props.userInfo.password
+            
         }
         this.props.disState.getUser(updatePost)
 
@@ -58,26 +71,30 @@ class LgScreenName extends React.Component {
 
 
     submitPost = () => {
+        console.log(this.state.statusPost)
         API.savePost({
             content: this.state.statusPost,
             post_by: this.props.screenInfo.screenName,
             post_by_pic: this.props.screenInfo.userPic,
             user_ID: this.props.screenInfo._id,
+            videoUrl: this.state.video,
             picUrl: this.state.url,
             progress: 0
         })
             .then(console.log(this.submitPost))
             .then(res => {
 
+                console.log(res)
+
 
                 this.setState({ postID: res.data._id }, () => this.addPostID());
-                console.log(this.state)
+               
             })
 
             .catch(err => console.log(err));
 
         this.refreshState()
-        this.setState({ statusPost: "", isActive: false,url:"" }, () => this.listScrFriendsPost());
+        this.setState({ statusPost: "", isActive: false, url: "" }, () => this.listScrFriendsPost());
 
     }
 
@@ -173,8 +190,18 @@ class LgScreenName extends React.Component {
         this.uploadClick()
         if (event.target.files[0]) {
             const image = event.target.files[0];
-            this.setState(() => ({ image }));
-            this.uploadClick()
+            let extention = image.name.substring(image.name.lastIndexOf(".") + 1)
+            console.log(extention)
+            if (extention === "mp4" || extention === "mpg" || extention === "wmv" || extention === "mpeg"
+                || extention === "jpg" || extention === "gif" || extention === "png" || extention === "jpeg") {
+
+                this.setState(() => ({ image }));
+                this.uploadClick()
+            }
+            else {
+                alert("R.O.O.T.S does not accept this file format")
+            }
+
         }
 
 
@@ -187,8 +214,17 @@ class LgScreenName extends React.Component {
         this.commentClick()
         if (event.target.files[0]) {
             const image = event.target.files[0];
-            this.setState(() => ({ image }));
-            this.commentClick(this.state.whichComment)
+            let extention = image.name.substring(image.name.lastIndexOf(".") + 1)
+            console.log(extention)
+            if (extention === "mp4" || extention === "mpg" || extention === "wmv" || extention === "mpeg"
+                || extention === "jpg" || extention === "gif" || extention === "png" || extention === "jpeg") {
+
+                this.setState(() => ({ image }));
+                this.commentClick(this.state.whichComment)
+            }
+            else {
+                alert("R.O.O.T.S does not accept this file format")
+            }
         }
 
     }
@@ -209,8 +245,16 @@ class LgScreenName extends React.Component {
             () => {
                 storage.ref(fullName).child(image.name).getDownloadURL()
                     .then(url => {
-                        this.setState({ url: url }, () => this.addToPhotos());
-                        console.log(url)
+                        let extention = image.name.substring(image.name.lastIndexOf(".") + 1)
+                        console.log(extention)
+                        if (extention === "mp4" || extention === "mpg" || extention === "wmv" || extention === "mpeg") {
+                            this.setState({ video: url }, () => this.addToPhotos());
+                        }
+                        else {
+
+                            this.setState({ url: url }, () => this.addToPhotos());
+                            console.log(url)
+                        }
                     })
             });
     }
@@ -242,15 +286,183 @@ class LgScreenName extends React.Component {
 
 
 
+    optionsClicked = (id) => {
+
+        if (this.state.optionId === "") {
+
+            this.setState({ optionId: id })
+        }
+        else {
+            this.setState({ optionId: "" })
+        }
+
+    };
+
+    commentOptions = (id,) => {
+
+        if (this.state.comOption_id === "") {
+
+            this.setState({ comOption_id: id })
+        }
+        else {
+            this.setState({ comOption_id: "" })
+        }
+
+    };
+
+
+    removePost = (id) => {
+
+
+
+        API.deletePost(id)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+        this.refreshState()
+        this.listScrFriendsPost();
+
+        this.setState({ optionId: "" })
+
+
+
+
+    }
+
+
+    backdropClicked = () => {
+
+        this.setState({ optionId: "", comOption_id: "" })
+    }
+
+
+    editPostClicked = (id, content, picture) => {
+
+        this.setState({ edit_id: id, editContent: content, editPicture: picture })
+
+
+    }
+
+
+    changeMessage = (id, content) => {
+
+
+        API.changePost(id, {
+
+
+            content: content
+
+        })
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+        this.setState({ edit_id: "", editContent: "", editPicture: "" })
+
+        this.refreshState()
+        this.listScrFriendsPost();
+
+    }
+
+
+
+    changeComment = (id, commentId, content) => {
+
+        API.editComment(id, {
+
+
+            commentId: commentId,
+            comment: content
+
+        })
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+        this.setState({ postComment_id: "", editContent: "", editComment: "", editPicture: "", comment_id: "", })
+
+        this.refreshState()
+        this.listScrFriendsPost();
+
+    }
+
+
+
+
+
+
+
+
+
+    cancelEdit = () => {
+        this.setState({ edit_id: "", editContent: "", editPicture: "" })
+
+
+    }
+
+    cancelEditComment = () => {
+        this.setState({ postComment_id: "", editContent: "", editComment: "", editPicture: "", comment_id: "", })
+    }
+
+    removeComment = (id, commentID) => {
+
+        API.deleteComment(id, {
+
+            _id: commentID
+
+        })
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+            this.refreshState()
+            this.listScrFriendsPost();
+
+
+    }
+
+
+    editCommentClicked = (id, commentID, content, comment, picture) => {
+
+        this.setState({ postComment_id: id, editContent: content, editComment: comment, editPicture: picture, comment_id: commentID, })
+
+
+    }
+
+
 
 
     render() {
         const user = this.props.screenInfo
 
-        console.log(this.props.screenInfo)
+         console.log(this.props.screenInfo)
+
+
+        let backDrop;
+        let editPost;
+        let editComment;
+
+        if (this.state.optionId !== "" || this.state.edit_id !== "" || this.state.comOption_id !== "" || this.state.comment_id !== "") {
+            backDrop = <BackDrop click={this.backdropClicked} />;
+        }
+
+        if (this.state.edit_id !== "") {
+
+            editPost = <EditPostModal postID={this.state.edit_id} content={this.state.editContent} picture={this.state.editPicture} cancelEdit={this.cancelEdit} changeMessage={this.changeMessage} commentID={this.state.comment_id} />;
+        }
+
+        if (this.state.comment_id !== "") {
+
+            editComment = <EditCommentModal postID={this.state.postComment_id} content={this.state.editContent} picture={this.state.editPicture} cancelEditComment={this.cancelEditComment} changeComment={this.changeComment} commentID={this.state.comment_id} comment={this.state.editComment} />;
+        }
+
+
+
+
 
         return (
             <div className="contentArea largeScrName">
+
+                {editPost}
+                {backDrop}
+                {editComment}
 
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
@@ -262,7 +474,7 @@ class LgScreenName extends React.Component {
 
                         <div className="button video"><i className="fas fa-video"></i> </div>
                         <div className="button send">
-                            <button type="submit" className="postbutton" onClick={this.state.statusPost === "" && this.state.url === "" ? null : () => this.submitPost()}>Post </button>
+                            <button type="submit" className="postbutton" onClick={this.state.statusPost === "" && this.state.url === ""&& this.state.video === "" ? null : () => this.submitPost()}>Post </button>
                         </div>
                     </div>
                     <div>
@@ -296,10 +508,26 @@ class LgScreenName extends React.Component {
                                             {(content.picUrl === "") ? <div className="story"> </div> :
                                                 <div className="miniUpImage"><img className={`${(content.picUrl === "") ? "story" : "miniUpImage"}`} src={content.picUrl} alt="uploaded pic" /></div>
                                             }
+
+<div className={(content.videoUrl === "") ? "noVideo" : "uploadedVideo"}> <VideoPost video={content.videoUrl} /></div>
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
-                                                <div>{moment(content.dateCreated).calendar()}</div>
+                                                <div className="timenOptions"> <div className="time">{moment(content.dateCreated).calendar()}</div>
+                                                    <div className={(this.state.optionId === content._id) ? "optionsContainer active" : "optionsContainer"} onClick={() => this.optionsClicked(content._id)} >
+                                                        
+                                                        <div className={(content.user_ID=== this.props.screenInfo._id)?"options":"noOptions"}> ...</div>  
+                                                        <div className="optionsDropdown">
+                                                            <ul className="optionsList">
+                                                                <div className="edit" onClick={() => this.editPostClicked(content._id, content.content, content.picUrl)}> Edit</div>
+                                                                <div className="delete" onClick={() => this.removePost(content._id)}>Delete</div>
+
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
                                                 <p>{content.content}
                                                 </p>
 
@@ -322,27 +550,41 @@ class LgScreenName extends React.Component {
 
                                             <div className="mapComments">{
                                                 content.comments.map((comment, picUrl) =>
-                                                    <div key={picUrl} className="commentList">{moment(comment.dateCreated).calendar()} <span> &nbsp; <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
-                                                        <div className={comment.picUrl !== "" ? "commentPic" : "nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt="commentpic" /></div></div>
+                                                    <div key={picUrl} className="commentList"><div className="timeStamp">{moment(comment.dateCreated).calendar()}<div>
+                                                        <div className={(this.state.comOption_id === comment._id) ? "comOptionsContainer active" : "comOptionsContainer"} onClick={() => this.commentOptions(comment._id)} >
+                                                            <button type="button" className={(comment.user_id === this.props.screenInfo._id)?"commentOptions":"noOptions"}><i class="far fa-comment-dots"></i></button>
+
+                                                            <div className="comOptionsDropdown">
+                                                                <ul className="optionsList">
+                                                                    <div className="edit" onClick={() => this.editCommentClicked(content._id, comment._id, content.content, comment.comment, content.picUrl)}> Edit</div>
+                                                                    <div className="delete" onClick={() => this.removeComment(content._id, comment._id)}>Delete</div>
+
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                    </div> </div><span> &nbsp; <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
+                                                        <div className={comment.picUrl !== "" ? "commentPic" : "nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt="comment pic" /></div></div>
                                                 )}
                                                 <div className="responseComments">
                                                     <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
-                                                    
+
                                                     <div className="commentPhoto">
-                                                    <button type="button" className="button photo" onClick={() => { this.fileInput2.click(); this.getID(content._id); }}> <i class="far fa-images"></i></button>
+                                                        <button type="button" className="button photo" onClick={() => { this.fileInput2.click(); this.getID(content._id); }}> <i class="far fa-images"></i></button>
                                                     </div>
                                                 </div>
 
                                                 <div>
-                                                        
-                                                        <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
-                                                        <img className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
 
-                                                        <progress className={(this.state.checkInputID === content._id)? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
-                                                        <button className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                                                        <span className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"}>File </span>
+                                                    <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
+                                                    <img className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
 
-                                                    </div>
+                                                    <progress className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
+                                                    <button className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
+                                                    <span className={(this.state.checkInputID === content._id) ? "uploadReady active" : "uploadReady"}>File </span>
+
+                                                </div>
 
                                                 <div className="commentButtons">
                                                     <div className="replyButton" onClick={this.state.comment === "" && this.state.url === "" ? null : () => this.submitComment(content._id)} ><i class="fas fa-share"></i> </div>

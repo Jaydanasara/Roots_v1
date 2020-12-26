@@ -1,3 +1,4 @@
+const { isValidObjectId } = require("mongoose");
 const db = require("../models");
 
 // Defining methods for the booksController
@@ -41,7 +42,7 @@ module.exports = {
 
   
 findUserinfo:function(req, res) {
- console.log(req.body)
+
   db.usersData
    .find({emailaddress:req.body.emailaddress})
    
@@ -162,6 +163,23 @@ findAllScrUsers:function(req, res) {
       .catch(err => res.status(422).json(err));
   },
 
+  removePost: function(req, res) {
+    
+    db.postData
+      .findOneAndDelete({ _id: req.params.id })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+  changePost: function(req, res) {
+   
+   
+    db.postData
+      .findByIdAndUpdate({ _id: req.params.id },  {content: req.body.content})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
   updateLikes: function(req, res) {
    
     db.postData
@@ -174,6 +192,23 @@ findAllScrUsers:function(req, res) {
     
     db.postData
     .findByIdAndUpdate({ _id: req.params.id },  {$pull:{likes: req.body}})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+  removeComment: function(req, res) {
+    
+    db.postData
+    .findByIdAndUpdate({ _id: req.params.id },  {$pull:{comments: req.body}},{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+
+  changeComment: function(req, res) {
+    console.log(res)
+    db.postData      
+    .update({ _id:req.params.id, "comments._id":req.body.commentId},  {$set: {"comments.$.comment": req.body.comment}},{new:true})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

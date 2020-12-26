@@ -33,11 +33,23 @@ router
 
   router
   .route("/postData/:id")
-  .post(usersDataController.updateComments);
+  .post(usersDataController.updateComments)
+  .delete(usersDataController.removePost)
+  .put(usersDataController.changePost)
+  
 
   router
   .route("/likeData/:id")
   .post(usersDataController.updateLikes);
+
+  router
+  .route("/commentData/:id")
+  .put(usersDataController.removeComment);
+
+  router
+  .route("/editComment/:id")
+  .put(usersDataController.changeComment);
+
 
   router
   .route("/likeData/:id")

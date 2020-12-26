@@ -70,7 +70,7 @@ class Navbar extends React.Component {
         }
         return (
             <ul className="srch_resp_cont">
-                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/friendProfile/" + item._id}><img className="search-Img" src={item.userPic} alt ="users pic"/>{item.firstname} {" "}{item.lastname} </Link> </li>)}
+                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/friendProfile/" + item._id}><img className="search-Img" src={(item.userPic!==undefined)? item.userPic :"https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt ="users pic"/>{item.firstname} {" "}{item.lastname} </Link> </li>)}
             </ul>
         )
 

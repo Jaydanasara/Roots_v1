@@ -3,6 +3,10 @@ import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { storage } from "../../config/firebase";
 import moment from "moment";
+import BackDrop from "../sideDrawer/backDrop/backDrop";
+import EditPostModal from "../modal/editPostModal";
+import EditCommentModal from "../modal/EditCommentModal";
+import VideoPost from "../videoPost/VideoPost"
 class ProfileContent extends React.Component {
     state = {
         postID: "",
@@ -15,11 +19,21 @@ class ProfileContent extends React.Component {
         comment: "",
         image: null,
         url: "",
+        video: "",
         isActive: false,
         isActive2:false,
         progress:0,
         checkInputID:null,
         whichComment:null,
+        optionId:"",
+        edit_id:"",
+        editContent:"",
+        editPicture:"",
+        comment_id:"",
+        comOption_id:"",
+        postComment_id:"",
+        editComment:"",
+
     }
     componentDidMount() {
         this.listPost()
@@ -62,6 +76,7 @@ class ProfileContent extends React.Component {
             post_by_pic: this.props.userInfo.userInfo.userPic,
             user_ID: this.props.userInfo.userInfo.user_ID,
             picUrl: this.state.url,
+            videoUrl: this.state.video,
         })
             .then(console.log(this.submitPost))
             .then(res => {
@@ -69,6 +84,8 @@ class ProfileContent extends React.Component {
 
                 this.setState({ postID: res.data._id,isActive:false }, () => this.addPostID());
                 console.log(res)
+
+                
                 this.listPost()
             })
 
@@ -177,8 +194,17 @@ class ProfileContent extends React.Component {
         
         if (event.target.files[0]) {
             const image = event.target.files[0];
-            this.setState(() => ({ image }));
-            this.uploadClick()
+            let extention = image.name.substring(image.name.lastIndexOf(".") + 1)
+            console.log(extention)
+            if (extention === "mp4" || extention === "mpg" || extention === "wmv" || extention === "mpeg"
+                || extention === "jpg" || extention === "gif" || extention === "png" || extention === "jpeg") {
+
+                this.setState(() => ({ image }));
+                this.uploadClick()
+            }
+            else {
+                alert("R.O.O.T.S does not accept this file format")
+            }
         }
 
     }
@@ -188,8 +214,17 @@ class ProfileContent extends React.Component {
        
         if (event.target.files[0]) {
             const image = event.target.files[0];
-            this.setState(() => ({ image }));
-            this.commentClick(this.state.whichComment)
+            let extention = image.name.substring(image.name.lastIndexOf(".") + 1)
+            console.log(extention)
+            if (extention === "mp4" || extention === "mpg" || extention === "wmv" || extention === "mpeg"
+                || extention === "jpg" || extention === "gif" || extention === "png" || extention === "jpeg") {
+
+                this.setState(() => ({ image }));
+                this.commentClick(this.state.whichComment)
+            }
+            else {
+                alert("R.O.O.T.S does not accept this file format")
+            }
         }
 
     }
@@ -209,8 +244,16 @@ class ProfileContent extends React.Component {
             () => {
                 storage.ref(fullName).child(image.name).getDownloadURL()
                     .then(url => {
-                        this.setState({ url: url }, () => this.addToPhotos());
-                        console.log(url)
+                        let extention = image.name.substring(image.name.lastIndexOf(".") + 1)
+                        console.log(extention)
+                        if (extention === "mp4" || extention === "mpg" || extention === "wmv" || extention === "mpeg") {
+                            this.setState({ video: url }, () => this.addToPhotos());
+                        }
+                        else {
+
+                            this.setState({ url: url }, () => this.addToPhotos());
+                            console.log(url)
+                        }
                     })
             });
     }
@@ -316,17 +359,181 @@ class ProfileContent extends React.Component {
 
     }
 
+    optionsClicked = (id) => {
+
+        if(this.state.optionId===""){
+
+        this.setState({ optionId:id })
+        }
+        else{
+            this.setState({ optionId:"" })
+        }
+
+    };
+
+    commentOptions= (id,) => {
+
+        if(this.state.comOption_id===""){
+
+        this.setState({ comOption_id:id})
+        }
+        else{
+            this.setState({ comOption_id:""})
+        }
+
+    };
+
+
+    removePost = (id) => {
+
+
+
+        API.deletePost(id)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+        this.refreshState()
+        this.listPost()
+
+        this.setState({ optionId:"" })
+
+
+
+
+    }
+
+    
+        backdropClicked = ()=>{
+           
+            this.setState({ optionId:"",comOption_id:""})   
+        }
+
+
+editPostClicked=(id,content,picture)=>{
+
+ this.setState({edit_id:id, editContent:content, editPicture:picture})
+
+
+}
+
+
+changeMessage=(id,content)=>{
+
+    
+    API.changePost(id, {
+
+
+        content:content
+
+    })
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    
+    this.setState({edit_id:"", editContent:"", editPicture:""})
+
+    this.refreshState()
+    this.listPost()
+   
+}
+
+
+
+changeComment=(id,commentId,content)=>{
+  
+    API.editComment(id, {
+
+
+        commentId:commentId,
+        comment:content
+
+    })
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    
+        this.setState({postComment_id:"", editContent:"", editComment:"", editPicture:"", comment_id:"", })
+
+    this.refreshState()
+    this.listPost()
+   
+}
+
+
+
+
+
+
+
+
+
+cancelEdit=()=>{
+    this.setState({edit_id:"", editContent:"", editPicture:""})
+ 
+
+}
+
+cancelEditComment=()=>{
+    this.setState({postComment_id:"", editContent:"", editComment:"", editPicture:"", comment_id:"", })
+}
+
+removeComment = (id,commentID) => {
+   
+    API.deleteComment(id, {
+
+        _id:commentID
+        
+    })
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+
+    this.refreshState()
+    this.listPost()
+
+
+}
+
+
+editCommentClicked=(id,commentID, content,comment,picture)=>{
+
+    console.log(commentID)
+
+    this.setState({postComment_id:id, editContent:content, editComment:comment, editPicture:picture, comment_id:commentID, })
+   
+   
+   }
+
 
 
 
     render() {
         const fullName = this.state.first_Name + " " + this.state.last_Name
        
+        let backDrop;
+        let editPost;
+        let editComment;
+       
+        if(this.state.optionId !== "" ||this.state.edit_id !== ""|| this.state.comOption_id!==""||this.state.comment_id!==""){
+         backDrop = <BackDrop click={this.backdropClicked }/>;
+        }
+
+        if(this.state.edit_id !== ""){
+           
+            editPost= <EditPostModal postID={this.state.edit_id} content={this.state.editContent} picture = {this.state.editPicture} cancelEdit={this.cancelEdit} changeMessage={this.changeMessage} commentID={this.state.comment_id}/>;
+           }
+
+           if(this.state.comment_id !== ""){
+           
+            editComment= <EditCommentModal postID={this.state.postComment_id} content={this.state.editContent} picture = {this.state.editPicture} cancelEditComment={this.cancelEditComment} changeComment={this.changeComment} commentID={this.state.comment_id} comment={this.state.editComment}/>;
+           }
+
 
         
         return (
 
             <div className="contentArea ">
+
+                {editPost}
+                 {backDrop}
+                {editComment}
                 <div className="profile-container">
                     <div className="profile-image">
                         <img src={(this.state.userPic!==undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic" />
@@ -352,7 +559,7 @@ class ProfileContent extends React.Component {
 
                         <div className="button video"><i class="fas fa-video"></i></div>
                         <div className="button send">
-                            <button type="submit" className="postbutton" onClick={this.state.statusPost ==="" && this.state.url ===""? null : this.submitPost}>Post </button>
+                            <button type="submit" className="postbutton" onClick={this.state.statusPost ==="" && this.state.url ==="" && this.state.video ==="" ? null : this.submitPost}>Post </button>
                         </div>
                     </div>
                     <div>
@@ -383,11 +590,30 @@ class ProfileContent extends React.Component {
                                         <div className="uploadedInfo">
                                         {(each.picUrl === "") ? <div className="story"> </div> :
                                          <div className="miniUpImage"><img className={`${(each.picUrl === "") ? "story" : "upImage"}`} src={each.picUrl} alt="pic Url" /></div>}
-                                            
+
+                                            <div className={(each.videoUrl === "") ? "noVideo" : "uploadedVideo"}> <VideoPost video={each.videoUrl} /></div>  
                                         </div>
                                         <div className="colorBackground">
                                             <div className="updateInfo">
-                                                <div>{moment(each.dateCreated).calendar()}</div>
+                                                
+                                               
+                                                <div className="timenOptions"> <div className="time">{moment(each.dateCreated).calendar()}</div>
+                                               <div className= {(this.state.optionId===each._id) ? "optionsContainer active" : "optionsContainer"} onClick = {()=>this.optionsClicked(each._id)} > 
+                                             
+                                               <div className={(each.user_ID=== this.props.userInfo.userInfo.user_ID)?"options":"noOptions"}> ...</div>  
+                                               <div className="optionsDropdown">
+                                                <ul className="optionsList">
+                                                    <div className="edit" onClick={()=>this.editPostClicked(each._id,each.content,each.picUrl)}> Edit</div>
+                                                    <div className= "delete" onClick={()=>this.removePost(each._id)}>Delete</div>
+
+                                                    
+                                                </ul>
+                                               </div>
+                                               </div> 
+                                               
+                                               </div>
+                                               
+                                               
                                                 <p>{each.content}
                                                 </p>
 
@@ -410,9 +636,23 @@ class ProfileContent extends React.Component {
 
                                             <div className="mapComments">{
                                                 each.comments.map((comment,picUrl) =>
-                                                    <div key={picUrl}className="commentList">{moment(comment.dateCreated).calendar()} <span> &nbsp; <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
-                                            <div className={comment.picUrl ===""?"commentPic":"nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt= "comment_Pic"/></div></div>
-                                                )}
+                                                <div key={picUrl} className="commentList"><div className="timeStamp">{moment(comment.dateCreated).calendar()}<div> 
+                                                <div className= {(this.state.comOption_id===comment._id) ? "comOptionsContainer active" : "comOptionsContainer"} onClick = {()=>this.commentOptions(comment._id)} > 
+                                                <button type="button" className={(comment.user_id === this.props.userInfo.userInfo.user_ID)?"commentOptions":"noOptions"} ><i class="far fa-comment-dots"></i></button> 
+                                            
+                                            <div className="comOptionsDropdown">
+                                        <ul className="optionsList">
+                                            <div className="edit" onClick={()=>this.editCommentClicked(each._id,comment._id,each.content,comment.comment,each.picUrl)}> Edit</div>
+                                            <div className= "delete" onClick={()=>this.removeComment(each._id,comment._id)}>Delete</div>
+
+                                            
+                                        </ul>
+                                       </div>
+                                       </div>
+                                            
+                                            </div> </div><span> &nbsp; <strong>{comment.user} </strong>  &nbsp; </span>   {comment.comment}
+                                                <div className={(comment.picUrl !== "") ? "commentPic" : "nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt="comment pic" /></div></div>
+                                        )}
                                                 <div className="responseComments">
                                                     <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                     <div  className="commentPhoto" >
