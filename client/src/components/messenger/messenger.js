@@ -33,6 +33,7 @@ class Messenger extends React.Component {
     }
     
     componentWillMount() {
+        console.log(this.props)
         this.listFriends()
 
         socket.emit("join-room",this.props.userInfo.firstname, this.props.userInfo.user_ID)

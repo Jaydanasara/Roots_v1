@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import ScreenName from"../screenName/screenName";
 import API from "../../utils/API";
 import  {getUser} from"../../store/actions/userActions"
-import SideDrawer from "../sideDrawer/sideDrawer";
+import ScrSideDrawer from "../sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 import VideoChat from "../messenger/videoChat"
 
@@ -145,7 +145,7 @@ class FriendProfileLayout extends React.Component {
                             }
                             <FriendProfile userInfo={this.props} disState={this.props} />
                             
-                            <SideDrawer show={this.state.sideDrawerOpen}/>
+                            <ScrSideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}
                       
                     

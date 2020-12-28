@@ -21,11 +21,12 @@ class ScreenName extends React.Component {
         console.log(this.props.screenInfo)
         if(this.props.screenInfo!==""){
             this.setState({isLoading:false})
+            this.listScrFriendsPost()
         }
-        else {
+       
         
-        this.listScrFriendsPost()
-    }
+        
+    
 
 
     }

@@ -9,7 +9,7 @@ import API from "../../utils/API";
 import  {getUser} from"../../store/actions/userActions"
 import SideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
-
+import VideoChat from "../messenger/videoChat"
 
 
 
@@ -22,6 +22,14 @@ class MessenLayout extends React.Component {
         isLoading: true,
         isUserPage:true,
         sideDrawerOpen:false,
+        isOnCall:false,
+        friendsPhId:"",
+        receivingCall: false,
+        caller: {},
+        callerSignal: null,
+        yourInfo: {},
+        users:[],
+
     }
     }
  componentDidMount(){
@@ -73,6 +81,36 @@ class MessenLayout extends React.Component {
     }
 
 
+    callScreen=(id)=>{
+        console.log(id)
+        this.setState({isOnCall:true, friendsPhId:id})
+
+    }
+
+
+    incomingCallScreen=(receivingCall, caller, callerSignal)=>{
+        this.setState({ receivingCall: receivingCall, caller: caller, callerSignal: callerSignal,isOnCall:true })
+        console.log("incoming call screen")
+       
+
+    }
+
+    callScreenClose = ()=>{
+        this.setState({isOnCall:false})
+    }
+ 
+    getYourInfo=(yourInfo)=>{
+        console.log(yourInfo)
+
+        this.setState({yourInfo:yourInfo})
+
+    }
+    
+    getUsers=(users)=>{
+        console.log(users)
+        this.setState({users:users})
+
+    }
 
 
 
@@ -101,7 +139,17 @@ class MessenLayout extends React.Component {
                 
                             <Navbar drawerClickHandler={this.drawToggleClickHandler} screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
                           
-                            <Messenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+                            {
+                            this.state.isOnCall===true?
+                            <VideoChat userInfo={this.props}  callEnded={this.callScreenClose} friendsPhId={this.state.friendsPhId}
+                            receivingCall={this.state.receivingCall} caller={this.state.caller}callerSignal={this.state.callerSignal}
+                            yourInfo={this.state.yourInfo} users={this.state.users}
+                            /> :
+                            null
+                            }
+
+<Messenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} openCallWindow={this.callScreen}
+                             incomingCallScreen={this.incomingCallScreen} users={this.getUsers} yourInfo={this.getYourInfo}/>
                             <SideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}
 

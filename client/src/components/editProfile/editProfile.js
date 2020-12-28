@@ -9,9 +9,9 @@ import ScreenName from "../screenName/screenName";
 import ScrMiniBar from "../../components/navbar/scrMiniBar";
 import API from "../../utils/API";
 import  {getUser} from"../../store/actions/userActions";
-import SideDrawer from "../../components//sideDrawer/sideDrawer";
+import ScrSideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
-
+import VideoChat from "../messenger/videoChat"
 
 class EditProfile extends React.Component {
 
@@ -22,6 +22,13 @@ class EditProfile extends React.Component {
         isLoading: true,
         isUserPage:true,
         sideDrawerOpen:false,
+        isOnCall:false,
+        friendsPhId:"",
+        receivingCall: false,
+        caller: {},
+        callerSignal: null,
+        yourInfo: {},
+        users:[],
     }
     }
     componentDidMount(){
@@ -66,9 +73,36 @@ class EditProfile extends React.Component {
 
     }
 
+    callScreen=(id)=>{
+        console.log(id)
+        this.setState({isOnCall:true, friendsPhId:id})
 
+    }
+
+
+    incomingCallScreen=(receivingCall, caller, callerSignal)=>{
+        this.setState({ receivingCall: receivingCall, caller: caller, callerSignal: callerSignal,isOnCall:true })
+        console.log("incoming call screen")
+       
+
+    }
+
+    callScreenClose = ()=>{
+        this.setState({isOnCall:false})
+    }
+ 
+    getYourInfo=(yourInfo)=>{
+        console.log(yourInfo)
+
+        this.setState({yourInfo:yourInfo})
+
+    }
     
+    getUsers=(users)=>{
+        console.log(users)
+        this.setState({users:users})
 
+    }
 
 
 
@@ -92,17 +126,28 @@ class EditProfile extends React.Component {
                 <section className="content-Container">
                   
                         
-                            <Navbar  drawerClickHandler={this.drawToggleClickHandler}  userInfo={this.props.userInfo}/>
+                            <Navbar  drawerClickHandler={this.drawToggleClickHandler}  userInfo={this.props.userInfo}  whichName={this.state.isUserPage}  />
+                           
+                            {
+                            this.state.isOnCall===true?
+                            <VideoChat userInfo={this.props}  callEnded={this.callScreenClose} friendsPhId={this.state.friendsPhId}
+                            receivingCall={this.state.receivingCall} caller={this.state.caller}callerSignal={this.state.callerSignal}
+                            yourInfo={this.state.yourInfo} users={this.state.users}
+                            /> :
+                            null
+                            }
+                           
                             <ProfileEditor userInfo={this.props.userInfo} disState={this.props}/>
                             
-                            <SideDrawer show={this.state.sideDrawerOpen}/>
+                            <ScrSideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}
 
                       
                     
                 </section>
                 <section className="messenger-area">
-                <Messenger  userInfo={this.props.userInfo} />
+                <Messenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} openCallWindow={this.callScreen}
+                             incomingCallScreen={this.incomingCallScreen} users={this.getUsers} yourInfo={this.getYourInfo}/>
                 </section>
 
             </div>

@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import ScreenName from"../../components/screenName/screenName";
 import API from "../../utils/API";
 import  {getUser} from"../../store/actions/userActions"
-import SideDrawer from "../../components//sideDrawer/sideDrawer";
+import ScrSideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 import VideoChat from "../messenger/videoChat"
 
@@ -146,7 +146,7 @@ class Profile extends React.Component {
                             }
                             <ProfileContent userInfo={this.props} disState={this.props} />
                             
-                            <SideDrawer show={this.state.sideDrawerOpen}/>
+                            <ScrSideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}
                       
                     

@@ -526,7 +526,7 @@ editCommentClicked=(id,commentID, content,comment,picture)=>{
            }
 
 
-        
+        console.log(this.state.userpic)
         return (
 
             <div className="contentArea ">

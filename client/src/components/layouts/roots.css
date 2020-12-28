@@ -7,6 +7,7 @@ html, body, #root{
     --borderColor: rgb(161,67,181); 
     --radiantPurplColor:radial-gradient(circle, rgba(161,67,181,1) 5%, rgba(93,45,98,1) 63%);
     --scrBackgroundColor:#c600219d;
+    --secondBorderColor: #eeda74;
 
   }
 
@@ -1400,20 +1401,26 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
 
     .miniScreenName{
         padding-bottom: 20px;
-        padding-left:10px;
+       
         position: fixed;
         font-size: 24px;
         text-align: center;
-        margin-bottom: 20px
+        margin-bottom: 20px;
+        width:25%;
+        z-index: 500;
+        background: var(--secondBorderColor);
     }
 
     .miniUserName{
         
-            padding-bottom: 10px;
-            position: absolute;
+            padding-bottom: 20px;
+            position: fixed;
             font-size: 24px;
             text-align: center;
-            margin-bottom: 20px
+            margin-bottom: 20px;
+            width:25%;
+            z-index: 500;
+            background: var(--secondBorderColor);
 
     }
 
@@ -1508,9 +1515,7 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
     max-width: 100%;
 }
 
-.modalVideo{
 
-}
 
 .messageVideo{
     width: 95%;
@@ -2020,7 +2025,7 @@ header{
 
         
 
-        /* .navigation{
+         .navigation{
             
            position: fixed;
            top: 0;
@@ -2031,7 +2036,7 @@ header{
            z-index: -1;
             margin-top: 25%;
             
-        } */
+        } 
         
         }
 

@@ -109,7 +109,7 @@ class Navbar extends React.Component {
                     <header>
                         <div className="navSitePic">
                             <a href="/" className="">
-                                <img class="smScrnLogo" src="/logo500.png" alt="tree icon" />
+                                <img className="smScrnLogo" src="/logo500.png" alt="tree icon" />
                             </a>
                         </div>
                         <input type="checkbox" id="nav-toggle" className="nav-toggle" />
@@ -170,7 +170,7 @@ class Navbar extends React.Component {
                         <ul className="newFeedLink">
 
                             <li>
-                                <a class="home "href="/"> <i className="fa fa-home"></i> Home </a>
+                                <a className="home "href="/"> <i className="fa fa-home"></i> Home </a>
 
                             </li>
 
