@@ -2,14 +2,17 @@ import React from "react";
 import API from "../../utils/API"
 
 import { storage } from "../../config/firebase";
-import{socket} from "../messenger/messenger";
+import socketIOClient from "socket.io-client";
+var socket;
+
 
 
 
 class Modal extends React.Component {
 
-
-    state = {
+    constructor(props){
+        super(props);
+    this.state = {
         content: "",
         newChatInfo: [],
         image: null,
@@ -17,14 +20,23 @@ class Modal extends React.Component {
         vidUrl: "",
         isActive: false,
         isActive2: false,
+        endpoint:"/",
     }
 
-
-
+    socket =  socketIOClient(this.state.endpoint);
+}
 
 
     componentDidMount() {
-        console.log(this.props.isOpen)
+      
+      console.log(this.props.userInfo)
+        socket.on('message', (data) => {
+
+            console.log("socket on modal")
+            if(this.props.isOpen===true){
+            this.props.getChat()
+            }
+        })
         
         
     }
@@ -50,16 +62,21 @@ class Modal extends React.Component {
 
 
     sendChat = (e,id) => {
-
         e.preventDefault()
-        socket.emit("message", this.state.content)
-        API.logMessage(id, {
-            content: this.state.content,
-            sender: this.props.sender,
-            receiverHasRead: false,
-            picUrl: this.state.url,
-            vidUrl: this.state.vidUrl
-        })
+        if(this.props.sender===this.props.userInfo.screenName){
+            const fullName=this.props.userInfo.screenName
+            
+
+            socket.emit('message',({ name:fullName,content:this.state.content,userPic:this.props.screenInfo.userPic,
+            email:this.props.userInfo.emailaddress,id:this.props.screenInfo._id,friends_id:this.props.chFriends_id}))
+            API.logMessage(id, {
+                content: this.state.content,
+                sender: this.props.sender,
+                receiverHasRead: false,
+                picUrl: this.state.url,
+                vidUrl: this.state.vidUrl
+            })
+
 
             .then(res => {
                 this.setState({ content: "", isActive: false, isActive2: false }, () => this.props.getChat())
@@ -67,10 +84,41 @@ class Modal extends React.Component {
                 console.log(res)
             })
             .catch(err => console.log(err));
-        socket.on('message', (data) => {
-            console.log(data);
-            this.props.getChat()
+        // socket.on('message', (data) => {
+        //  console.log( data);
+         this.props.getChat()
+
+
+        }
+        else{
+
+
+        const fullName=this.props.userInfo.firstname + this.props.userInfo.lastname
+
+      
+        socket.emit("message",({ name:fullName,content:this.state.content,userPic:this.props.userInfo.userPic,
+        email:this.props.userInfo.emailaddress,id:this.props.userInfo.user_ID,friends_id:this.props.chFriends_id}))
+        API.logMessage(id, {
+            content: this.state.content,
+            sender: this.props.sender,
+            receiverHasRead: false,
+            picUrl: this.state.url,
+            vidUrl: this.state.vidUrl
         })
+        
+
+            .then(res => {
+                this.setState({ content: "", isActive: false, isActive2: false }, () => this.props.getChat())
+
+                console.log(res)
+            })
+            .catch(err => console.log(err));
+        // socket.on('message', (data) => {
+        //  console.log( data);
+         this.props.getChat()
+        // })
+
+        }
     }
 
 
@@ -138,7 +186,7 @@ class Modal extends React.Component {
     render() {
 
 
-console.log(this.props)
+
 
  
 
@@ -187,7 +235,7 @@ console.log(this.props)
 
                                                         {
                                                             chats.messages.map((message) =>
-                                                                <div className="messageContainer" id>
+                                                                <div className="messageContainer" >
                                                                     <div >
                                                                         <div className={`${(message.sender === this.props.sender) ? "sender" : "otherSender"}`}>  {message.sender} </div>
                                                                         <div className={`${(message.sender === this.props.sender) ? "theMessage" : "otherMessage"}`}><p>{message.content}</p> </div>

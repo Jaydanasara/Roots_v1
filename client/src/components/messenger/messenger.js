@@ -25,7 +25,9 @@ class Messenger extends React.Component {
         yourInfo: {},
         users:[],
         endpoint:"/",
-        onlineFriends:[]
+        onlineFriends:[],
+        unreadMessages:[],
+        
       
 
     }
@@ -33,10 +35,11 @@ class Messenger extends React.Component {
     }
     
     componentWillMount() {
-        console.log(this.props)
+        this.Unreadchats()
         this.listFriends()
+        console.log(this.props.userInfo)
 
-        socket.emit("join-room",this.props.userInfo.firstname, this.props.userInfo.user_ID)
+        socket.emit("join-room",this.props.userInfo.firstname, this.props.userInfo.user_ID,this.props.userInfo.screenName,this.props.userInfo.scrUser_id)
        
        
         socket.on("yourinfo", (info) => {
@@ -62,9 +65,24 @@ class Messenger extends React.Component {
           })
 
        
+          socket.on('message', (data) => {
+            
+            if (this.state.isOpen===false){
+                
+                this.props.saveInstantMessage(data.friends_id,data)
+                this.props.newMessage()
+
+            }
+        })
+
     }
 
+activateFunctions=(id)=>{
 
+    this.getChat()
+    this.messageHasBeenRead(id)
+
+}
 
 
 
@@ -96,7 +114,7 @@ class Messenger extends React.Component {
         
         .then(res => {
             console.log(res)
-            console.log(this.state.isOpen)
+           
             if (res.data===null){
                 this.saveConvo()
             }else{
@@ -106,6 +124,45 @@ class Messenger extends React.Component {
         })
         .catch(err => console.log(err)); 
      
+    }
+
+    Unreadchats =()=>{
+        API.getUnreadChats({user:this.props.userInfo.user_ID})
+
+        .then(res=>{
+            console.log(res.data)
+
+            if(res.data.length>0){
+                let unreadMessages = []
+                res.data.forEach(chat=> {
+                    console.log(chat.messages.length)
+                    if(chat.messages.length>0){
+                        if (chat.messages[chat.messages.length -1].sender !==this.props.userInfo.firstname){
+
+                            for(var i = 0; i<chat.users.length;i++){
+                                if(chat.users[i] !== this.props.userInfo.user_ID){
+                                    unreadMessages.push(chat.users[i])
+                                    console.log(unreadMessages)
+                                }
+                            }
+                            
+                        
+                        }
+                }
+                   
+                });
+        
+                 this.setState({unreadMessages :unreadMessages})
+               
+            }else {
+                return
+            }
+
+
+
+        })
+
+        .catch(err => console.log(err)); 
     }
     
     
@@ -130,9 +187,38 @@ class Messenger extends React.Component {
         .catch(err => console.log(err));
      
     }
+    
+    messageHasBeenRead=(id)=>{
+        console.log("messenger has read")
+        console.log(id)
+        console.log(this.state.unreadMessages)
 
-    messageHasBeenRead=()=>{
+        if(this.state.unreadMessages.includes(id)){
+
+            const unreadMessages= this.state.unreadMessages.filter(message => message !== id);
+
+            console.log(unreadMessages)
+            this.setState({ unreadMessages:unreadMessages });
+
+            this.receiverHasRead(id)
+
+        }
+
         
+    }
+
+
+    receiverHasRead=(id)=>{
+        let chatMembers=[id, this.props.userInfo.user_ID]
+        chatMembers.sort()
+        API.receiverHasRead({users:chatMembers})
+
+        .then(res=>{
+            console.log(res)
+
+        })
+
+        .catch(err=>console.log(err))
     }
     
 
@@ -154,6 +240,12 @@ class Messenger extends React.Component {
         return
     }
     }
+
+
+
+ componentWillUnmount(){
+     socket.close()
+ }
 
 
     render() {
@@ -191,9 +283,10 @@ class Messenger extends React.Component {
                                             </div>
                                             <div className="onlineFriendName" onClick={(e) => 
                                                  this.setState({ isOpen: true, chFriendsName: uFriends.firstname + " " + uFriends.lastname, 
-                                                avatar:uFriends.userPic, chFriends_id: uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.getChat()) } > 
+                                                avatar:uFriends.userPic, chFriends_id: uFriends._id , chFriendsEmail:uFriends.emailaddress},()=>this.activateFunctions(uFriends._id)) } > 
                                             {uFriends.firstname + " " + uFriends.lastname}</div>
-                                            <div className={(this.state.onlineFriends.includes(uFriends._id))?"onChatting":"chatting"}> <i  className="far fa-comment"></i>
+                                            <div className={(this.state.onlineFriends.includes(uFriends._id))?"onChatting" :"chatting"}> 
+                                            <i  className={(this.state.unreadMessages.includes(uFriends._id))? "far fa-comment unreadMessages": "far fa-comment "  }></i>
                                             </div>
 
                                         </div>
@@ -208,7 +301,7 @@ class Messenger extends React.Component {
                     <div className="modalBox">
 
                         <Modal callAFriend={this.props.openCallWindow} allChatInfo={this.state.allChatInfo} userInfo={this.props.userInfo} sender={this.props.userInfo.firstname} fullName={this.props.userInfo.firstname + "_" + this.props.userInfo.lastname} isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
-                        user_id={this.state.user_id} messageID={this.state.messageID} chFriends_id={this.state.chFriends_id} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })} />
+                        user_id={this.state.user_id} messageID={this.state.messageID} chFriends_id={this.state.chFriends_id} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })}  />
                     </div>
                     <div className="chatSearch">
                         <input type="text " className="chatInput" placeholder="Search" />

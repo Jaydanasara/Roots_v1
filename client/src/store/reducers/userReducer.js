@@ -7,8 +7,11 @@ const initState ={
         emailaddress:"",
         password: "",
         screenName:"",
+        scrUser_id:"",
         userPic:"",
-        friends:[]
+        friends:[],
+        messages:[],
+        notifications:[],
         }
 
 }
@@ -42,9 +45,12 @@ const userReducer = (state = initState,action)=>{
             emailaddress:action.userPro.emailaddress,
             password: action.userPro.password,
             screenName:action.userPro.screenName,
+            scrUser_id:action.userPro.scrUser_id,
             userPic:action.userPro.userPic,
             user_ID:action.userPro._id,
-            friends:action.userPro.friends
+            friends:action.userPro.friends,
+            messages:action.userPro.messages,
+            notifications:action.userPro.nootifications,
            }
         }
         

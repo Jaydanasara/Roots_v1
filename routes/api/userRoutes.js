@@ -20,6 +20,10 @@ router
   router
   .route("/usersData")
   .post(usersDataController.create)
+
+  router
+  .route("/scrUData")
+  .post(usersDataController.addSrcUId)
  
   
   router
@@ -49,6 +53,15 @@ router
   router
   .route("/editComment/:id")
   .put(usersDataController.changeComment);
+
+
+  router
+  .route("/instData/:id")
+  .put(usersDataController.saveInstMessNote);
+
+  router
+  .route("/delInstData/:id")
+  .put(usersDataController.delInstMessNote);
 
 
   router
@@ -131,6 +144,15 @@ router
   router
   .route("/chatData")
   .post(usersDataController.findChats);
+
+  router
+  .route("/getChatData")
+  .post(usersDataController.findUnreadChats)
+ 
+
+  router
+  .route("/readChatData")
+ .post(usersDataController.updateRecHasRead);
 
   router
   .route("/chatData/:id")

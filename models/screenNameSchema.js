@@ -22,6 +22,21 @@ const screenNameSchema = new Schema({
 
   photos:[{
     type:String, required: false 
+  }],
+
+  messages:[{
+    name:{type:String, required:false},
+    user_id:{type:String, required:false},
+    userPic:{type:String, required:false},
+    emailaddress:{type:String, requireed:false}
+  }],
+
+  notifications:[{
+    name:{type:String, required:false},
+    user_id:{type:String, required:false},
+    notificationType:{type:String, required:false},
+    userPic:{type:String, required:false},
+   
   }]
 
 });

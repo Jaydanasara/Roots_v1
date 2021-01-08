@@ -53,14 +53,16 @@ const users = [];
 
 io.on('connection', function (socket) {
   console.log('a user connected');
-  socket.on('join-room', (Name, userId) => {
-    console.log(Name,userId)
+  socket.on('join-room', (Name, userId,screenName,scrId) => {
+    console.log(Name,userId,screenName,scrId)
     // socket.join(Name)
-    socket.broadcast.emit('user-connected',Name, userId)
+    socket.broadcast.emit('user-connected',Name, userId,screenName,scrId)
     let user={
       "name":Name,
       "userid":userId,
-      "socketId":socket.id
+      "socketId":socket.id,
+      "screenName":screenName,
+      "scrId":scrId
     }
   
 
@@ -69,8 +71,12 @@ io.on('connection', function (socket) {
   io.sockets.emit("allUsers", users);
 
   socket.on('message', (data) => {
+    console.log(data)
   
-    io.emit("message", data);
+    io.emit('message', (data)=>{
+      console.log("emitting")
+    })
+
   })
 
 

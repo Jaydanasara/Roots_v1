@@ -36,6 +36,8 @@ console.log(newUser)
                 password: newUser.password,
                 screenName:newUser.screenName,
                 age:newUser.age,
+                messages:[],
+                notifications:[]
                
 
         })
@@ -46,11 +48,22 @@ console.log(newUser)
                     firstname:res.data.firstname,
                     lastname:res.data.lastname,
                     user_ID:res.data._id,
-                    screenName:res.data.screenName
+                    screenName:res.data.screenName,
+                    messages:[],
+                    notifications:[]
                     
                 })
-                .then(res=>{
-                    console.log(res.data)
+                .then(response=>{
+                    console.log(response.data)
+                    API.addScrId({
+                        user_ID:res.data._id,
+                        scrUserId:response.data._id
+
+                    })
+                    .then(res=>{
+                        console.log(res)
+                    })
+
                 })
             })          
             .catch(err => console.log(err));

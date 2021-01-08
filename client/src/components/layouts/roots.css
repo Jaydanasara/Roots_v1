@@ -42,11 +42,11 @@ font-size: 150px;
     background: var(--scrBackgroundColor);
 }
 
-a{
+ /* a{
 
-    /* text-decoration-color: #eeda74;
-    color: #eeda74; */
-}
+    text-decoration-color: #eeda74;
+    color: #eeda74;
+} */
 
 
 
@@ -82,8 +82,15 @@ a{
         background: var(--radiantPurplColor);
         border-top: 0;
         border-right: 0;
-
+        
     
+    }
+
+
+    .sitePic a{
+        text-decoration-color: #eeda74;
+        color: #eeda74;
+
     }
 
     .siteLogo{
@@ -106,6 +113,7 @@ a{
         font-size: 13px;
         font-weight: 700;
         text-transform: uppercase;
+        
     }
 
 /* HeaderCSS */
@@ -495,7 +503,7 @@ cursor: pointer;
     top:0;
     right: 500px;
     padding:10px;
-    color: #696969;
+    
     font-size: 24px;
    
 }
@@ -503,12 +511,33 @@ cursor: pointer;
     float: left;
     position: relative;
     padding-right: 5px;
+    text-decoration-color: #eeda74;
+        color: #eeda74;
+        font-size:26px ;
+
     
 }
 
 .commentNotifications{
     position: relative;
     float: left;
+    color:var(--secondBorderColor)
+   
+}
+
+li{
+    text-align: left;
+    display: block;
+}
+
+.eachMessage{
+ 
+   
+}
+
+.messageList{
+   
+
 
    
 }
@@ -516,12 +545,21 @@ cursor: pointer;
 .notificationNumber{
     position: absolute;
     
-    color:#56e91d;
-    top:10px;
+    color:var(--scrBackgroundColor);
+
+    top:5px;
     right:0;
     padding-right: 14px;
-    font-size: 12px;
+   
+    font-size: 18px;
+    font-weight: bolder;
     
+}
+
+.home{
+
+    text-decoration-color: #eeda74;
+    color: #eeda74;
 }
 
 
@@ -1180,6 +1218,8 @@ display: flex;
 
 }
 
+
+
 .chatFriends{
 padding: 5px 0px;
     display: flex;
@@ -1240,7 +1280,7 @@ padding: 5px 0px;
 
       .chatting{
           width: 20%;
-        display: none;
+       
         align-items: center;
         justify-content: flex-end;
           color:white;
@@ -1281,6 +1321,22 @@ padding: 5px 0px;
 
 .chatFriends.active .chatting{
     display: flex;
+}
+
+
+.unreadMessages{
+    
+
+    animation:blinkingText 1.2s infinite;
+}
+@keyframes blinkingText{
+    0%{     color: red;    }
+    49%{    color: red; }
+    60%{    color: transparent; }
+    99%{    color:transparent;  }
+    100%{   color: #000;    }
+
+    
 }
 
 .chatSearch{
@@ -1359,6 +1415,20 @@ button:focus {
 
 }
 
+.miniUserNameArea{
+    box-sizing: content-box;
+    width:90%;
+    height: calc(100% - 99px);
+    overflow: auto;
+    padding: 0 15px 0 7px;
+    margin-top: 20px;
+   
+    
+    
+  
+
+}
+
 
 .miniUpImage{
     margin: 25px 0 50px;
@@ -1397,6 +1467,7 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
         padding-right: 0px;
         font-size: 14px;
         font-weight: 700;
+        
     }
 
     .miniScreenName{
@@ -1409,6 +1480,22 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
         width:25%;
         z-index: 500;
         background: var(--secondBorderColor);
+    
+        
+    }
+
+    .miniScreenName a{
+        text-decoration-color: var(--scrBackgroundColor);
+
+    }
+
+    .scrMiniHeader{
+        color:var(--scrBackgroundColor);
+      
+        text-decoration-color: var(--scrBackgroundColor);
+        font-weight: bold;
+        
+
     }
 
     .miniUserName{
@@ -1421,7 +1508,16 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
             width:25%;
             z-index: 500;
             background: var(--secondBorderColor);
+            font-weight: bold;
 
+
+    }
+
+    .miniUserName a{
+
+        color: #551a8b;
+        text-decoration-color:  #551a8b;
+        
     }
 
     .modalBox{
@@ -1888,10 +1984,11 @@ header{
             padding: 0px;
             margin-top: 2px;
             padding-left: 5px;
+            
         
         }
                 
-        
+
         
         .my-friends,
         .photos-btn,
@@ -1975,7 +2072,10 @@ header{
         #home{
             font-size: 11px;
             line-height: 0.5;
+
         }
+
+     
 
         .app-container{
             overflow: initial;
@@ -1992,7 +2092,7 @@ header{
             flex-flow: row wrap;
             
         }
-
+/* 
         .senderVideo{
             max-width: 75px;
         }
@@ -2004,7 +2104,7 @@ header{
         .receiverVideo{
             max-width: 250px;
         }
-        
+         */
      
 
         #file{
@@ -2044,6 +2144,42 @@ header{
             height: 100%;
             width: 100%;
         
+        }
+
+        .videoWindows{
+            display: flex;
+        justify-content: center;
+            margin-top: 20px;
+            height: 50%;
+
+        
+        }
+        
+        .senderVidContainer{
+            z-index: 750;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            max-width: 50%;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        
+            border:2px solid black;
+         
+        }
+        .senderVideo{
+            
+            max-width: 100%;
+        }
+        
+        .receiverVidContainer{
+         
+            max-width: 90%;
+            border:2px solid black; 
+        
+        }
+        .receiverVideo{
+            max-width: 300px;
         }
 
         

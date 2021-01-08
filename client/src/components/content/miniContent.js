@@ -226,7 +226,7 @@ addToPhotos =() =>{
 
         return (
              
-            <div className="screenNameArea ">
+            <div className="miniUserNameArea ">
                
                 <section className="miniComposeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />

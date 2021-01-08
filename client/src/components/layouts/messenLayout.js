@@ -29,6 +29,8 @@ class MessenLayout extends React.Component {
         callerSignal: null,
         yourInfo: {},
         users:[],
+        numberOfMessages:0,
+        messages:[]
 
     }
     }
@@ -113,7 +115,50 @@ class MessenLayout extends React.Component {
     }
 
 
+    newMessage=()=>{
+        
+        var numberOfMessages=this.state.numberOfMessages +1
+        console.log(numberOfMessages)
+        this.setState({numberOfMessages:numberOfMessages})
+    }
 
+    saveInstantMessage=(id,data)=>{
+        console.log(data)
+        API.saveInstantMessage(id,{
+            name:data.name,
+            user_id:data.id,
+            userPic:data.userPic,
+            emailaddress:data.email
+        })
+
+        .then(res => {
+           
+            this.setState({messages:res.data.messages,numberOfMessages:this.state.messages.length})
+             console.log(res)
+
+
+        })
+
+        .catch(err => console.log(err));
+    }
+
+
+    removeAllInstMessages =(id)=>{
+       
+        API.removeMessages(id)
+
+        .then(res=>{
+            console.log(res)
+            this.setState({messages:res.data.messages,numberOfMessages:res.data.messages.length})
+        })
+
+        .catch(err => console.log(err));
+
+        this.props.getUser( auth.currentUser.email)
+    }
+   
+
+  
 
     render() {
      
@@ -137,7 +182,8 @@ class MessenLayout extends React.Component {
                 <section className="content-Container">
                   
                 
-                            <Navbar drawerClickHandler={this.drawToggleClickHandler} screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} />
+                            <Navbar drawerClickHandler={this.drawToggleClickHandler} screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} 
+                             newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages}/>
                           
                             {
                             this.state.isOnCall===true?
@@ -148,8 +194,10 @@ class MessenLayout extends React.Component {
                             null
                             }
 
-<Messenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} openCallWindow={this.callScreen}
-                             incomingCallScreen={this.incomingCallScreen} users={this.getUsers} yourInfo={this.getYourInfo}/>
+                            <Messenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} openCallWindow={this.callScreen}
+                             incomingCallScreen={this.incomingCallScreen} users={this.getUsers} yourInfo={this.getYourInfo}
+                             newMessage={this.newMessage} saveInstantMessage={this.saveInstantMessage}
+                             />
                             <SideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}
 

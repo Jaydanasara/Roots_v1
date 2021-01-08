@@ -16,12 +16,15 @@ class Navbar extends React.Component {
         search: "",
         allUsers: [],
         Users: "",
-        reload: false
+        reload: false,
+       
+        messagesOpen:false
 
     }
 
         ;
     componentDidMount() {
+     
         this.getAllUsers()
         let displayName = ""
         if (this.props.whichName === true) {
@@ -73,9 +76,20 @@ class Navbar extends React.Component {
                 {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/friendProfile/" + item._id}><img className="search-Img" src={(item.userPic!==undefined)? item.userPic :"https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt ="users pic"/>{item.firstname} {" "}{item.lastname} </Link> </li>)}
             </ul>
         )
+    }
 
 
+    openMessages =()=>{
+        console.log(this.state.messagesOpen)
+        if(this.state.messagesOpen===false){
+            this.setState({messagesOpen:true})
+        }
+        else if(this.state.messagesOpen===true){
+            this.setState({messagesOpen:false})
+            this.props.removeAllInstMessages(this.props.userInfo.user_ID)
+        }
 
+       
     }
 
 
@@ -91,16 +105,34 @@ class Navbar extends React.Component {
             console.log(error);
         });
 
-      
-    
-
         sessionStorage.clear();
+    }
+
+
+    showMessages =()=>{
+        let allMessages = this.props.instMessages
+        console.log(allMessages)
+
+        if (this.props.instMessages.length === 0) {
+            return null;
+        }
+
+        if(this.state.messagesOpen===true){
+        
+        return (
+            <ul className="messageList">
+                {allMessages.map((each) => <li className="eachMeassage"><img className="search-Img" src={(each.userPic!==undefined)? each.userPic :"https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt ="users pic"/>{each.name} {" "} sent you a message</li>)}
+            </ul>
+        )
+        }
+
     }
 
 
     render() {
 
-
+       
+        console.log(this.props.userInfo)
 
        
         return (
@@ -157,10 +189,14 @@ class Navbar extends React.Component {
                                    <i id="bell" className="fas fa-bell"></i>
                                     <div className="notificationNumber">12</div>
                                 </div></Link>
-                                <div className="commentNotifications">
+                                <div className="commentNotifications" onClick={this.openMessages}>
                                     <i id="note" className="fas fa-sticky-note"></i>
-                                    <div className="notificationNumber">13</div>
+                                    <div className="notificationNumber">{(this.props.newMessages<0)?this.props.newMessages:null}</div>
                                 </div>
+                            </div>
+                            <div className={(this.state.messagesOpen===true)?"instMessages":"noMessages"} >
+                                {this.showMessages()}
+                            
                             </div>
                             <div>{this.searchSuggestions()}</div>
                         </div>

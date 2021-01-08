@@ -31,12 +31,14 @@ class FriendProfileLayout extends React.Component {
         callerSignal: null,
         yourInfo: {},
         users:[],
-        
+        numberOfMessages:0,
+        messages:[]  
 
     }
     }
     componentDidMount(){
         this.screenNameData()
+        this.setState({numberOfMessages:this.props.userInfo.messages.length, messages:this.props.userInfo.messages })
     }
 
 
@@ -109,6 +111,53 @@ class FriendProfileLayout extends React.Component {
         this.setState({users:users})
 
     }
+
+
+    
+    newMessage=()=>{
+        
+        var numberOfMessages=this.state.numberOfMessages +1
+        console.log(numberOfMessages)
+        this.setState({numberOfMessages:numberOfMessages})
+    }
+
+    saveInstantMessage=(id,data)=>{
+        console.log(data)
+        API.saveInstantMessage(id,{
+            name:data.name,
+            user_id:data.id,
+            userPic:data.userPic,
+            emailaddress:data.email
+        })
+
+        .then(res => {
+           
+            this.setState({messages:res.data.messages,numberOfMessages:this.state.messages.length})
+             console.log(res)
+
+
+        })
+
+        .catch(err => console.log(err));
+    }
+
+
+    removeAllInstMessages =(id)=>{
+       
+        API.removeMessages(id)
+
+        .then(res=>{
+            console.log(res)
+            this.setState({messages:res.data.messages,numberOfMessages:res.data.messages.length})
+        })
+
+        .catch(err => console.log(err));
+
+        this.props.getUser( auth.currentUser.email)
+    }
+   
+
+  
    
 
     render() {
@@ -134,7 +183,9 @@ class FriendProfileLayout extends React.Component {
                 <section className="content-Container">
                   
                         
-                <Navbar drawerClickHandler={this.drawToggleClickHandler} whichName={this.state.isUserPage}  userInfo={this.props.userInfo} />
+                <Navbar drawerClickHandler={this.drawToggleClickHandler} whichName={this.state.isUserPage}  userInfo={this.props.userInfo} 
+                 newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages}
+                />
                 {
                             this.state.isOnCall===true?
                             <VideoChat userInfo={this.props}  callEnded={this.callScreenClose} friendsPhId={this.state.friendsPhId}
@@ -152,7 +203,9 @@ class FriendProfileLayout extends React.Component {
                 </section>
                 <section className="messenger-area">
                 <Messenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} openCallWindow={this.callScreen}
-                             incomingCallScreen={this.incomingCallScreen} users={this.getUsers} yourInfo={this.getYourInfo}/>
+                             incomingCallScreen={this.incomingCallScreen} users={this.getUsers} yourInfo={this.getYourInfo}
+                             newMessage={this.newMessage} saveInstantMessage={this.saveInstantMessage}
+                             />
                 </section>
 
             </div>

@@ -100,6 +100,16 @@ findAllScrUsers:function(req, res) {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+
+
+  addSrcUId: function(req, res) {
+  
+    db.usersData
+      .findByIdAndUpdate({ _id: req.body.user_ID}, {scrUser_id: req.body.scrUser_id})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
   update: function(req, res) {
    
     db.usersData
@@ -146,6 +156,24 @@ findAllScrUsers:function(req, res) {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+
+  saveInstMessNote: function(req, res) {
+    db.usersData
+      .findByIdAndUpdate({ _id: req.params.id },  {$push:{messages: req.body}},{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+
+  delInstMessNote: function(req, res) {
+    
+     db.usersData
+       .findByIdAndUpdate({ _id: req.params.id },  {$set:{messages: []}},{new:true})
+       .then(dbModel => res.json(dbModel))
+       .catch(err => res.status(422).json(err));
+   },
+ 
+
 
   deleteFriendID: function(req, res) {
  
@@ -206,7 +234,7 @@ findAllScrUsers:function(req, res) {
 
 
   changeComment: function(req, res) {
-    console.log(res)
+   
     db.postData      
     .update({ _id:req.params.id, "comments._id":req.body.commentId},  {$set: {"comments.$.comment": req.body.comment}},{new:true})
       .then(dbModel => res.json(dbModel))
@@ -298,6 +326,8 @@ createScreenInfo: function(req, res) {
       .catch(err => res.status(422).json(err));
   },
 
+
+
   deleteScrFriend: function(req, res) {
       
     db.screenNameData
@@ -326,6 +356,31 @@ createScreenInfo: function(req, res) {
 
   },
 
+
+  findUnreadChats:function(req, res) {
+  
+    db.chatsData
+     .find({users:req.body.user,receiverHasRead:false})
+     
+     .then(dbModel => res.json(dbModel))
+     .catch(err => res.status(422).json(err));
+
+  },
+
+
+  
+
+  updateRecHasRead:function(req, res) {
+    db.chatsData
+    .findOneAndUpdate({users:req.body.users,receiverHasRead:false}, {$set:{receiverHasRead:true}})
+     
+     .then(dbModel => res.json(dbModel))
+     .catch(err => res.status(422).json(err));
+
+  },
+
+
+
   getAllChats:function(req, res) {
     
     db.chatsData
@@ -342,7 +397,7 @@ createScreenInfo: function(req, res) {
   
     
     db.chatsData
-      .findByIdAndUpdate({ _id: req.params.id },   {receiverHasRead:req.body.receiverHasRead, $push:{messages:theMessage}},{new:true})
+      .findByIdAndUpdate({ _id: req.params.id }, {receiverHasRead:req.body.receiverHasRead, $push:{messages:theMessage}},{new:true})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

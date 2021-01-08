@@ -19,6 +19,12 @@ export default  {
   
   },
 
+
+  addScrId: function(userData) {
+    return axios.post("/api/usersData/scrUData",userData);
+  
+  },
+
   saveComment: function(id,postData){
   
     return axios.post("/api/usersData/postData/"+id,postData);
@@ -222,8 +228,23 @@ export default  {
     return axios.post("/api/usersData/chatData",chatData);
   
   },
+
+
+  getUnreadChats: function(chatData) {
+    
+    return axios.post("/api/usersData/getChatData",chatData);
+  
+  },
+
+  receiverHasRead: function(chatData) {
+   
+    return axios.post("/api/usersData/readChatData",chatData);
+  
+  },
+
+
   saveChat : function(chatData) {
-    console.log(chatData)
+   
     return axios.post("/api/usersData/saveChData",chatData);
   
   },
@@ -241,10 +262,22 @@ export default  {
 
   },
 
+  saveInstantMessage: function(id,Data){
+  
+    return axios.put("/api/usersData/instData/"+id,Data);
+
+  },
+
+  removeMessages: function(id){
+  
+    return axios.put("/api/usersData/delInstData/"+id);
+
+  },
+
 
   getPhotos2: function(userData) {
 
-    return axios.post("/api/usersData/getScrPhotos",userData);
+    return axios.put("/api/usersData/getScrPhotos",userData);
 
   },
 
