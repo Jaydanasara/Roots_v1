@@ -1,16 +1,17 @@
 import React from "react";
 
 import Peer from "simple-peer"
-import{socket} from "../messenger/messenger"
+// import{socket} from "../messenger/messenger"
+import SocketContext from "../../context/SocketProvider"
 
-// import { createRef } from "react";
 
-// const socket = io()
-// console.log(socket)
-// const socketUrl = "http://localhost:3001"
+
+
 let phoneRinging = new Audio("./phoneRing.mp3")
 
 class VideoChat extends React.Component {
+
+    static contextType=SocketContext
     constructor(props) {
         super(props);
         // this.socket = createRef();
@@ -28,7 +29,7 @@ class VideoChat extends React.Component {
     }
     
     componentDidMount() {
-        
+      
          
        
         // this.socket.current =socketIOClient("/");
@@ -96,6 +97,7 @@ class VideoChat extends React.Component {
 
 
     callPeer = (id) => {
+        const socket=this.context
     //    this.phoneRingFn()
         const peer = new Peer({
             initiator: true,
@@ -128,6 +130,7 @@ class VideoChat extends React.Component {
 
 
     acceptCall = () => {
+        const socket=this.context
         // phoneRinging.pause()
         // phoneRinging.currentTime = 0;
         this.setState({ callAccepted: true })

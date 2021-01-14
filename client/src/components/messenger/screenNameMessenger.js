@@ -2,13 +2,17 @@ import React from "react";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import Modal from "../modal/modal";
-import socketIOClient from "socket.io-client";
-var socket;
+import SocketContext from "../../context/SocketProvider"
+// import socketIOClient from "socket.io-client";
+// var socket;
 
 
 
 
 class ScreenMessenger extends React.Component {
+
+    static contextType=SocketContext
+
     constructor(props){
         super(props);
 
@@ -32,9 +36,10 @@ class ScreenMessenger extends React.Component {
         unreadMessages:[],
 
     }
-    socket =  socketIOClient(this.state.endpoint);
+    // socket =  socketIOClient(this.state.endpoint);
 }
     componentWillMount() {
+        const  socket=this.context
         console.log(this.props.screenInfo)
 
         this.Unreadchats()
@@ -43,7 +48,7 @@ class ScreenMessenger extends React.Component {
 
          
         socket.emit("join-room",this.props.userInfo.firstname, this.props.userInfo.user_ID,this.props.screenInfo.screenName, this.props.screenInfo._id)
-       
+        socket.emit("send-Id",  this.props.screenInfo._id)
        
         socket.on("yourinfo", (info) => {
             console.log(info)
@@ -68,9 +73,9 @@ class ScreenMessenger extends React.Component {
           })
 
        
-          socket.on('message', (data) => {
+          socket.on('receive-message', (data) => {
               console.log("socket on screenmessenger")
-            
+                console.log(data)
             if (this.state.isOpen===false){
                 
                 this.props.saveInstantMessage(data.friends_id,data)

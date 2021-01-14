@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./components/layouts/roots.css";
 import Homelayout from "./components/layouts/home";
 import Layout from "./components/layouts/layout";
@@ -20,6 +20,7 @@ import ScrMessenLayout from './components/layouts/scrMessenLayout';
 import InboxLayout from "./components/layouts/inboxLayout";
 import PrivateRoute from "./components/PrivateRoute";
 import {AuthProvider} from"./context/AuthContext";
+import { SocketProvider } from './context/SocketProvider';
 
 
 
@@ -27,10 +28,18 @@ function App () {
   
 
 
+  const [id,setId]= useState("")
+  
+  const send_id =(ID)=>{
 
- 
+    console.log("triggered ID"+ID)
 
+    setId(ID)
+   
 
+  }
+
+  console.log(id)
     return (
 
       <div className="app">
@@ -39,11 +48,14 @@ function App () {
         <div>
 
           <Router>
+          <SocketProvider id ={id}>
           <AuthProvider>
               <Switch>
 
                 {/* <Route exact path="/" render={() => this.state.user ? (<Layout />) : (<Homelayout />)} /> */}
-                <PrivateRoute exact path="/" component={Layout} />
+                <PrivateRoute exact path="/">
+                  <Layout send_id={send_id}/>
+                  </PrivateRoute> 
                 <Route exact path="/landingPage" component={Homelayout} />
                 <Route exact path="/lostPassword" component={Lostpassword} />
                 <Route exact path="/profile/:id" component={Profile} />
@@ -62,6 +74,7 @@ function App () {
                 <Route exact path="/inbox" component={InboxLayout} />
               </Switch>
             </AuthProvider>
+            </SocketProvider>
           </Router>
         </div>
 

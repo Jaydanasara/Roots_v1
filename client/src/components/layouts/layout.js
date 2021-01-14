@@ -54,7 +54,7 @@ class Layout extends React.Component {
             this.setState({ messages: this.props.userInfo.messages })
         }
 
-
+        this.props.send_id(this.props.userInfo.user_ID,)
     }
 
 

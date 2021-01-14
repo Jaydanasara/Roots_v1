@@ -2,43 +2,59 @@ import React from "react";
 import API from "../../utils/API"
 
 import { storage } from "../../config/firebase";
-import socketIOClient from "socket.io-client";
-var socket;
+import SocketContext from "../../context/SocketProvider";
+// import socketIOClient from "socket.io-client";
+// var socket;
 
 
 
 
 class Modal extends React.Component {
+    static contextType = SocketContext
 
-    constructor(props){
+    constructor(props) {
         super(props);
-    this.state = {
-        content: "",
-        newChatInfo: [],
-        image: null,
-        url: "",
-        vidUrl: "",
-        isActive: false,
-        isActive2: false,
-        endpoint:"/",
-    }
+        this.state = {
+            content: "",
+            newChatInfo: [],
+            image: null,
+            url: "",
+            vidUrl: "",
+            isActive: false,
+            isActive2: false,
+            endpoint: "/",
+        }
 
-    socket =  socketIOClient(this.state.endpoint);
-}
+        // socket =  socketIOClient(this.state.endpoint);
+
+    }
 
 
     componentDidMount() {
-      
-      console.log(this.props.userInfo)
-        socket.on('message', (data) => {
+
+        const socket = this.context
+
+        //   console.log(this.props.userInfo)
+        //     socket.on('message', (data) => {
+        //         console.log(data)
+
+        //         console.log("socket on modal")
+        //         if(this.props.isOpen===true){
+        //         this.props.getChat()
+        //         }
+        //     })
+
+
+        socket.on('receive-message', (data) => {
+            console.log(data)
 
             console.log("socket on modal")
-            if(this.props.isOpen===true){
-            this.props.getChat()
+            if (this.props.isOpen === true) {
+                this.props.getChat()
             }
         })
-        
-        
+
+
     }
 
     async componentDidUpdate() {
@@ -61,14 +77,17 @@ class Modal extends React.Component {
 
 
 
-    sendChat = (e,id) => {
+    sendChat = (e, id) => {
+        const socket = this.context
         e.preventDefault()
-        if(this.props.sender===this.props.userInfo.screenName){
-            const fullName=this.props.userInfo.screenName
-            
+        if (this.props.sender === this.props.userInfo.screenName) {
+            const fullName = this.props.userInfo.screenName
 
-            socket.emit('message',({ name:fullName,content:this.state.content,userPic:this.props.screenInfo.userPic,
-            email:this.props.userInfo.emailaddress,id:this.props.screenInfo._id,friends_id:this.props.chFriends_id}))
+
+            socket.emit('send-message', ({
+                name: fullName, content: this.state.content, userPic: this.props.screenInfo.userPic,
+                email: this.props.userInfo.emailaddress, id: this.props.screenInfo._id, friends_id: this.props.chFriends_id
+            }))
             API.logMessage(id, {
                 content: this.state.content,
                 sender: this.props.sender,
@@ -78,45 +97,57 @@ class Modal extends React.Component {
             })
 
 
-            .then(res => {
-                this.setState({ content: "", isActive: false, isActive2: false }, () => this.props.getChat())
+                .then(res => {
+                    this.setState({ content: "", isActive: false, isActive2: false }, () => this.props.getChat())
 
-                console.log(res)
-            })
-            .catch(err => console.log(err));
-        // socket.on('message', (data) => {
-        //  console.log( data);
-         this.props.getChat()
+                    console.log(res)
+                })
+                .catch(err => console.log(err));
+            // socket.on('message', (data) => {
+            //  console.log( data);
+            this.props.getChat()
 
 
         }
-        else{
+        else {
 
 
-        const fullName=this.props.userInfo.firstname + this.props.userInfo.lastname
+            const fullName = this.props.userInfo.firstname + this.props.userInfo.lastname
 
-      
-        socket.emit("message",({ name:fullName,content:this.state.content,userPic:this.props.userInfo.userPic,
-        email:this.props.userInfo.emailaddress,id:this.props.userInfo.user_ID,friends_id:this.props.chFriends_id}))
-        API.logMessage(id, {
-            content: this.state.content,
-            sender: this.props.sender,
-            receiverHasRead: false,
-            picUrl: this.state.url,
-            vidUrl: this.state.vidUrl
-        })
-        
-
-            .then(res => {
-                this.setState({ content: "", isActive: false, isActive2: false }, () => this.props.getChat())
-
-                console.log(res)
+            socket.emit("send-message", ({
+                name: fullName, content: this.state.content, userPic: this.props.userInfo.userPic,
+                email: this.props.userInfo.emailaddress, id: this.props.userInfo.user_ID, friends_id: this.props.chFriends_id
+            }))
+            API.logMessage(id, {
+                content: this.state.content,
+                sender: this.props.sender,
+                receiverHasRead: false,
+                picUrl: this.state.url,
+                vidUrl: this.state.vidUrl
             })
-            .catch(err => console.log(err));
-        // socket.on('message', (data) => {
-        //  console.log( data);
-         this.props.getChat()
-        // })
+
+
+                // socket.emit("message",({ name:fullName,content:this.state.content,userPic:this.props.userInfo.userPic,
+                // email:this.props.userInfo.emailaddress,id:this.props.userInfo.user_ID,friends_id:this.props.chFriends_id}))
+                // API.logMessage(id, {
+                //     content: this.state.content,
+                //     sender: this.props.sender,
+                //     receiverHasRead: false,
+                //     picUrl: this.state.url,
+                //     vidUrl: this.state.vidUrl
+                // })
+
+
+                .then(res => {
+                    this.setState({ content: "", isActive: false, isActive2: false }, () => this.props.getChat())
+
+                    console.log(res)
+                })
+                .catch(err => console.log(err));
+            // socket.on('message', (data) => {
+            //  console.log( data);
+            this.props.getChat()
+            // })
 
         }
     }
@@ -180,7 +211,7 @@ class Modal extends React.Component {
         this.setState({ isActive2: !this.state.isActive })
     };
 
-   
+
 
 
     render() {
@@ -188,14 +219,14 @@ class Modal extends React.Component {
 
 
 
- 
+
 
         return (
             !this.props.isOpen ?
                 <div></div>
                 :
 
-              
+
 
                 <div className="modalContainer ">
 
@@ -271,34 +302,34 @@ class Modal extends React.Component {
 
 
 
-                    <div className={this.state.isActive||this.state.isActive2?"fileInputContainer": null}>
-                        
-                            <div className = {this.state.isActive? "imgInputActive":"imgInactive"}>
+                    <div className={this.state.isActive || this.state.isActive2 ? "fileInputContainer" : null}>
+
+                        <div className={this.state.isActive ? "imgInputActive" : "imgInactive"}>
 
                             <div>
                                 <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
                                 <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} id="previewUpload" src={this.state.url} alt="preview" height="50" width="50" />
                             </div>
-                           
+
                             <div>
                                 <progress className={this.state.isActive ? "uploadReady active" : "uploadReady"} id="progress" value={this.state.progress} max="100" />
                                 <button className={this.state.isActive ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
                                 <span className={this.state.isActive ? "uploadReady active" : "uploadReady"} id="file"> </span>
                             </div>
-                              
-                            </div>
-                        
-                    
-                            <div className = {this.state.isActive2? "vidInputActive":"vidInactive"}>
 
-                                <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
-                                <video className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} id="previewUpload" src={this.state.vidUrl} alt="preview" height="40" width="50"  ></video>
+                        </div>
 
-                                <progress className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
-                                <button className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
-                                <span className={this.state.isActive2 ? "uploadReady active" : "uploadReady"}></span>
-                            </div>
-                        
+
+                        <div className={this.state.isActive2 ? "vidInputActive" : "vidInactive"}>
+
+                            <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected2} ref={fileInput => this.fileInput2 = fileInput} />
+                            <video className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} id="previewUpload" src={this.state.vidUrl} alt="preview" height="40" width="50"  ></video>
+
+                            <progress className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} value={this.state.progress} max="100" />
+                            <button className={this.state.isActive2 ? "uploadReady active" : "uploadReady"} onClick={this.handleUpload}>Upload</button>
+                            <span className={this.state.isActive2 ? "uploadReady active" : "uploadReady"}></span>
+                        </div>
+
 
                     </div>
 
@@ -312,7 +343,7 @@ class Modal extends React.Component {
 
                     <div className="messageBtnDiv">
 
-                        <button type="submit" className="messageBtn" onClick={(e) => this.sendChat(e,this.props.messageID)}>  send    </button>
+                        <button type="submit" className="messageBtn" onClick={(e) => this.sendChat(e, this.props.messageID)}>  send    </button>
                         <div className="attachFile">
                             <button type="button" className="attachPhotoBtn" onClick={() => this.fileInput.click()}> <i class="fa fa-file-image" aria-hidden="true"></i>  </button>
                         </div>
@@ -321,14 +352,14 @@ class Modal extends React.Component {
                             <button type="button" className="attachVideoBtn" onClick={() => this.fileInput2.click()}><i class="fa fa-file-video"></i> </button>
                         </div>
 
-                        <div className="callFriend"> <button onClick={()=>this.props.callAFriend(this.props.chFriends_id)}><i class="fas fa-video"></i> <i class="fa fa-phone" aria-hidden="true"></i></button></div>
+                        <div className="callFriend"> <button onClick={() => this.props.callAFriend(this.props.chFriends_id)}><i class="fas fa-video"></i> <i class="fa fa-phone" aria-hidden="true"></i></button></div>
 
 
                     </div>
 
 
                 </div>
-           
+
 
         )
     }

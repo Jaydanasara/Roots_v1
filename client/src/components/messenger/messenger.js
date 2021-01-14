@@ -2,10 +2,15 @@ import React from "react";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import Modal from "../modal/modal";
-import socketIOClient from "socket.io-client";
-var socket;
+import SocketContext from "../../context/SocketProvider"
+// import socketIOClient from "socket.io-client";
+// var socket;
+
 
 class Messenger extends React.Component {
+
+    static contextType=SocketContext
+    
     constructor(props){
         super(props);
       
@@ -31,16 +36,19 @@ class Messenger extends React.Component {
       
 
     }
-    socket =  socketIOClient(this.state.endpoint);
+    // socket =  socketIOClient(this.state.endpoint);
+   
     }
     
     componentWillMount() {
+        const  socket=this.context
+      
         this.Unreadchats()
         this.listFriends()
         console.log(this.props.userInfo)
-
+        console.log(socket)
         socket.emit("join-room",this.props.userInfo.firstname, this.props.userInfo.user_ID,this.props.userInfo.screenName,this.props.userInfo.scrUser_id)
-       
+        socket.emit("send-Id",  this.props.userInfo.user_ID)
        
         socket.on("yourinfo", (info) => {
             console.log(info)
@@ -64,8 +72,11 @@ class Messenger extends React.Component {
            
           })
 
+
+
+
        
-          socket.on('message', (data) => {
+          socket.on('receive-message', (data) => {
             
             if (this.state.isOpen===false){
                 
@@ -244,7 +255,7 @@ activateFunctions=(id)=>{
 
 
  componentWillUnmount(){
-     socket.close()
+    
  }
 
 
@@ -319,5 +330,5 @@ activateFunctions=(id)=>{
 
 };
 
-export {socket}
+
 export default Messenger;
