@@ -39,7 +39,12 @@ class Profile extends React.Component {
     componentDidMount(){
         this.screenNameData()
 
-        this.setState({numberOfMessages:this.props.userInfo.messages.length, messages:this.props.userInfo.messages })
+        if (this.props.userInfo.messages.length) {
+            this.setState({ numberOfMessages: this.props.userInfo.messages.length, messages: this.props.userInfo.messages })
+        }
+        else {
+            this.setState({ messages: this.props.userInfo.messages })
+        }
     }
 
 
