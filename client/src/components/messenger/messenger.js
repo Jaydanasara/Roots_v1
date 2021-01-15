@@ -10,7 +10,7 @@ import SocketContext from "../../context/SocketProvider"
 class Messenger extends React.Component {
 
     static contextType=SocketContext
-    
+
     constructor(props){
         super(props);
       
@@ -32,6 +32,7 @@ class Messenger extends React.Component {
         endpoint:"/",
         onlineFriends:[],
         unreadMessages:[],
+        sender_id:"",
         
       
 
@@ -41,6 +42,7 @@ class Messenger extends React.Component {
     }
     
     componentWillMount() {
+        this.setState({sender_id:this.props.userInfo.user_ID})
         const  socket=this.context
       
         this.Unreadchats()
@@ -262,7 +264,8 @@ activateFunctions=(id)=>{
     render() {
         console.log(this.state.allChatInfo)
         console.log(this.props)
-        console.log(this.state.messageID)
+        console.log(this.state.user_id)
+        
         return (
             <div className="messengerContainer">
 
@@ -312,7 +315,7 @@ activateFunctions=(id)=>{
                     <div className="modalBox">
 
                         <Modal callAFriend={this.props.openCallWindow} allChatInfo={this.state.allChatInfo} userInfo={this.props.userInfo} sender={this.props.userInfo.firstname} fullName={this.props.userInfo.firstname + "_" + this.props.userInfo.lastname} isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
-                        user_id={this.state.user_id} messageID={this.state.messageID} chFriends_id={this.state.chFriends_id} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })}  />
+                        sender_id={this.state.sender_id} messageID={this.state.messageID} chFriends_id={this.state.chFriends_id} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })}  />
                     </div>
                     <div className="chatSearch">
                         <input type="text " className="chatInput" placeholder="Search" />

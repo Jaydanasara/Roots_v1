@@ -34,11 +34,13 @@ class ScreenMessenger extends React.Component {
         endpoint:"/",
         onlineFriends:[],
         unreadMessages:[],
+        sender_id:"",
 
     }
     // socket =  socketIOClient(this.state.endpoint);
 }
     componentWillMount() {
+        this.setState({sender_id:this.props.screenInfo._id})
         const  socket=this.context
         console.log(this.props.screenInfo)
 
@@ -309,7 +311,7 @@ class ScreenMessenger extends React.Component {
                     <div className="modalBox">
 
                         <Modal allChatInfo={this.state.allChatInfo} screenInfo={this.props.screenInfo} userInfo={this.props.userInfo} sender={this.props.userInfo.screenName} fullName={this.props.userInfo.screenName} isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
-                        user_id={this.state.user_id} messageID={this.state.messageID} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })}  />
+                        sender_id={this.state.sender_id} messageID={this.state.messageID} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })}  />
                     </div>
                     <div className="chatSearch">
                         <input type="text " className="chatInput" placeholder="Search" />

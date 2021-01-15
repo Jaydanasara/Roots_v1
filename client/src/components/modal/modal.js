@@ -31,6 +31,7 @@ class Modal extends React.Component {
 
 
     componentDidMount() {
+      
 
         const socket = this.context
 
@@ -85,8 +86,8 @@ class Modal extends React.Component {
 
 
             socket.emit('send-message', ({
-                name: fullName, content: this.state.content, userPic: this.props.screenInfo.userPic,
-                email: this.props.userInfo.emailaddress, id: this.props.screenInfo._id, friends_id: this.props.chFriends_id
+                name: fullName, content: this.state.content, userPic: this.props.avatar.userPic,
+                email: this.props.userInfo.emailaddress, id: this.props.sender._id, friends_id: this.props.chFriends_id
             }))
             API.logMessage(id, {
                 content: this.state.content,
