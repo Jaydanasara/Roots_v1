@@ -288,7 +288,7 @@ class ScreenMessenger extends React.Component {
                                         <div key={uFriends._id} className={(this.state.onlineFriends.includes(uFriends._id))?"chatFriends active":"chatFriends"}>
                                             <div className="onlineFriendI">
                                                 
-                                                <Link to={"/profile/" + uFriends._id}> <img className="onlineFriendImg" src={(uFriends.userPic!==undefined) ? uFriends.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Frootsicon.jpg?alt=media&token=f8f88ae3-3534-4591-b72e-1f92eb9d40f4"} alt = "friends pic" /> 
+                                                <Link to={"/profile/" + uFriends._id}> <img className="onlineFriendImg" src={(uFriends.userPic!==undefined && uFriends.userPic!=="") ? uFriends.userPic:"https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt = "friends pic" /> 
                                                 </Link> 
                                             </div>
                                             <div className="onlineFriendName" onClick={(e) => 

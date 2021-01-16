@@ -79,7 +79,33 @@ class ScrFriendProLayout extends React.Component {
 
     }
 
+    
+    callScreen = (id) => {
+        console.log(id)
+        this.setState({ isOnCall: true, friendsPhId: id })
 
+    }
+
+
+    incomingCallScreen = (receivingCall, caller, callerSignal) => {
+        this.setState({ receivingCall: receivingCall, caller: caller, callerSignal: callerSignal, isOnCall: true })
+        console.log("incoming call screen")
+
+
+    }
+
+
+
+    callScreenClose = () => {
+        this.setState({ isOnCall: false })
+    }
+
+    getYourInfo = (yourInfo) => {
+        console.log(yourInfo)
+
+        this.setState({ yourInfo: yourInfo })
+
+    }
 
     getUsers = (users) => {
         console.log(users)

@@ -73,7 +73,7 @@ class ScreenLayout extends React.Component {
         API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID, })
 
             .then(res => {
-                this.setState({ screenNameInfo: res.data, isLoading: false })
+                this.setState({ screenNameInfo: res.data, isLoading: false, numberOfMessages:res.data.numberOfMessages, messages:res.data.messages})
 
                 console.log(res)
 
@@ -81,14 +81,7 @@ class ScreenLayout extends React.Component {
             })
 
             .catch(err => console.log(err));
-
-            // console.log(this.state.screenNameInfo)
-            // if (this.state.screenNameInfo.messages.length) {
-            //     this.setState({ numberOfMessages: this.state.screenNameInfo.messages.length, messages: this.props.userInfo.messages })
-            // }
-            // else {
-            //     this.setState({ messages: this.state.screenNameInfo.messages })
-            // }
+           
 
     }
 

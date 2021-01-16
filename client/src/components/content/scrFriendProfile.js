@@ -611,7 +611,7 @@ editCommentClicked = (id, commentID, content, comment, picture) => {
 
                 <div className="profile-container">
                 <div className="profile-image">
-                <img src={(this.state.userPic!==undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"}  alt="users pic"/> 
+                <img src={(this.state.userPic!==undefined && this.state.userPic!=="") ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"}  alt="users pic"/> 
                 </div>
                 <div className="profile-info">
                     {this.state.screenName}
@@ -626,7 +626,7 @@ editCommentClicked = (id, commentID, content, comment, picture) => {
                 </div>
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Write on your friends wall?" rows="8" cols="80" />
-                    <div className="user-I">  <Link to={"/screenProfile/" + this.props.screenInfo._id}><img className="user-Img" src={(this.state.userPic!==undefined) ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic"  /> </Link>  </div>
+                    <div className="user-I">  <Link to={"/screenProfile/" + this.props.screenInfo._id}><img className="user-Img" src={(this.state.userPic!==undefined && this.state.userPic!=="") ? this.state.userPic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic"  /> </Link>  </div>
                     <div className="buttons">
                    
                         <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i class="fas fa-camera-retro"></i></button>
