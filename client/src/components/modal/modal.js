@@ -3,8 +3,7 @@ import API from "../../utils/API"
 
 import { storage } from "../../config/firebase";
 import SocketContext from "../../context/SocketProvider";
-// import socketIOClient from "socket.io-client";
-// var socket;
+
 
 
 
@@ -22,28 +21,20 @@ class Modal extends React.Component {
             vidUrl: "",
             isActive: false,
             isActive2: false,
-            endpoint: "/",
+            
         }
 
-        // socket =  socketIOClient(this.state.endpoint);
+       
 
     }
 
 
     componentDidMount() {
-      
+        console.log(this.props.sender_id)
+        console.log(this.props.chFriends_id)
 
         const socket = this.context
 
-        //   console.log(this.props.userInfo)
-        //     socket.on('message', (data) => {
-        //         console.log(data)
-
-        //         console.log("socket on modal")
-        //         if(this.props.isOpen===true){
-        //         this.props.getChat()
-        //         }
-        //     })
 
 
         socket.on('receive-message', (data) => {
@@ -84,10 +75,12 @@ class Modal extends React.Component {
         if (this.props.sender === this.props.userInfo.screenName) {
             const fullName = this.props.userInfo.screenName
 
+            
+
 
             socket.emit('send-message', ({
                 name: fullName, content: this.state.content, userPic: this.props.avatar,
-                email: this.props.userInfo.emailaddress, id: this.props.sender._id, friends_id: this.props.chFriends_id
+                 id: this.props.sender._id, friends_id: this.props.chFriends_id,email: this.props.userInfo.emailaddress,
             }))
             API.logMessage(id, {
                 content: this.state.content,
@@ -104,8 +97,7 @@ class Modal extends React.Component {
                     console.log(res)
                 })
                 .catch(err => console.log(err));
-            // socket.on('message', (data) => {
-            //  console.log( data);
+            
             this.props.getChat()
 
 
@@ -128,27 +120,15 @@ class Modal extends React.Component {
             })
 
 
-                // socket.emit("message",({ name:fullName,content:this.state.content,userPic:this.props.userInfo.userPic,
-                // email:this.props.userInfo.emailaddress,id:this.props.userInfo.user_ID,friends_id:this.props.chFriends_id}))
-                // API.logMessage(id, {
-                //     content: this.state.content,
-                //     sender: this.props.sender,
-                //     receiverHasRead: false,
-                //     picUrl: this.state.url,
-                //     vidUrl: this.state.vidUrl
-                // })
-
-
                 .then(res => {
                     this.setState({ content: "", isActive: false, isActive2: false }, () => this.props.getChat())
 
                     console.log(res)
                 })
                 .catch(err => console.log(err));
-            // socket.on('message', (data) => {
-            //  console.log( data);
+            
             this.props.getChat()
-            // })
+           
 
         }
     }

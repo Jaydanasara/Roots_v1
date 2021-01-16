@@ -310,8 +310,8 @@ class ScreenMessenger extends React.Component {
                     </div>
                     <div className="modalBox">
 
-                        <Modal allChatInfo={this.state.allChatInfo} screenInfo={this.props.screenInfo} userInfo={this.props.userInfo} sender={this.props.userInfo.screenName} fullName={this.props.userInfo.screenName} isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
-                        sender_id={this.state.sender_id} messageID={this.state.messageID} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })}  />
+                        <Modal callAFriend={this.props.openCallWindow} allChatInfo={this.state.allChatInfo} screenInfo={this.props.screenInfo} userInfo={this.props.userInfo} sender={this.props.userInfo.screenName} fullName={this.props.userInfo.screenName} isOpen={this.state.isOpen} avatar={this.state.avatar}  chFriendsName={this.state.chFriendsName}
+                        sender_id={this.state.sender_id} messageID={this.state.messageID} chFriends_id={this.state.chFriends_id} chFriendsEmail={this.state.chFriendsEmail} getChat={this.getChat} onClose={(e) => this.setState({ isOpen: false })}  />
                     </div>
                     <div className="chatSearch">
                         <input type="text " className="chatInput" placeholder="Search" />
