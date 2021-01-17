@@ -17,7 +17,12 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "simple-peer": "^9.7.2",
-    "socket.io-client": "^2.4.0"
+    "socket.io-client": "^2.4.0",
+    "workbox-core": "^6.0.2",
+    "workbox-expiration": "^6.0.2",
+    "workbox-precaching": "^6.0.2",
+    "workbox-routing": "^6.0.2",
+    "workbox-strategies": "^6.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

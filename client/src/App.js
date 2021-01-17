@@ -53,9 +53,8 @@ function App () {
               <Switch>
 
                 {/* <Route exact path="/" render={() => this.state.user ? (<Layout />) : (<Homelayout />)} /> */}
-                <PrivateRoute exact path="/">
-                  <Layout send_id={send_id}/>
-                  </PrivateRoute> 
+                <PrivateRoute exact path="/" component = {Layout}/>
+                
                 <Route exact path="/landingPage" component={Homelayout} />
                 <Route exact path="/lostPassword" component={Lostpassword} />
                 <Route exact path="/profile/:id" component={Profile} />
