@@ -118,10 +118,9 @@ class Content extends React.Component {
 
 
     refreshState = () => {
-        const updatePost = {
-            emailaddress: this.props.userInfo.emailaddress,
-
-        }
+        const updatePost = this.props.userInfo.emailaddress
+            
+        
         this.props.disState.getUser(updatePost)
 
     }

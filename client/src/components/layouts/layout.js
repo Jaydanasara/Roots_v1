@@ -210,7 +210,7 @@ class Layout extends React.Component {
                                 /> :
                                 null
                         }
-                        <Content userInfo={this.props.userInfo} disState={this.props} />
+                        <Content userInfo={this.props.userInfo} disState={this.props.getUser} />
                         <SideDrawer show={this.state.sideDrawerOpen} />
 
                         {backDrop}

@@ -88,6 +88,8 @@ class ProfileEditor extends React.Component {
             })
                 .then(function (response) {
                     console.log(response);
+
+                    
                 })
                 .catch(err => console.log(err));
 
@@ -113,10 +115,9 @@ class ProfileEditor extends React.Component {
 
 
     refreshState = () => {
-        const updatePost = {
-            emailaddress: this.props.userInfo.emailaddress,
-            password: this.props.userInfo.password
-        }
+        const updatePost = this.props.userInfo.emailaddress
+            
+        
         this.props.disState.getUser(updatePost)
 
     }
@@ -172,7 +173,7 @@ class ProfileEditor extends React.Component {
 
     render() {
         const fullName = this.props.userInfo.firstname + " " + this.props.userInfo.lastname
-        
+        console.log(this.props.userInfo.user_ID)
         console.log(this.props.userInfo)
        
         return (
@@ -218,7 +219,7 @@ class ProfileEditor extends React.Component {
                                 <input value={this.state.cityState} onChange={this.handleChange} type="text" placeholder="city/state" name="cityState" className=" editInput" />
                             </div>
                             <div className="profileInputs">Are you in a relationship?
-                                <input value={this.state.relationship} onChange={this.handleChange} type="text" placeholder="Relationship Staus" name="relationship" className=" editInput" />
+                                <input value={this.state.relationship} onChange={this.handleChange} type="text" placeholder="Relationship Status" name="relationship" className=" editInput" />
                             </div>
                       
                     </section>

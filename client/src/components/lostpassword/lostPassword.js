@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-// import { Form, Button, Card, Alert } from "react-bootstrap"
+
 import { useAuth } from "../../context/AuthContext"
 import {Link,} from "react-router-dom"
 
@@ -28,40 +28,23 @@ export default function LostPassword() {
            
         } catch (error) {
             console.log(error)
-            setError("Failed to reset Passowrd")
+            setError("Failed to reset Passoword check your spelling and try again")
 
         }
         setLoading(false)
     }
 
     return (
-        <>
-            {/* <Card>
-                <Card.Body>
-                    <h2 className="text-center mb-4"> Password Reset</h2>
-                   
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    {message && <Alert variant="success">{message}</Alert>}
+        <div className = "lostPasswordContain">
+            <div className="lostPassWrapper">
+            <h1>Password Reset </h1>
+            <h2 className="errMessage">{error}</h2>
+            <h2 className = "successMessage">{message}</h2>
+            <input type="email" placeholder="Email Address" name="emailaddress" ref={emailRef} className="signupInput" required />
 
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group id="email">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" ref={emailRef} required />
-                        </Form.Group>
-                      
-                       
-                        <Button disabled={loading} className="w-100" type="submit">Reset Password</Button>
-                    </Form>
-                    <div className="w=100 text-center mt-3">
-                        <Link to="/login">Log In</Link>
-                    </div>
-                </Card.Body>
-            </Card>
-            <div className="w=100 text-center mt-2">
-                Need an account? <Link to="/signup" >Sign Up </Link>
-
-        </div> */}
-
-        </>
+            <button className="lostPassBtn" onClick={handleSubmit}>Reset Password</button>
+           <div className=" landingLink"> <Link to = "/landingPage">Signup or Login</Link></div>
+            </div>
+        </div>
     )
 }

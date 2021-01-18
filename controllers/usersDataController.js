@@ -44,7 +44,7 @@ module.exports = {
 findUserinfo:function(req, res) {
 
   db.usersData
-   .find({emailaddress:req.body.emailaddress})
+   .findOne({emailaddress:req.body.emailaddress})
    
    .then(dbModel => res.json(dbModel))
    .catch(err => res.status(422).json(err));
