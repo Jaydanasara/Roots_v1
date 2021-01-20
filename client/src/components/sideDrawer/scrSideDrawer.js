@@ -10,9 +10,9 @@ if(props.show){
 
     return (
     <div className= {drawerClasses}>
-        <ul className= "side-DrawerList">
-        <li><Link to ={"/"}><div>{props.userInfo.firstname} {" "}  {props.userInfo.lastname}</div> </Link></li>
-            <li><Link to ={"/scrmessenger"}><div>Messenger</div> </Link></li>
+        <ul className= "side-DrawerList"> 
+        <li ><Link to ={"/"}><div className="publicName">{props.userInfo.firstname} {" "}  {props.userInfo.lastname}</div> </Link></li>
+            <li ><Link to ={"/scrmessenger"}><div className ="privateMessenger"> Private Messenger</div> </Link></li>
         </ul>
     </div>
 

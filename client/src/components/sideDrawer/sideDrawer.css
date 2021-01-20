@@ -12,6 +12,33 @@
     transition: transform 0.3s ease-out;
 }
 
+.privateMessenger{
+    font-size:1.1rem;
+    padding:10px;
+    font-weight: bold;
+}
+
+.publicName{
+    font-size:1.1rem;
+    padding:10px;
+    font-weight: bold;
+
+}
+
+.privateName{
+    font-size:1.1rem;
+    padding:10px;
+    font-weight: bold;
+
+}
+
+.publicMessenger{
+    font-size:1.1rem;
+    padding:10px;
+    font-weight: bold;
+
+}
+
 .side-drawer.open{
     transform: translateX(0);
   

@@ -71,7 +71,7 @@ class ScrNavbar extends React.Component {
         }
         return (
             <ul className="srch_resp_cont">
-                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/scrFriendProfile/"  + item._id}><img className="search-Img" src={item.userPic} alt="users pic" />{item.screenName} </Link> </li>)}
+                {suggestions.map((item) => <li onClick={this.reloadFunc} className="searchResponse">  <Link to={"/scrFriendProfile/"  + item._id}><img className="search-Img" src={(item.userPic!==undefined && item.userPic!=="")? item.userPic :"https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="users pic" />{item.screenName} </Link> </li>)}
             </ul>
         )
 
@@ -126,7 +126,7 @@ class ScrNavbar extends React.Component {
         
         return (
             <ul className="messageList">
-                {allMessages.map((each) => <li className="eachMeassage"><img className="search-Img" src={(each.userPic!==undefined)? each.userPic :"https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt ="users pic"/>{each.name} {" "} sent you a message</li>)}
+                {allMessages.map((each) => <li className="eachMeassage"><img className="search-Img" src={(each.userPic!==undefined && each.userPic!=="")? each.userPic :"https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt ="users pic"/>{each.name} {" "} sent you a message</li>)}
             </ul>
         )
         }

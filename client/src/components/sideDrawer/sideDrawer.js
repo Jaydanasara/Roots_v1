@@ -11,8 +11,8 @@ if(props.show){
     return (
     <div className= {drawerClasses}>
         <ul className= "side-DrawerList">
-            <li><Link to ={"/lgScreen"}><div>{props.userInfo.screenName}</div> </Link></li>
-            <li><Link to ={"/messenger"}><div>Messenger</div> </Link></li>
+            <li><Link to ={"/lgScreen"}><div className="privateName">{props.userInfo.screenName}</div> </Link></li>
+            <li><Link to ={"/messenger"}><div className="publicMessenger">Messenger</div> </Link></li>
         </ul>
     </div>
 
