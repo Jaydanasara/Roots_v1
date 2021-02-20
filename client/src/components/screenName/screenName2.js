@@ -7,7 +7,7 @@ import BackDrop from "../sideDrawer/backDrop/backDrop";
 import EditPostModal from "../modal/editPostModal";
 import EditCommentModal from "../modal/EditCommentModal"
 import VideoPost from "../videoPost/VideoPost"
-import NotificationModal from "../modal/NotificationModal";
+
 
 class LgScreenName extends React.Component {
     state = {
@@ -158,7 +158,7 @@ class LgScreenName extends React.Component {
             .catch(err => console.log(err));
 
         this.refreshState()
-        this.listScrFriendsPost();
+       
 
 
     }
@@ -181,7 +181,7 @@ class LgScreenName extends React.Component {
             .catch(err => console.log(err));
 
         this.refreshState()
-        this.listScrFriendsPost();
+     
 
 
     }
@@ -352,7 +352,7 @@ class LgScreenName extends React.Component {
             .catch(err => console.log(err));
 
         this.refreshState()
-        this.listScrFriendsPost();
+      
 
         this.setState({ optionId: "" })
 
@@ -392,7 +392,7 @@ class LgScreenName extends React.Component {
         this.setState({ edit_id: "", editContent: "", editPicture: "" })
 
         this.refreshState()
-        this.listScrFriendsPost();
+       
 
     }
 
@@ -413,7 +413,7 @@ class LgScreenName extends React.Component {
         this.setState({ postComment_id: "", editContent: "", editComment: "", editPicture: "", comment_id: "", })
 
         this.refreshState()
-        this.listScrFriendsPost();
+       
 
     }
 
@@ -446,7 +446,7 @@ class LgScreenName extends React.Component {
             .catch(err => console.log(err));
 
         this.refreshState()
-        this.listScrFriendsPost();
+       
 
 
     }
@@ -471,7 +471,7 @@ class LgScreenName extends React.Component {
         let backDrop;
         let editPost;
         let editComment;
-        let notificationModal;
+     
 
         if (this.state.optionId !== "" || this.state.edit_id !== "" || this.state.comOption_id !== "" || this.state.comment_id !== ""|| this.props.isNotiOpen===true) {
             backDrop = <BackDrop click={this.backdropClicked} />;
@@ -487,21 +487,19 @@ class LgScreenName extends React.Component {
             editComment = <EditCommentModal postID={this.state.postComment_id} content={this.state.editContent} picture={this.state.editPicture} cancelEditComment={this.cancelEditComment} changeComment={this.changeComment} commentID={this.state.comment_id} comment={this.state.editComment} />;
         }
 
-        if(this.props.isNotiOpen===true){
-            notificationModal= <NotificationModal  userInfo={this.props.userInfo} notiPost={this.props.notiPost} user_id={this.props.screenInfo._id} username={this.props.screenInfo.screenName} saveNotification={this.props.saveNotification} notiClose={this.props.notiClose} />
-         }
+       
  
 
 
 
         return (
-            <div className="contentArea scPage">
+            <div className="screenNameArea ">
 
                 {editPost}
                 {backDrop}
                 {editComment}
-                {notificationModal}
-                <section className="composeStatus">
+               
+                <section className="miniComposeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
                     <div className="user-I">   <Link to={"/screenprofile/" + this.props.screenInfo._id}><img className="user-Img" src={(user.userPic !== undefined) ? user.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic" /> </Link>  </div>
                     <div className="buttons">

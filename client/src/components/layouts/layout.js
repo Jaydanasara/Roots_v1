@@ -1,23 +1,28 @@
 import React from "react";
 import { auth } from "../../config/firebase"
+import SocketContext from "../../context/SocketProvider";
 import Navbar from "../../components/navbar/navbar";
 import ScrMiniBar from "../../components/navbar/scrMiniBar";
 import Content from "../content/content";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../../components/leftMenu/leftMenu"
-import ScreenName from "../screenName/screenName";
+import ScreenName2 from "../screenName/screenName2";
 import API from "../../utils/API";
 import { getUser } from "../../store/actions/userActions";
 import SideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
-import VideoChat from "../messenger/videoChat"
+import VideoChat from "../messenger/videoChat";
+
+
+
 
 
 
 
 class Layout extends React.Component {
 
+    static contextType = SocketContext
     constructor(props) {
         super(props)
 
@@ -30,18 +35,23 @@ class Layout extends React.Component {
             friendsPhId: "",
             receivingCall: false,
             caller: {},
-            callerSignal: null,
-            yourInfo: {},
+             yourInfo: {},
             users: [],
             numberOfMessages: 0,
-            messages: []
+            messages: [],
+            numberOfNotifications: 0,
+            notifications:[],
+            notiPost:[],
+            isNotiOpen:false
 
         }
 
     }
+    
     componentDidMount() {
+        console.log(this.props.userInfo.notifications)
 
-
+        const socket = this.context
 
         this.props.getUser(auth.currentUser.email)
 
@@ -54,7 +64,27 @@ class Layout extends React.Component {
             this.setState({ messages: this.props.userInfo.messages })
         }
 
+        if (this.props.userInfo.notifications.length) {
+            this.setState({ numberOfNotifications: this.props.userInfo.notifications.length, notifications: this.props.userInfo.notifications })
+        }
+        else {
+            this.setState({ notifications: this.props.userInfo.notifications })
+        }
+
         // this.props.send_id(this.props.userInfo.user_ID,)
+
+
+        socket.on('receive-notification', (data) => {
+            console.log("go go")
+
+           console.log(data.notifications.notifications)
+           
+
+            // this.newNotification()
+            this.setState({ notifications:data.notifications.notifications, numberOfNotifications: data.notifications.notifications.length })
+        })
+
+
     }
 
 
@@ -160,6 +190,46 @@ class Layout extends React.Component {
     }
 
 
+
+
+    newNotification = () => {
+
+        var numberOfNotifications = this.state.numberOfNotifications + 1
+      
+        this.setState({ numberOfNotifications: numberOfNotifications },()=> this.props.getUser(auth.currentUser.email))
+    }
+
+    saveNotification = (id, data,post_id) => {
+        
+        console.log(data)
+        API.saveNotification(id, {
+            name: data.name,
+            user_id: data.user_id,
+            userPic: data.userPic,
+            content:data.comment,
+            post_id:post_id
+            
+        })
+
+            .then(res => {
+
+                
+                console.log(res)
+                const socket = this.context
+        socket.emit('send-notification', ({
+            notifications:res.data,
+             id:id, friends_id:data.user_id
+        }))
+
+            })
+
+            .catch(err => console.log(err));
+    }
+
+
+
+
+
     removeAllInstMessages = (id) => {
 
         API.removeMessages(id)
@@ -176,9 +246,59 @@ class Layout extends React.Component {
 
 
 
+    removeNotification = (id,noteId) => {
+       
+
+        API.removeNotification(id,{
+            
+            _id:noteId})
+
+            
+            .then(res => {
+                
+                this.setState({ notifications: res.data.notifications, numberOfNotifications: res.data.notifications.length })
+            })
+
+            .then(res => {
+
+                this.props.getUser(auth.currentUser.email)
+               console.log(this.state.numberOfNotifications)
+            })
+
+
+            .catch(err => console.log(err));
+
+       
+    }
+
+
+    viewNotiPost= (post_id)=>{
+
+        API.getNotiPost(post_id)
+
+        .then(res=>{
+            console.log(res)
+            this.setState({notiPost:[res.data], isNotiOpen:true})
+
+        })
+
+        .catch(err => console.log(err));
+
+    }
+
+    notiClose =()=>{
+        
+       
+        this.setState({isNotiOpen:false})
+    }
+
+
+ 
+
+
 
     render() {
-        console.log(this.state.messages)
+        console.log(this.state.isNotiOpen)
 
         let backDrop;
 
@@ -193,7 +313,8 @@ class Layout extends React.Component {
                     <section id="left-menu">
                         <LeftMenu />
                         <ScrMiniBar userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} />
-                        <ScreenName screenInfo={this.state.screenNameInfo} disState={this.props} userInfo={this.props.userInfo} />
+                        <ScreenName2 screenInfo={this.state.screenNameInfo} disState={this.props} userInfo={this.props.userInfo} 
+                         saveNotification={this.saveNotification}/>
                     </section>
 
 
@@ -201,7 +322,8 @@ class Layout extends React.Component {
 
 
                         <Navbar drawerClickHandler={this.drawToggleClickHandler} screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo}
-                            newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages} />
+                            newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages} 
+                            newNotifications={this.state.numberOfNotifications} notifications={this.state.notifications} removeNotification ={this.removeNotification } viewNotiPost={this.viewNotiPost}/>
                         {
                             this.state.isOnCall === true ?
                                 <VideoChat userInfo={this.props} callEnded={this.callScreenClose} friendsPhId={this.state.friendsPhId}
@@ -210,7 +332,15 @@ class Layout extends React.Component {
                                 /> :
                                 null
                         }
-                        <Content userInfo={this.props.userInfo} disState={this.props.getUser} />
+
+                    
+                         
+                           
+
+
+                    
+                        <Content userInfo={this.props.userInfo} disState={this.props.getUser} saveNotification={this.saveNotification} notiPost={this.state.notiPost} isNotiOpen={this.state.isNotiOpen}
+                        notiClose={this.notiClose}  viewNotiPost={this.viewNotiPost} />
                         <SideDrawer show={this.state.sideDrawerOpen} />
 
                         {backDrop}

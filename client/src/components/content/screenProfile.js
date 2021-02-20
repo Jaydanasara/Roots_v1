@@ -7,6 +7,7 @@ import BackDrop from "../sideDrawer/backDrop/backDrop";
 import EditPostModal from "../modal/editPostModal";
 import EditCommentModal from "../modal/EditCommentModal";
 import VideoPost from "../videoPost/VideoPost"
+import NotificationModal from "../modal/NotificationModal";
 
 
 class ScreenProfile extends React.Component {
@@ -37,6 +38,8 @@ class ScreenProfile extends React.Component {
         comOption_id: "",
         postComment_id: "",
         editComment: "",
+        isNotiOpen:false,
+        postId:"",
 
 
     }
@@ -96,7 +99,7 @@ class ScreenProfile extends React.Component {
             .catch(err => console.log(err));
 
         this.setState({ statusPost: "", isActive: false })
-
+        this.screenNameData()
 
     }
 
@@ -118,8 +121,7 @@ class ScreenProfile extends React.Component {
 
     }
 
-
-    submitComment = (id) => {
+    submitComment = (id,posters_id) => {
         API.saveComment(id, {
 
             comment: this.state.comment,
@@ -127,14 +129,25 @@ class ScreenProfile extends React.Component {
             user: this.props.screenInfo.screenName,
             picUrl: this.state.url,
         })
-            .then(res => {
-
-                console.log(res)
-                this.listPost()
-            })
+            .then(res => console.log(res))
             .catch(err => console.log(err));
+            
 
-        this.setState({ comment: "", checkInputID: null });
+            let data ={
+                comment: this.state.comment,
+                user_id: this.props.screenInfo._id,
+                name: this.props.screenInfo.screenName,
+                userPic: this.state.url,
+    
+                }
+                if(this.props.screenInfo._id !== posters_id){
+    
+                this.props.saveNotification(posters_id,data,id)
+                }
+
+
+        this.refreshState()
+        this.setState({ comment: "", checkInputID: null, postId:""}, () => this.listScrFriendsPost());
     }
 
     handleLikes = (id) => {
@@ -192,6 +205,17 @@ class ScreenProfile extends React.Component {
             [e.target.name]: e.target.value
         });
     };
+
+
+
+    handleChange2 =(postId,e)  => {
+
+
+        this.setState({
+            postId:postId, comment: e.target.value
+        });
+    };
+
 
     handleImageSelected = event => {
 
@@ -279,14 +303,30 @@ class ScreenProfile extends React.Component {
 
     addToPhotos = () => {
 
-        API.addPhotos({
+        if(this.state.url!==""){
+
+            API.addScreenPhotos({
             photos: this.state.url,
-            id: this.props.screenInfo_id
+            id: this.props.screenInfo._id
         })
 
             .then(res => console.log(res))
             .catch(err => console.log(err));
+
+    }else{
+
+        API.addScreenPhotos({
+            photos: this.state.video,
+            id: this.props.screenInfo._id
+        })
+
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+
     }
+    }
+
+
     addingFriend = () => {
         this.setState({ addFriend: !this.state.addFriend })
 
@@ -422,6 +462,7 @@ class ScreenProfile extends React.Component {
     backdropClicked = () => {
 
         this.setState({ optionId: "", comOption_id: "" })
+        this.props.notiClose()
     }
 
 
@@ -529,8 +570,9 @@ class ScreenProfile extends React.Component {
         let backDrop;
         let editPost;
         let editComment;
+        let notificationModal;
 
-        if (this.state.optionId !== "" || this.state.edit_id !== "" || this.state.comOption_id !== "" || this.state.comment_id !== "") {
+        if (this.state.optionId !== "" || this.state.edit_id !== "" || this.state.comOption_id !== "" || this.state.comment_id !== ""|| this.props.isNotiOpen===true) {
             backDrop = <BackDrop click={this.backdropClicked} />;
         }
 
@@ -547,17 +589,20 @@ class ScreenProfile extends React.Component {
 
 
 
+        if(this.props.isNotiOpen===true){
+            notificationModal= <NotificationModal  userInfo={this.props.userInfo} notiPost={this.props.notiPost} user_id={this.props.screenInfo._id} username={this.props.screenInfo.screenName} saveNotification={this.props.saveNotification} notiClose={this.props.notiClose} />
+         }
 
 
 
         return (
             this.state.screenUserID === "" ? <div className="loading">Loading</div> :
-                <div className="contentArea ">
+                <div className="contentArea scPage ">
 
                     {editPost}
                     {backDrop}
                     {editComment}
-
+                    {notificationModal}
                     <div className="profile-container">
                         <div className="profile-image">
                             <img src={(this.state.userPic !== undefined && this.state.userPic !== "" ) ? this.state.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic" />
@@ -566,7 +611,7 @@ class ScreenProfile extends React.Component {
                             {this.state.screenName}
                         </div>
                         <div className="button-div">
-                            <div className="follow-button" style={this.props.userInfo.userInfo.user_ID === this.state.screenUserID ? { display: "visible" } : { display: "none" }}  > <Link to={"/editprofile/" + this.props.screenInfo._id}>edit profile</Link>     </div>
+                            <div className="follow-button" style={this.props.userInfo.userInfo.user_ID === this.state.screenUserID ? { display: "visible" } : { display: "none" }}  > <Link to={"/editScrprofile/"+ this.props.screenInfo._id}>Edit Profile</Link>     </div>
                             {/* <button className="friend-btn" style={this.props.userInfo.userInfo.user_ID ===this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}>{(this.state.addFriend)?<i id= "friend-icon"class="fa fa-users fa-2x " aria-hidden="true" >+</i>:"UnFriend" }</button> */}
                             {(this.props.screenInfo.friends.includes(this.props.userInfo.match.params.id)) ? <button className="friend-btn2" style={this.props.userInfo.userInfo.user_ID === this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.removeFriend}>Unfriend</button> : <button className="friend-btn" style={this.props.userInfo.userInfo.user_ID === this.state.screenUserID ? { display: "none" } : { display: "visible" }} onClick={this.addingFriend}> <i id="friend-icon" className="fa fa-users fa-2x " aria-hidden="true" >+</i> </button>}
                             <button className="photos-btn" ><Link to={"/scrphotos/" + this.props.userInfo.match.params.id}>Photos </Link> </button>
@@ -678,7 +723,7 @@ class ScreenProfile extends React.Component {
                                                             <div className={comment.picUrl !== "" ? "commentPic" : "nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt="comment pic" /></div></div>
                                                     )}
                                                     <div className="responseComments">
-                                                        <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
+                                                        <textarea name="comment" value={(each._id=== this.state.postId)?this.state.comment:""}onChange={e => this.handleChange2(each._id, e)}className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                         <div>
                                                             <button type="button" className="button photo" onClick={() => { this.fileInput2.click(); this.getID(each._id); }}> <i class="far fa-images"></i></button>
 
@@ -695,7 +740,7 @@ class ScreenProfile extends React.Component {
                                                     </div>
 
                                                     <div className="commentButtons">
-                                                        <div className="replyButton" onClick={this.state.comment === "" && this.state.url === "" ? null : () => this.submitComment(each._id)}><i class="fas fa-share"></i> </div>
+                                                        <div className="replyButton" onClick={this.state.comment === "" && this.state.url === "" ? null : () => this.submitComment(each._id,each.user_ID)}><i class="fas fa-share"></i> </div>
 
                                                         <div className="likessection">
 

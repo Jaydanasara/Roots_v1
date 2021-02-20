@@ -38,7 +38,7 @@ font-size: 150px;
 
 }
 
-.largeScrName{
+.scPage{
     background: var(--scrBackgroundColor);
 }
 
@@ -372,10 +372,41 @@ width:90%
     overflow: auto;
     padding: 0 15px 0 7px;
     z-index: 985;
+
+}
+
+.closeWindow{
+    padding-top: 5px;
+   display:flex;
+   justify-content: flex-end;
+    font-size: 32px;
+    width: 90%;
+    font-weight: bolder;
+}
+
+.windowX{
+    width:32px;
+    border:3px solid;
+    text-align: center;
+    background:  darkgray ;
+
+}
+
+.soloPostArea{
+    box-sizing: content-box;
+    width:100%;
+    height: calc(100% - 99px);
+    overflow: auto;
+    padding: 0 15px 0 7px;
+    position: fixed; 
+
+    z-index: 500;
     
   
 
 }
+
+
 .contentArea:hover {
   padding:0  
   
@@ -383,6 +414,7 @@ width:90%
 
 .navigation{
     width: 100%;
+ 
     -webkit-box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.45);
 -moz-box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.45);
 box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.45);
@@ -394,15 +426,42 @@ background: var(--radiantPurplColor);
 
 }
 
+
+.smScrnLogo{
+
+    width: 60px;
+    height: 60px;
+
+}
+
+.nav-toggle{
+    display: none
+}
+
 .userAccount{
-padding-top: 10px;
-padding-right: 30px;
+/* padding-top: 10px;
+padding-right: 30px; */
 position: relative;
     cursor: pointer;
-float: right;
+    padding-bottom:5px ;
+    padding-right: 20px;
+/* float: right; */
 }
+
+.listContainer{
+    padding:5px;
+    margin: 0;
+ 
+    
+}
+
+.dropdown-toggle{
+    font-size: 1.2rem;
+}
+
 .dropDown{
     position: absolute;
+    top:20px;
   
     background: white;
     left: 0;
@@ -414,6 +473,8 @@ opacity: 0;
 cursor: pointer;
 }
 
+
+
 .userAccount.active .dropDown{
     bottom: -77px;
     visibility: visible;
@@ -424,41 +485,55 @@ cursor: pointer;
 
 .dropdown-item{
     display: block;
-    padding: 10px 15px;
+    padding: 5px 5px;
 }
 
 .screennameDrop{
     padding-left: 5px;
 }
-.searchForm{
+/* .searchForm{
     padding:10px;
+} */
+
+
+.searchBox{
+    width: 65%;
+    padding-left: 10px;
+    height: 30px;
 }
 
+
 .srch_resp_cont{
-    text-align: left;
+    
     padding-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
     
     
 }
 
 .searchResponse{
     padding-top: 5px;
+    margin-bottom: 5px;
     background: #d3d3d3 ;
     border:thin     ;
     border-color: #1b1b1b;
     border-radius: 3px;
     font-size: 18px;
     padding-left: 15px;
-    width: 250px;
+    width: 200px;
     height: 50px;
-    display:inline-flex;
+  
+   
 }
 
 .searchInfo{
     position:relative ;
-    width: 400px;
+    width: 80%;
     height: 29px;
-    float: left;
     background: #d3d3d3 ;
     border: none;
     border-radius: 3px;
@@ -499,28 +574,33 @@ cursor: pointer;
 
 
 .navIcons{
-    position: absolute ;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    /* position: absolute ;
     top:0;
-    right: 500px;
-    padding:10px;
+    right: 500px; */
+    padding:5px;
     
     font-size: 24px;
    
 }
 .bellNotifications{
-    float: left;
-    position: relative;
+    /* float: left;
+    position: relative; */
     padding-right: 5px;
     text-decoration-color: #eeda74;
         color: #eeda74;
         font-size:26px ;
+        display: flex;
+        flex-direction: row;
 
     
 }
 
 .commentNotifications{
-    position: relative;
-    float: left;
+   
+    /* float: left; */
     color:var(--secondBorderColor)
    
 }
@@ -530,30 +610,79 @@ li{
     display: block;
 }
 
-.eachMessage{
- 
-   
+.instMessages{
+   display: flex;
+   justify-content: center;
 }
 
 .messageList{
-   
+    width:90%;
+    margin:1px;
+    padding:5px;
+}
 
+.eachNotification{
+   
+    background:#d3d3d3;
+    width:100%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.noteContent{
+    cursor: pointer;
+}
+
+
+
+.noMessages{
+   
+display: none;
 
    
 }
 
 .notificationNumber{
+    /* position: absolute; */
     position: absolute;
-    
+    top:8px;
+    right: 40px;
+    z-index: 9;
     color:var(--scrBackgroundColor);
 
-    top:5px;
-    right:0;
+    /* top:5px;
+    right:0; */
     padding-right: 14px;
    
     font-size: 18px;
     font-weight: bolder;
     
+}
+
+.messageNumber{
+    /* position: absolute; */
+    position: absolute;
+    top:8px;
+    right: 6px;
+    z-index: 9;
+    color:var(--scrBackgroundColor);
+
+    /* top:5px;
+    right:0; */
+    padding-right: 14px;
+   
+    font-size: 18px;
+    font-weight: bolder;
+    
+}
+
+
+#home{
+    font-size: 1.3rem;
+    line-height: 0.5;
+
+ text-decoration-color: #eeda74;
+    color: #eeda74;
 }
 
 .home{
@@ -666,6 +795,14 @@ box-shadow: 0px 6px 5px -1px rgba(0,0,0,0.45);
     max-width: 630px;
     width: 95%;
     margin: 0 auto;
+}
+
+.notiPost_Container{
+    max-width: 630px;
+    width: 95%;
+    margin: 0 ;
+    background:black; 
+    
 }
 
 .friendsPostinfo{
@@ -1478,7 +1615,7 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
         text-align: center;
         margin-bottom: 20px;
         width:25%;
-        z-index: 500;
+        z-index: 450;
         background: var(--secondBorderColor);
     
         
@@ -1724,8 +1861,24 @@ font-weight: 600;
 
 
 
-header{
-    display: none;
+
+
+.headFstRow{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+
+.headSecRow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    height: 50px;
+    
 }
 
 
@@ -1814,6 +1967,8 @@ header{
 /* media querries */
 
 @media screen and (max-width:1269px){
+  
+
 
     .composeStatus{
        
@@ -1826,11 +1981,11 @@ header{
             margin: 0;
         }
     
-        .navIcons{
+        /* .navIcons{
             position: relative;
             right:-80%;
             padding:0px;
-        }
+        } */
 
         .chatIcon{
             padding-left: 0px;
@@ -1864,34 +2019,36 @@ header{
 
     @media screen and (max-width:789px){
         header{
-            display: grid;
-            grid-template-columns: 1fr auto minmax(600px,1fr) 1fr
+            width:100%;
+           
         
         }
 
         .userAccount{
+            
             padding-bottom:5px ;
+            padding-right: 20px;
         }
-        
+/*         
         .logo{
             grid-column: 2/3;
         
-        }
+        } */
         
-        .navIcons{
+        /* .navIcons{
             position: relative;
             right:-80%;
             padding:0px;
-        }
+        } */
         .searchResponse{
             width: 200px;
         }
 
         header{
             background: transparent;
-            text-align: center;
-            position: fixed;
-            width: 100%;
+            /* text-align: center; */
+            /* position: fixed; */
+           
         }
         
         .nav-toggle{
@@ -1899,14 +2056,14 @@ header{
         }
         
         .nav-toggle-label{
-            position: absolute;
+            /* position: absolute;
             top: 0;
-            left: 0;
-            margin: 1em;
+            left: 0; */
+            margin-left: 10px;
             height: 100%;
             display: flex;
             align-items: center;
-            margin-top: 30px;
+           
         }
         
         .nav-toggle-label span,
@@ -1994,7 +2151,8 @@ header{
         }
         
         .searchInfo{
-            
+           
+            height: 25px;
             width: 80%;
           float:none;
             
@@ -2002,8 +2160,9 @@ header{
         }
         
         .searchBox{
-            width: 80%;
-            padding-left: 20px;
+            width: 65%;
+            padding-left: 10px;
+            height: 30px;
         }
         
         .searchForm{
@@ -2036,7 +2195,7 @@ header{
         }
         
         ul.homeButton{
-            padding: 0px;
+            padding-top: 5px;
             margin-top: 2px;
             padding-left: 5px;
             
@@ -2132,7 +2291,7 @@ header{
         
         
         #home{
-            font-size: 11px;
+            font-size: 1rem;
             line-height: 0.5;
 
         }
@@ -2188,6 +2347,7 @@ header{
         
 
          .navigation{
+            width: 100%;
             
            position: fixed;
            top: 0;

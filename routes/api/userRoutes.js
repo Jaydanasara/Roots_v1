@@ -17,6 +17,9 @@ router
   router.route("/:id")
   .put(usersDataController.updateByID);
 
+  router.route("/scProData:id")
+  .put(usersDataController.updateScrProfile);
+
   router
   .route("/usersData")
   .post(usersDataController.create)
@@ -60,8 +63,35 @@ router
   .put(usersDataController.saveInstMessNote);
 
   router
+  .route("/notiData/:id")
+  .put(usersDataController.saveNotification)
+  .get(usersDataController.getSinglePost)
+
+  router
+  .route("/notiSCData/:id")
+  .put(usersDataController.saveSCNotification)
+  
+
+  router
+  .route("/delNotiData/:id")
+  .put(usersDataController.delNotification);
+
+  router
+  .route("/delSCNotiData/:id")
+  .put(usersDataController.delSCNotification);
+
+  router
   .route("/delInstData/:id")
   .put(usersDataController.delInstMessNote);
+
+  router
+  .route("/SCinstData/:id")
+  .put(usersDataController.saveSCInstMessNote);
+
+  router
+  .route("/delSCInstData/:id")
+  .put(usersDataController.delSCInstMessNote);
+
 
 
   router

@@ -23,9 +23,8 @@ class Navbar extends React.Component {
 
     }
 
-
+        
     componentDidMount() {
-        console.log(this.props.instMessages)
         console.log(this.props.notifications)
 
         this.getAllUsers()
@@ -138,7 +137,7 @@ class Navbar extends React.Component {
 
             return (
                 <ul className="messageList">
-                    {allMessages.map((each) => <li className="eachMeassage" ><img className="search-Img" src={(each.userPic !== undefined && each.userPic !== "") ? each.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="users pic" />{each.name} {" "} sent you a message</li>)}
+                    {allMessages.map((each) => <li className="eachMeassage"><img className="search-Img" src={(each.userPic !== undefined && each.userPic !== "") ? each.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="users pic" />{each.name} {" "} sent you a message</li>)}
                 </ul>
             )
         }
@@ -147,7 +146,7 @@ class Navbar extends React.Component {
 
     showNotifications = () => {
         let allNotifications = this.props.notifications
-        console.log(this.props.notifications)
+        console.log(allNotifications)
 
         if (this.props.notifications.length === 0) {
             return null;
@@ -157,7 +156,7 @@ class Navbar extends React.Component {
 
             return (
                 <ul className="messageList">
-                    {allNotifications.map((each) => <li className="eachNotification" onClick={()=>this.viewNotiPost(each._id,each.post_id)}><img className="search-Img" src={(each.userPic !== undefined && each.userPic !== "") ? each.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="users pic" />{each.name} {" "} commented on your post<div className="noteContent">{(each.content.length > 20) ? each.content.substring(0, 20) : each.content}</div></li>)}
+                    {allNotifications.map((each) => <li className="eachMeassage"><img className="search-Img" src={(each.userPic !== undefined && each.userPic !== "") ? each.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="users pic" />{each.name} {" "} commented on your post<div>{(each.content.length>20)?each.content.substring(0,20):each.content}</div></li>)}
                 </ul>
             )
         }
@@ -165,117 +164,65 @@ class Navbar extends React.Component {
     }
 
 
-    viewNotiPost = (comment_id,post_id)=>{
-        console.log(comment_id +" " + post_id)
-
-        this.props.viewNotiPost(post_id)
-
-        this.props.removeNotification(this.props.userInfo.user_ID,comment_id)
-
-        this.setState({notificationsOpen: false})
-    }
-
-
     render() {
 
 
         console.log(this.props.userInfo)
-        console.log(this.props.instMessages)
+
 
         return (
             this.state.isLoading === true ? <div className="loading">Loading</div> :
                 <div className="navigation">
                     <header>
-                        <div className="headFstRow">
-                            <div className="navSitePic">
-                                <a href="/" className="">
-                                    <img className="smScrnLogo" src="/logo500.png" alt="tree icon" />
-                                </a>
-                            </div>
-
-                            <ul className="homeButton">
-
-                                <li>
-                                    <a id="home" href="/"> <i className="fa fa-home home"></i> Home </a>
-
-                                </li>
-
-                            </ul>
-
-
-                            <div className={this.state.isActive ? "userAccount active" : "userAccount"} onClick={this.accountClick} >
-
-
-                                <div className=" dropdown-toggle" id="userInfo"  >
-                                    <i className="fa fa-user">  {this.state.Name}</i>
-                                </div>
-                                <div className="dropDown">
-                                    <ul className="listContainer">
-                                        <Link to={"/profile/" + this.props.userInfo.user_ID}><li className="dropdown-item"> Profile</li> </Link>
-
-                                        <a className="dropdown-item" href="/landingPage" onClick={this.logout}>Logout</a>
-                                    </ul>
-                                    <div className="dropdown-divider"></div>
-
-                                </div>
-
-                            </div>
-
-
+                        <div className="navSitePic">
+                            <a href="/" className="">
+                                <img className="smScrnLogo" src="/logo500.png" alt="tree icon" />
+                            </a>
                         </div>
+                        <input type="checkbox" id="nav-toggle" className="nav-toggle" />
+
+                        <label htmlFor="nav-toggle" className="nav-toggle-label" onClick={this.props.drawerClickHandler} >
+                            <span></span>
+                        </label>
+                        <ul className="homeButton">
+
+                            <li>
+                                <a id="home" href="/"> <i className="fa fa-home home"></i> Home </a>
+
+                            </li>
+
+                        </ul>
 
                     </header>
 
-                    <div className="headSecRow">
 
-                        <div className="hamburger">
-                            <input type="checkbox" id="nav-toggle" className="nav-toggle" />
+                    <div className={this.state.isActive ? "userAccount active" : "userAccount"} onClick={this.accountClick} >
 
-                            <label htmlFor="nav-toggle" className="nav-toggle-label" onClick={this.props.drawerClickHandler} >
-                                <span></span>
-                            </label>
+
+                        <div className=" dropdown-toggle" id="userInfo"  >
+                            <i className="fa fa-user">  {this.state.Name}</i>
+                        </div>
+                        <div className="dropDown">
+                            <ul>
+                                <Link to={"/profile/" + this.props.userInfo.user_ID}><li className="dropdown-item"> Profile</li> </Link>
+
+                                <a className="dropdown-item" href="/landingPage" onClick={this.logout}>Logout</a>
+                            </ul>
+                            <div className="dropdown-divider"></div>
+
                         </div>
 
-                        <div className="searchBox">
-                            <input type="text" className="searchInfo" placeholder="Search" onChange={this.onTextChanged} />
-                            <button id="searchButton" className="btn btn-outline-secondary" type="submit"><i id="searchIcon" className="fa fa-search"></i> </button>
-                        </div>
-
-                        <div className="navIcons">
-                            <div className="bellNotifications" onClick={this.openNotifications}>
-                                <i id="bell" className="fas fa-bell"></i>
-                                <div className="notificationNumber">{(this.props.newNotifications > 0) ? this.props.newNotifications : null}</div>
-                            </div>
-                            <div className="commentNotifications" onClick={this.openMessages}>
-                                <i id="note" className="fas fa-sticky-note"></i>
-                                <div className="messageNumber">{(this.props.newMessages > 0) ? this.props.newMessages : null}</div>
-                            </div>
-                        </div>
-                    
                     </div>
 
-                    <div className={(this.state.messagesOpen === true) ? "instMessages" : "noMessages"} >
-                            {this.showMessages()}
-
-                        </div>
-
-                        <div className={(this.state.notificationsOpen === true) ? "instMessages" : "noMessages"} >
-                            {this.showNotifications()}
-
-                        </div>
-                        <div>{this.searchSuggestions()}</div>
-
-
-
-                    {/* <div className="searchForm ">
+                    <div className="searchForm ">
                         <div className="searchBox">
                             <input type="text" className="searchInfo" placeholder="Search" onChange={this.onTextChanged} />
 
                             <button id="searchButton" className="btn btn-outline-secondary" type="submit"><i id="searchIcon" className="fa fa-search"></i> </button>
                             <div className="navIcons">
-                                <div className="bellNotifications" onClick={this.openNotifications}>
+                                 <div className="bellNotifications" onClick={this.openNotifications}>
                                     <i id="bell" className="fas fa-bell"></i>
-                                    <div className="notificationNumber">{(this.props.newNotifications > 0) ? this.props.newNotifications : null}</div>
+                                    <div className="notificationNumber">{(this.props.newNotifications >0) ? this.props.newNotifications : null}</div>
                                 </div>
                                 <div className="commentNotifications" onClick={this.openMessages}>
                                     <i id="note" className="fas fa-sticky-note"></i>
@@ -304,7 +251,7 @@ class Navbar extends React.Component {
                             </li>
 
                         </ul>
-                    </div> */}
+                    </div>
                 </div>
 
 

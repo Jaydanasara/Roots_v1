@@ -7,6 +7,7 @@ import BackDrop from "../sideDrawer/backDrop/backDrop";
 import EditPostModal from "../modal/editPostModal";
 import EditCommentModal from "../modal/EditCommentModal";
 import VideoPost from "../videoPost/VideoPost"
+import NotificationModal from "../modal/NotificationModal";
 
 
 
@@ -31,6 +32,8 @@ class Content extends React.Component {
         comOption_id: "",
         postComment_id: "",
         editComment: "",
+        isNotiOpen:false,
+        postId:"",
 
 
 
@@ -39,6 +42,9 @@ class Content extends React.Component {
 
     }
     componentDidMount() {
+        console.log(this.props)
+
+   
 
         this.listFriendsPost()
 
@@ -121,7 +127,7 @@ class Content extends React.Component {
         const updatePost = this.props.userInfo.emailaddress
             
         
-        this.props.disState.getUser(updatePost)
+        this.props.disState(updatePost)
 
     }
 
@@ -129,7 +135,7 @@ class Content extends React.Component {
 
 
 
-    submitComment = (id) => {
+    submitComment = (id,posters_id) => {
         API.saveComment(id, {
 
             comment: this.state.comment,
@@ -140,8 +146,20 @@ class Content extends React.Component {
             .then(res => console.log(res))
             .catch(err => console.log(err));
 
+            let data ={
+            comment: this.state.comment,
+            user_id: this.props.userInfo.user_ID,
+            name: this.props.userInfo.firstname + " " + this.props.userInfo.lastname,
+            userPic: this.state.url,
+
+            }
+            if(this.props.userInfo.user_ID !== posters_id){
+
+            this.props.saveNotification(posters_id,data,id)
+            }
+
         this.refreshState()
-        this.setState({ comment: "", checkInputID: null }, () => this.listFriendsPost());
+        this.setState({ comment: "", checkInputID: null, postId:""}, () => this.listFriendsPost());
     }
 
 
@@ -199,6 +217,19 @@ class Content extends React.Component {
             [e.target.name]: e.target.value
         });
     };
+
+
+
+    handleChange2 =(postId,e)  => {
+
+
+        this.setState({
+            postId:postId, comment: e.target.value
+        });
+    };
+
+
+
 
     handleImageSelected = event => {
 
@@ -293,6 +324,8 @@ class Content extends React.Component {
 
     addToPhotos = () => {
 
+        if(this.state.url!==""){
+
         API.addPhotos({
             photos: this.state.url,
             id: this.props.userInfo.user_ID
@@ -300,6 +333,18 @@ class Content extends React.Component {
 
             .then(res => console.log(res))
             .catch(err => console.log(err));
+
+    }else{
+
+ API.addPhotos({
+            photos: this.state.video,
+            id: this.props.userInfo.user_ID
+        })
+
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+    }
     }
 
     optionsClicked = (id) => {
@@ -349,6 +394,8 @@ class Content extends React.Component {
     backdropClicked = () => {
 
         this.setState({ optionId: "", comOption_id: "" })
+        this.props.notiClose()
+
     }
 
 
@@ -447,13 +494,14 @@ class Content extends React.Component {
         const user = this.props.userInfo
         console.log(user)
         console.log(this.props.userInfo)
-        console.log(this.props.disState)
-
+        console.log(this.state.isNotiOpen)
+        console.log(this.props.isNotiOpen)
         let backDrop;
         let editPost;
         let editComment;
+        let notificationModal;
 
-        if (this.state.optionId !== "" || this.state.edit_id !== "" || this.state.comOption_id !== "" || this.state.comment_id !== "") {
+        if (this.state.optionId !== "" || this.state.edit_id !== "" || this.state.comOption_id !== "" || this.state.comment_id !== "" || this.props.isNotiOpen===true) {
             backDrop = <BackDrop click={this.backdropClicked} />;
         }
 
@@ -464,19 +512,24 @@ class Content extends React.Component {
 
         if (this.state.comment_id !== "") {
 
-            editComment = <EditCommentModal postID={this.state.postComment_id} content={this.state.editContent} picture={this.state.editPicture} cancelEditComment={this.cancelEditComment} changeComment={this.changeComment} commentID={this.state.comment_id} comment={this.state.editComment} />;
+            editComment = <EditCommentModal postID={this.state.postComment_id} content={this.state.editContent} picture={this.state.editPicture} cancelEditComment={this.cancelEditComment} changeComment={this.changeComment} commentID={this.state.comment_id} comment={this.state.editComment}
+            viewNotiPost={this.props.viewNotiPost} />;
         }
 
-
+        if(this.props.isNotiOpen===true){
+           notificationModal= <NotificationModal  userInfo={this.props.userInfo} notiPost={this.props.notiPost} user_id={this.props.userInfo.user_ID} username={this.props.userInfo.firstname +" "+this.props.userInfo.lastname} saveNotification={this.props.saveNotification} notiClose={this.props.notiClose} />
+        }
 
         return (
             <div className="contentArea ">
+                {notificationModal}
                 {editPost}
                 {backDrop}
                 {editComment}
+                
                 <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={(user.userPic !== undefined) ? user.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users_Pic" /> </Link>  </div>
+                    <div className="user-I">   <Link to={"/profile/" + this.props.userInfo.user_ID}><img className="user-Img" src={(user.userPic !== undefined && user.userPic !== "" ) ? user.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users_Pic" /> </Link>  </div>
                     <div className="buttons">
 
                         <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i className="fas fa-camera-retro"></i></button>
@@ -511,7 +564,7 @@ class Content extends React.Component {
 
                                     <div className="feed_Container" key={content._id} >
                                         <div className="friendsPostinfo">
-                                            <Link to={"/friendProfile/" + content.user_ID}> <img className="friendsImg" src={(content.post_by_pic !== undefined) ? content.post_by_pic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="friendspic" /></Link>
+                                            <Link to={"/friendProfile/" + content.user_ID}> <img className="friendsImg" src={(content.post_by_pic !== undefined && content.post_by_pic !== "") ? content.post_by_pic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="friendspic" /></Link>
                                             <div className="friendsInfo"> <Link to={"/friendProfile/" + content.user_ID} className="Link">{content.post_by}</Link> &nbsp; shared a &nbsp; <a href="#">{(content.picUrl === "") ? "story" : "image"}</a>  </div>
                                         </div>
                                         <div className="uploadedInfo">
@@ -578,7 +631,7 @@ class Content extends React.Component {
                                                         <div className={(comment.picUrl !== "") ? "commentPic" : "nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt="comment pic" /></div></div>
                                                 )}
                                                 <div className="responseComments">
-                                                    <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
+                                                    <textarea name="comment" value={(content._id=== this.state.postId)?this.state.comment:""}onChange={e => this.handleChange2(content._id, e)} className="commentArea" placeholder="Comment" rows="8" cols="80" />
 
                                                     <div className="commentPhoto">
                                                         <button type="button" className="button photo" onClick={() => { this.fileInput2.click(); this.getID(content._id); }}> <i className="far fa-images"></i></button>
@@ -598,7 +651,7 @@ class Content extends React.Component {
                                                 </div>
 
                                                 <div className="commentButtons">
-                                                    <div className="replyButton" onClick={this.state.comment === "" && this.state.url === "" ? null : () => this.submitComment(content._id)} ><i className="fas fa-share"></i> </div>
+                                                    <div className="replyButton" onClick={this.state.comment === "" && this.state.url === "" ? null : () => this.submitComment(content._id,content.user_ID)} ><i className="fas fa-share"></i> </div>
 
                                                     <div className="likessection">
 

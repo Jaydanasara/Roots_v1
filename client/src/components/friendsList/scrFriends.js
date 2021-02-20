@@ -1,7 +1,9 @@
 import React from "react";
 import API from "../../utils/API"
 import { Link } from "react-router-dom";
+import BackDrop from "../sideDrawer/backDrop/backDrop";
 
+import NotificationModal from "../modal/NotificationModal";
 class ScrFriends extends React.Component {
     state = {
        
@@ -37,7 +39,10 @@ class ScrFriends extends React.Component {
 
 
 
+    backdropClicked = () => {
 
+        this.props.notiClose()
+    }
 
 
 
@@ -45,11 +50,25 @@ class ScrFriends extends React.Component {
  
 
     render() {
-        
+        let backDrop;
        
+        let notificationModal;
+        if ( this.props.isNotiOpen===true) {
+            backDrop = <BackDrop click={this.backdropClicked} />;
+        }
+
+        if(this.props.isNotiOpen===true){
+            notificationModal= <NotificationModal  userInfo={this.props.userInfo} notiPost={this.props.notiPost} user_id={this.props.screenInfo._id} username={this.props.screenInfo.screenName} saveNotification={this.props.saveNotification} notiClose={this.props.notiClose} />
+         }
+
+
 
         return (
             <div className="contentArea ">
+
+
+                {backDrop}
+                {notificationModal}
 
                 <div className="friendsHeader"><h1>{this.props.screenInfo.screenName }'s Friends</h1></div>
                 <section className="feed ">
@@ -64,7 +83,7 @@ class ScrFriends extends React.Component {
 
                                     <div className="friends"  key={content._id} >
                                       
-                                      <a className="friend" href="#"><img className="friend" src= {content.userPic} alt="friends pic"/>  </a>
+                                      <a className="friend" href="#"><img className="friend" src=  {(content.userPic!== undefined && content.userPic !== "") ? content.userPic :  "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="friends pic"/>  </a>
                                       
                                       <div className="friend" > <Link to={"/screenProfile/" + content._id}> {content.screenName} </Link> </div>
 

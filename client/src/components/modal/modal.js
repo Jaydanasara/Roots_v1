@@ -70,6 +70,7 @@ class Modal extends React.Component {
 
 
     sendChat = (e, id) => {
+        console.log(this.props.chFriends_id)
         const socket = this.context
         e.preventDefault()
         if (this.props.sender === this.props.userInfo.screenName) {
@@ -197,7 +198,7 @@ class Modal extends React.Component {
 
     render() {
 
-
+        console.log(this.props.chFriends_id)
 
 
 

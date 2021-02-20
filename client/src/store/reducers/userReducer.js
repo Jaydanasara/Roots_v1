@@ -50,7 +50,7 @@ const userReducer = (state = initState,action)=>{
             user_ID:action.userPro._id,
             friends:action.userPro.friends,
             messages:action.userPro.messages,
-            notifications:action.userPro.nootifications,
+            notifications:action.userPro.notifications,
            }
         }
         

@@ -109,6 +109,13 @@ export default  {
   },
 
 
+  updateEditScreenProfile:function(id,userData) {
+    
+    return axios.put("/api/usersData/scProData" +id, userData);
+  
+  },
+
+
 
   getUserInfo: function(userData) {
     console.log(userData)
@@ -151,9 +158,7 @@ export default  {
   },
 
 
-  deleteScore: function(id) {
-    return axios.delete("/api/scores/" + id);
-  },
+
   
   friendID: function(userData) {
    
@@ -268,9 +273,51 @@ export default  {
 
   },
 
+  saveNotification: function(id,Data){
+  
+    return axios.put("/api/usersData/notiData/"+id,Data);
+
+  },
+
+  saveSCNotification: function(id,Data){
+  
+    return axios.put("/api/usersData/notiSCData/"+id,Data);
+
+  },
+
   removeMessages: function(id){
   
     return axios.put("/api/usersData/delInstData/"+id);
+
+  },
+
+  removeNotification: function(id,Data){
+  
+    return axios.put("/api/usersData/delNotiData/"+id,Data);
+
+  },
+
+  removeSCNotification: function(id,Data){
+  
+    return axios.put("/api/usersData/delSCNotiData/"+id,Data);
+
+  },
+
+  getNotiPost: function(id){
+  
+    return axios.get("/api/usersData/notiData/"+id);
+
+  },
+
+  saveSCInstantMessage: function(id,Data){
+  
+    return axios.put("/api/usersData/SCinstData/"+id,Data);
+
+  },
+
+  removeSCMessages: function(id){
+  
+    return axios.put("/api/usersData/delSCInstData/"+id);
 
   },
 

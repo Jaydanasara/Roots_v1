@@ -2,9 +2,9 @@ import React from "react";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import Modal from "../modal/modal";
+import BackDrop from "../sideDrawer/backDrop/backDrop";
 import SocketContext from "../../context/SocketProvider"
-// import socketIOClient from "socket.io-client";
-// var socket;
+import NotificationModal from "../modal/NotificationModal";
 
 
 
@@ -20,7 +20,7 @@ class ScreenMessenger extends React.Component {
         allFriends: [],
         isOpen:false,
         chFriendsName:"",
-        chatFriends_id:"",
+        chFriends_id:"",
         avatar:"",
         chFriendsEmailaddress:"",
         messageID:"",
@@ -35,14 +35,17 @@ class ScreenMessenger extends React.Component {
         onlineFriends:[],
         unreadMessages:[],
         sender_id:"",
+        isNotiOpen:false,
 
     }
-    // socket =  socketIOClient(this.state.endpoint);
+    
 }
     componentWillMount() {
+        console.log(this.props.screenInfo)
         this.setState({sender_id:this.props.screenInfo._id})
         const  socket=this.context
         console.log(this.props.screenInfo)
+        console.log(this.props)
 
         this.Unreadchats()
          this.listFriends()
@@ -162,7 +165,7 @@ class ScreenMessenger extends React.Component {
 
 
     Unreadchats =()=>{
-        API.getUnreadChats({user:this.props.screenInfo_id})
+        API.getUnreadChats({user:this.props.screenInfo._id})
 
         .then(res=>{
             console.log(res)
@@ -256,13 +259,40 @@ class ScreenMessenger extends React.Component {
     }
 
 
+    backdropClicked = () => {
+
+      
+        this.props.notiClose()
+    }
+
 
     render() {
-       
+
+        console.log(this.props)
         console.log(this.props.screenInfo.friends)
+        console.log(this.state.chFriends_id)
+
+        let backDrop;
+        let notificationModal;
+
+        
+        if ( this.props.isNotiOpen===true) {
+            backDrop = <BackDrop click={this.backdropClicked} />;
+        }
      
+        if(this.props.isNotiOpen===true){
+            notificationModal= <NotificationModal submitComment={this.submitComment} removeLikes={this.removeLikes} handleLikes={this.handleLikes}
+             handleChange={this.handleChange} handleImageSelected2={this.handleImageSelected2} handleUpload={this.handleUpload}  getID={this.getID}
+             editCommentClicked={this.editCommentClicked} removeComment={this.removeComment} commentOptions={this.commentOptions} removePost={this.removePost} editPostClicked={this.editPostClicked}
+             optionsClicked={this.optionsClicked}  userInfo={this.props.userInfo} notiPost={this.props.notiPost} backdropClicked={this.backdropClicked} />
+         }
+ 
+
         return (
             <div className="messengerContainer">
+
+                {backDrop}
+                {notificationModal}
 
                 <div className="messengerHead">
                     <div className="chatIcon">

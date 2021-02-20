@@ -133,6 +133,15 @@ findAllScrUsers:function(req, res) {
       .catch(err => res.status(422).json(err));
   },
 
+  
+  updateScrProfile: function(req, res) {
+   
+    db.screenNameData
+      .findByIdAndUpdate({ _id: req.params.id }, req.body.profileEdit,{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
 
   createPost: function(req, res) {
    
@@ -164,10 +173,56 @@ findAllScrUsers:function(req, res) {
       .catch(err => res.status(422).json(err));
   },
 
+  saveNotification: function(req, res) {
+    db.usersData
+      .findByIdAndUpdate({ _id: req.params.id },  {$push:{notifications: req.body}},{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
 
   delInstMessNote: function(req, res) {
     
      db.usersData
+       .findByIdAndUpdate({ _id: req.params.id },  {$set:{messages: []}},{new:true})
+       .then(dbModel => res.json(dbModel))
+       .catch(err => res.status(422).json(err));
+   },
+
+   delNotification: function(req, res) {
+    
+    db.usersData
+    .findByIdAndUpdate({ _id: req.params.id },  {$pull:{notifications: req.body}},{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+ 
+   saveSCInstMessNote: function(req, res) {
+    db.screenNameData
+      .findByIdAndUpdate({ _id: req.params.id },  {$push:{messages: req.body}},{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+  saveSCNotification: function(req, res) {
+    db.screenNameData
+      .findByIdAndUpdate({ _id: req.params.id },  {$push:{notifications: req.body}},{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+  delSCNotification: function(req, res) {
+    db.screenNameData
+   
+    .findByIdAndUpdate({ _id: req.params.id },  {$pull:{notifications: req.body}},{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+
+  delSCInstMessNote: function(req, res) {
+    
+    db.screenNameData
        .findByIdAndUpdate({ _id: req.params.id },  {$set:{messages: []}},{new:true})
        .then(dbModel => res.json(dbModel))
        .catch(err => res.status(422).json(err));
@@ -187,6 +242,14 @@ findAllScrUsers:function(req, res) {
     
     db.postData
       .findByIdAndUpdate({ _id: req.params.id },  {$push:{comments: req.body}},{new:true})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+  getSinglePost: function(req, res) {
+    
+    db.postData
+      .findById({ _id: req.params.id })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -259,9 +322,9 @@ findAllScrUsers:function(req, res) {
   },
 
   showPics2:function(req, res) {
-  
+    console.log(req.body)
     db.screenNameData
-      .findOne({ _id: req.body._id})
+      .findByOne(req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

@@ -36,8 +36,11 @@ const screenNameSchema = new Schema({
     user_id:{type:String, required:false},
     notificationType:{type:String, required:false},
     userPic:{type:String, required:false},
+    content:{type:String, required:false},
+    post_id:{type:String, required:true}
    
   }]
+
 
 });
 

@@ -1,8 +1,9 @@
 import React from "react";
 import { auth } from "../../config/firebase"
+import SocketContext from "../../context/SocketProvider";
 import ScrNavbar from "../../components/navbar/scrnavbar";
 import MiniBar from "../../components/navbar/miniBar";
-import MiniContent from "../content/miniContent";
+import MiniContent2 from "../content/miniContent2";
 import ScreenMessenger from "../messenger/screenNameMessenger";
 import { connect } from "react-redux";
 import LeftMenu from "../../components/leftMenu/leftMenu"
@@ -14,7 +15,7 @@ import VideoChat from "../messenger/videoChat";
 
 
 class ScrProLayout extends React.Component {
-
+    static contextType = SocketContext
     constructor(props)  {
         super(props)
     this.state= {
@@ -29,13 +30,30 @@ class ScrProLayout extends React.Component {
         yourInfo: {},
         users: [],
         numberOfMessages: 0,
-        messages: []
+        messages: [],
+        numberOfNotifications: 0,
+        notifications:[],
+        notiPost:[],
+        isNotiOpen:false
 
 
     }
     }
     componentDidMount(){
         this.screenNameData()
+
+        const socket = this.context
+
+        
+        socket.on('receive-notification', (data) => {
+            console.log("go go")
+
+           console.log(data)
+           
+
+            // this.newNotification()
+            this.setState({ notifications:data.notifications.notifications, numberOfNotifications: data.notifications.notifications.length })
+        })
     }
 
   
@@ -70,7 +88,20 @@ class ScrProLayout extends React.Component {
                 this.setState({ screenNameInfo: res.data, isLoading:false })
                 
                  console.log(res)
-
+                
+                 if (res.data.messages.length) {
+                    this.setState({ numberOfMessages: res.data.messages.length, messages: res.data.messages })
+                }
+                else {
+                    this.setState({ messages:res.data.messages })
+                }
+        
+                if (res.data.notifications.length) {
+                    this.setState({ numberOfNotifications: res.data.notifications.length, notifications: res.data.notifications })
+                }
+                else {
+                    this.setState({ notifications: res.data.notifications })
+                }
 
             })
 
@@ -142,6 +173,40 @@ class ScrProLayout extends React.Component {
             .catch(err => console.log(err));
     }
 
+      
+    newNotification = () => {
+
+        var numberOfNotifications = this.state.numberOfNotifications + 1
+      
+        this.setState({ numberOfNotifications: numberOfNotifications },()=> this.props.getUser(auth.currentUser.email))
+    }
+
+    saveNotification = (id, data,post_id) => {
+        
+        console.log(data)
+        API.saveSCNotification(id, {
+            name: data.name,
+            user_id: data.user_id,
+            userPic: data.userPic,
+            content:data.comment,
+            post_id:post_id
+            
+        })
+
+            .then(res => {
+
+                
+                console.log(res)
+                const socket = this.context
+        socket.emit('send-notification', ({
+            notifications:res.data,
+             id:id, friends_id:data.user_id
+        }))
+
+            })
+
+            .catch(err => console.log(err));
+    }
 
     removeAllInstMessages = (id) => {
 
@@ -161,6 +226,53 @@ class ScrProLayout extends React.Component {
 
 
 
+
+
+    removeNotification = (id,noteId) => {
+       
+
+        API.removeSCNotification(id,{
+            
+            _id:noteId})
+
+            
+            .then(res => {
+
+                console.log(res)
+                
+                this.setState({ notifications: res.data.notifications, numberOfNotifications: res.data.notifications.length })
+            })
+
+            .then(res => {
+
+                this.props.getUser(auth.currentUser.email)
+               console.log(this.state.numberOfNotifications)
+            })
+
+
+            .catch(err => console.log(err));
+
+       
+    }
+
+
+    viewNotiPost= (post_id)=>{
+
+        API.getNotiPost(post_id)
+
+        .then(res=>{
+            console.log(res)
+            this.setState({notiPost:[res.data], isNotiOpen:true})
+
+        })
+
+        .catch(err => console.log(err));
+
+    }
+
+    notiClose =()=>(
+        this.setState({isNotiOpen:false})
+    )
 
 
 
@@ -184,7 +296,7 @@ class ScrProLayout extends React.Component {
                 <section id="left-menu">
                   <LeftMenu/>
                   <MiniBar userInfo={this.props.userInfo}/>
-                  <MiniContent userInfo={this.props.userInfo}/>
+                  <MiniContent2 userInfo={this.props.userInfo} saveNotification={this.saveNotification} />
                 </section>
 
 
@@ -193,7 +305,7 @@ class ScrProLayout extends React.Component {
                         
                 <ScrNavbar drawerClickHandler={this.drawToggleClickHandler}  screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo} 
                  newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages}
-                />
+                 newNotifications={this.state.numberOfNotifications} notifications={this.state.notifications} removeNotification ={this.removeNotification } viewNotiPost={this.viewNotiPost}/>
                            
                         {
                             this.state.isOnCall === true ?
@@ -207,7 +319,8 @@ class ScrProLayout extends React.Component {
                            
                            
                            
-                            <ScreenProfile userInfo={this.props} screenInfo={this.state.screenNameInfo}/>
+                            <ScreenProfile userInfo={this.props} screenInfo={this.state.screenNameInfo}saveNotification={this.saveNotification} notiPost={this.state.notiPost} isNotiOpen={this.state.isNotiOpen}
+                        notiClose={this.notiClose} viewNotiPost={this.viewNotiPost} />
                             <ScrSideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}  
 

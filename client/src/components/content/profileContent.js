@@ -6,7 +6,10 @@ import moment from "moment";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 import EditPostModal from "../modal/editPostModal";
 import EditCommentModal from "../modal/EditCommentModal";
-import VideoPost from "../videoPost/VideoPost"
+import VideoPost from "../videoPost/VideoPost";
+import NotificationModal from "../modal/NotificationModal";
+
+
 class ProfileContent extends React.Component {
     state = {
         postID: "",
@@ -33,6 +36,8 @@ class ProfileContent extends React.Component {
         comOption_id:"",
         postComment_id:"",
         editComment:"",
+        isNotiOpen:false,
+        postId:"",
 
     }
     componentDidMount() {
@@ -113,22 +118,31 @@ class ProfileContent extends React.Component {
     }
 
 
-    submitComment = (id) => {
+    submitComment = (id,posters_id) => {
         API.saveComment(id, {
 
             comment: this.state.comment,
-            user_id: this.props.userInfo.userInfo.user_ID,
-            user: this.props.userInfo.userInfo.firstname + " " + this.props.userInfo.userInfo.lastname,
+            user_id: this.props.userInfo.user_ID,
+            user: this.props.userInfo.firstname + " " + this.props.userInfo.lastname,
             picUrl: this.state.url,
         })
-            .then(res => {
-
-                console.log(res)
-                this.listPost()
-            })
+            .then(res => console.log(res))
             .catch(err => console.log(err));
 
-        this.setState({ comment: "",checkInputID:null });
+            let data ={
+            comment: this.state.comment,
+            user_id: this.props.userInfo.user_ID,
+            name: this.props.userInfo.firstname + " " + this.props.userInfo.lastname,
+            userPic: this.state.url,
+
+            }
+            if(this.props.userInfo.user_ID !== posters_id){
+
+            this.props.saveNotification(posters_id,data,id)
+            }
+
+        this.refreshState()
+        this.setState({ comment: "", checkInputID: null,postId:"" }, () => this.listFriendsPost());
     }
 
     handleLikes = (id) => {
@@ -188,6 +202,15 @@ class ProfileContent extends React.Component {
             [e.target.name]: e.target.value
         });
     };
+
+    handleChange2 =(postId,e)  => {
+
+
+        this.setState({
+            postId:postId,comment: e.target.value
+        });
+    };
+
 
 
     handleImageSelected = event => {
@@ -277,13 +300,27 @@ class ProfileContent extends React.Component {
 
     addToPhotos = () => {
 
+        if(this.state.url!==""){
+
         API.addPhotos({
             photos: this.state.url,
-            id: this.props.userInfo.userInfo.user_ID
+            id: this.props.userInfo.user_ID
         })
 
             .then(res => console.log(res))
             .catch(err => console.log(err));
+
+    }else{
+
+ API.addPhotos({
+            photos: this.state.video,
+            id: this.props.userInfo.user_ID
+        })
+
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+    }
     }
 
     addingFriend = () => {
@@ -405,7 +442,8 @@ class ProfileContent extends React.Component {
     
         backdropClicked = ()=>{
            
-            this.setState({ optionId:"",comOption_id:""})   
+            this.setState({ optionId:"",comOption_id:""})  
+            this.props.notiClose() 
         }
 
 
@@ -494,7 +532,7 @@ removeComment = (id,commentID) => {
 
 editCommentClicked=(id,commentID, content,comment,picture)=>{
 
-    console.log(commentID)
+    
 
     this.setState({postComment_id:id, editContent:content, editComment:comment, editPicture:picture, comment_id:commentID, })
    
@@ -510,8 +548,8 @@ editCommentClicked=(id,commentID, content,comment,picture)=>{
         let backDrop;
         let editPost;
         let editComment;
-       
-        if(this.state.optionId !== "" ||this.state.edit_id !== ""|| this.state.comOption_id!==""||this.state.comment_id!==""){
+        let notificationModal;
+        if(this.state.optionId !== "" ||this.state.edit_id !== ""|| this.state.comOption_id!==""||this.state.comment_id!==""|| this.props.isNotiOpen===true){
          backDrop = <BackDrop click={this.backdropClicked }/>;
         }
 
@@ -525,12 +563,16 @@ editCommentClicked=(id,commentID, content,comment,picture)=>{
             editComment= <EditCommentModal postID={this.state.postComment_id} content={this.state.editContent} picture = {this.state.editPicture} cancelEditComment={this.cancelEditComment} changeComment={this.changeComment} commentID={this.state.comment_id} comment={this.state.editComment}/>;
            }
 
+           if(this.props.isNotiOpen===true){
+            notificationModal= <NotificationModal  userInfo={this.props.userInfo} notiPost={this.props.notiPost} user_id={this.props.userInfo.user_ID} username={this.props.userInfo.firstname +" "+this.props.userInfo.lastname} saveNotification={this.props.saveNotification} notiClose={this.props.notiClose} />
+         }
+
 
         console.log(this.state.userpic)
         return (
 
             <div className="contentArea ">
-
+                {notificationModal}
                 {editPost}
                  {backDrop}
                 {editComment}
@@ -557,7 +599,7 @@ editCommentClicked=(id,commentID, content,comment,picture)=>{
                         <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i className="fas fa-camera-retro"></i></button>
 
 
-                        <div className="button video"><i class="fas fa-video"></i></div>
+                        <div className="button video"><i className="fas fa-video"></i></div>
                         <div className="button send">
                             <button type="submit" className="postbutton" onClick={this.state.statusPost ==="" && this.state.url ==="" && this.state.video ==="" ? null : this.submitPost}>Post </button>
                         </div>
@@ -581,7 +623,7 @@ editCommentClicked=(id,commentID, content,comment,picture)=>{
                                 return (
 
 
-                                    <div className="feed_Container" key={each.user_ID}>
+                                    <div className="feed_Container" key={each._id}>
                                         <div className="friendsPostinfo">
                                             <Link to ={"/profile/"+ each.user_ID}><img className="friendsImg" src={(each.post_by_pic!==undefined) ? each.post_by_pic: "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="friendspic" /> </Link> 
                                             <div className="friendsInfo"> <Link to ={"/profile/"+ each.user_ID}>{each.post_by}</Link> shared a &nbsp;
@@ -621,7 +663,7 @@ editCommentClicked=(id,commentID, content,comment,picture)=>{
                                             <div className="emojis">{
 
                                             each.likes.map((like) =>
-                                                    <div className="likessection">
+                                                    <div className="likessection"key={like._id}>
                                                         {(like.user_id === this.props.userInfo.userInfo.user_ID) ?
                                                             <div className="likeDisplay"> <i class="far fa-thumbs-up"></i> </div> : ""}
                                                     </div>
@@ -638,7 +680,7 @@ editCommentClicked=(id,commentID, content,comment,picture)=>{
                                                 each.comments.map((comment,picUrl) =>
                                                 <div key={picUrl} className="commentList"><div className="timeStamp">{moment(comment.dateCreated).calendar()}<div> 
                                                 <div className= {(this.state.comOption_id===comment._id) ? "comOptionsContainer active" : "comOptionsContainer"} onClick = {()=>this.commentOptions(comment._id)} > 
-                                                <button type="button" className={(comment.user_id === this.props.userInfo.userInfo.user_ID)?"commentOptions":"noOptions"} ><i class="far fa-comment-dots"></i></button> 
+                                                <button type="button" className={(comment.user_id === this.props.userInfo.userInfo.user_ID)?"commentOptions":"noOptions"} ><i className="far fa-comment-dots"></i></button> 
                                             
                                             <div className="comOptionsDropdown">
                                         <ul className="optionsList">
@@ -654,10 +696,10 @@ editCommentClicked=(id,commentID, content,comment,picture)=>{
                                                 <div className={(comment.picUrl !== "") ? "commentPic" : "nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt="comment pic" /></div></div>
                                         )}
                                                 <div className="responseComments">
-                                                    <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
+                                                    <textarea name="comment" value={(each._id=== this.state.postId)?this.state.comment:""}  onChange={e => this.handleChange2(each._id, e)}className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                     <div  className="commentPhoto" >
                                                     
-                                                    <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.getID(each._id);}}> <i class="far fa-images"></i></button>
+                                                    <button type="button" className="button photo" onClick={() => {this.fileInput2.click();this.getID(each._id);}}> <i className="far fa-images"></i></button>
                                                     
                                                    
                                           </div>
@@ -674,13 +716,13 @@ editCommentClicked=(id,commentID, content,comment,picture)=>{
                                                 </div>
 
                                                 <div className="commentButtons">
-                                                    <div className="replyButton" onClick={this.state.comment ==="" && this.state.url ===""? null:()=> this.submitComment(each._id)}  ><i class="fas fa-share"></i> </div>
+                                                    <div className="replyButton" onClick={this.state.comment ==="" && this.state.url ===""? null:()=> this.submitComment(each._id,each.user_ID)}  ><i className="fas fa-share"></i> </div>
 
                                                     <div className="likessection">
 
                                                         {(each.likes.findIndex(i => i.user_id === this.props.userInfo.userInfo.user_ID) > -1) ?
                                                             <div className="likeButton" onClick={() => this.removeLikes(each._id)}>Unlike</div>
-                                                            : <div className="likeButton" onClick={() => this.handleLikes(each._id)}><i class="far fa-thumbs-up"></i> </div>
+                                                            : <div className="likeButton" onClick={() => this.handleLikes(each._id)}><i className="far fa-thumbs-up"></i> </div>
 
                                                         }
                                                     </div>

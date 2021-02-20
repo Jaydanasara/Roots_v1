@@ -117,14 +117,20 @@ io.on('connection', socket => {
     console.log(data)
     
 
-    socket.to(data.friends_id).emit('receive-message', {
-      dataa: data
-     
-      
-    })
+    socket.to(data.friends_id).emit('receive-message', data)
 
    
   })
+
+  socket.on('send-notification', (data) => {
+    console.log(data)
+    
+
+    socket.to(data.id).emit('receive-notification', data)
+
+   
+  })
+
 
 })
 

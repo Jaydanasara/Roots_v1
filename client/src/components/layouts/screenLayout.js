@@ -1,8 +1,10 @@
 import React from "react";
 import { auth } from "../../config/firebase"
+import SocketContext from "../../context/SocketProvider";
 import ScrNavbar from "../navbar/scrnavbar";
 import MiniBar from "../navbar/miniBar";
-import MiniContent from "../content/miniContent";
+
+import MiniContent2 from "../content/miniContent2";
 import ScreenMessenger from "../messenger/screenNameMessenger";
 import { connect } from "react-redux";
 import LeftMenu from "../../components/leftMenu/leftMenu"
@@ -16,7 +18,7 @@ import VideoChat from "../messenger/videoChat";
 
 
 class ScreenLayout extends React.Component {
-
+    static contextType = SocketContext
     constructor(props) {
         super(props)
         this.state = {
@@ -32,7 +34,11 @@ class ScreenLayout extends React.Component {
             yourInfo: {},
             users: [],
             numberOfMessages: 0,
-            messages: []
+            messages: [],
+            numberOfNotifications: 0,
+            notifications:[],
+            notiPost:[],
+            isNotiOpen:false
         }
     }
     componentDidMount() {
@@ -40,7 +46,19 @@ class ScreenLayout extends React.Component {
         console.log(this.props)
         this.screenNameData()
         
+        const socket = this.context
+
         
+        socket.on('receive-notification', (data) => {
+            console.log("go go")
+
+           console.log(data)
+           
+
+            // this.newNotification()
+            this.setState({ notifications:data.notifications.notifications, numberOfNotifications: data.notifications.notifications.length })
+        })
+
 
 
     }
@@ -70,12 +88,27 @@ class ScreenLayout extends React.Component {
 
     screenNameData = () => {
 
-        API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID, })
+        API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID })
 
             .then(res => {
-                this.setState({ screenNameInfo: res.data, isLoading: false, numberOfMessages:res.data.numberOfMessages, messages:res.data.messages})
+                this.setState({ screenNameInfo: res.data, isLoading: false})
 
                 console.log(res)
+
+
+                if (res.data.messages.length) {
+                    this.setState({ numberOfMessages: res.data.messages.length, messages: res.data.messages })
+                }
+                else {
+                    this.setState({ messages:res.data.messages })
+                }
+        
+                if (res.data.notifications.length) {
+                    this.setState({ numberOfNotifications: res.data.notifications.length, notifications: res.data.notifications })
+                }
+                else {
+                    this.setState({ notifications: res.data.notifications })
+                }
 
 
             })
@@ -147,6 +180,42 @@ class ScreenLayout extends React.Component {
     }
 
 
+    
+    newNotification = () => {
+
+        var numberOfNotifications = this.state.numberOfNotifications + 1
+      
+        this.setState({ numberOfNotifications: numberOfNotifications },()=> this.props.getUser(auth.currentUser.email))
+    }
+
+    saveNotification = (id, data,post_id) => {
+        
+        console.log(data)
+        API.saveSCNotification(id, {
+            name: data.name,
+            user_id: data.user_id,
+            userPic: data.userPic,
+            content:data.comment,
+            post_id:post_id
+            
+        })
+
+            .then(res => {
+
+                
+                console.log(res)
+                const socket = this.context
+        socket.emit('send-notification', ({
+            notifications:res.data,
+             id:id, friends_id:data.user_id
+        }))
+
+            })
+
+            .catch(err => console.log(err));
+    }
+
+
     removeAllInstMessages = (id) => {
 
         API.removeSCMessages(id)
@@ -162,6 +231,53 @@ class ScreenLayout extends React.Component {
     }
 
 
+
+
+    removeNotification = (id,noteId) => {
+       
+
+        API.removeSCNotification(id,{
+            
+            _id:noteId})
+
+            
+            .then(res => {
+
+                console.log(res)
+                
+                this.setState({ notifications: res.data.notifications, numberOfNotifications: res.data.notifications.length })
+            })
+
+            .then(res => {
+
+                this.props.getUser(auth.currentUser.email)
+               console.log(this.state.numberOfNotifications)
+            })
+
+
+            .catch(err => console.log(err));
+
+       
+    }
+
+
+    viewNotiPost= (post_id)=>{
+
+        API.getNotiPost(post_id)
+
+        .then(res=>{
+            console.log(res)
+            this.setState({notiPost:[res.data], isNotiOpen:true})
+
+        })
+
+        .catch(err => console.log(err));
+
+    }
+
+    notiClose =()=>(
+        this.setState({isNotiOpen:false})
+    )
 
 
 
@@ -187,7 +303,7 @@ class ScreenLayout extends React.Component {
                     <section id="left-menu">
                         <LeftMenu userInfo={this.props.userInfo} />
                         <MiniBar userInfo={this.props.userInfo} />
-                        <MiniContent userInfo={this.props.userInfo} disState={this.props} />
+                        <MiniContent2 userInfo={this.props.userInfo} disState={this.props} saveNotification={this.saveNotification}/>
                     </section>
 
 
@@ -195,7 +311,8 @@ class ScreenLayout extends React.Component {
 
 
                         <ScrNavbar drawerClickHandler={this.drawToggleClickHandler} screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo}
-                         newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages} />
+                         newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages} 
+                         newNotifications={this.state.numberOfNotifications} notifications={this.state.notifications} removeNotification ={this.removeNotification } viewNotiPost={this.viewNotiPost}/>
                         
                         {
                             this.state.isOnCall === true ?
@@ -206,7 +323,8 @@ class ScreenLayout extends React.Component {
                                 null
                         }
                         
-                        <LgScreenName userInfo={this.props.userInfo} disState={this.props} screenInfo={this.state.screenNameInfo} />
+                        <LgScreenName userInfo={this.props.userInfo} disState={this.props} screenInfo={this.state.screenNameInfo} saveNotification={this.saveNotification} notiPost={this.state.notiPost} isNotiOpen={this.state.isNotiOpen}
+                        notiClose={this.notiClose} viewNotiPost={this.viewNotiPost}/>
                         <ScrSideDrawer show={this.state.sideDrawerOpen} />
                         {backDrop}
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { auth } from "../../config/firebase"
 import Navbar from "../navbar/navbar";
+import SocketContext from "../../context/SocketProvider";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../leftMenu/leftMenu"
@@ -12,7 +13,7 @@ import VideoChat from "../messenger/videoChat"
 
 class UserPhotos extends React.Component {
 
-
+    static contextType = SocketContext
     constructor(props) {
         super(props)
         this.state = {
@@ -35,9 +36,36 @@ class UserPhotos extends React.Component {
         }
     }
     componentDidMount() {
+        const socket = this.context
         this.screenNameData()
 
-        this.setState({numberOfMessages:this.props.userInfo.messages.length, messages:this.props.userInfo.messages })
+        if (this.props.userInfo.messages.length) {
+            this.setState({ numberOfMessages: this.props.userInfo.messages.length, messages: this.props.userInfo.messages })
+        }
+        else {
+            this.setState({ messages: this.props.userInfo.messages })
+        }
+
+        if (this.props.userInfo.notifications.length) {
+            this.setState({ numberOfNotifications: this.props.userInfo.notifications.length, notifications: this.props.userInfo.notifications })
+        }
+        else {
+            this.setState({ notifications: this.props.userInfo.notifications })
+        }
+
+        // this.props.send_id(this.props.userInfo.user_ID,)
+
+
+        socket.on('receive-notification', (data) => {
+            console.log("go go")
+
+           console.log(data.notifications.notifications)
+           
+
+            // this.newNotification()
+            this.setState({ notifications:data.notifications.notifications, numberOfNotifications: data.notifications.notifications.length })
+        })
+
     }
 
 
@@ -139,6 +167,43 @@ class UserPhotos extends React.Component {
     }
 
 
+
+    newNotification = () => {
+
+        var numberOfNotifications = this.state.numberOfNotifications + 1
+      
+        this.setState({ numberOfNotifications: numberOfNotifications },()=> this.props.getUser(auth.currentUser.email))
+    }
+
+    saveNotification = (id, data,post_id) => {
+        
+        console.log(data)
+        API.saveNotification(id, {
+            name: data.name,
+            user_id: data.user_id,
+            userPic: data.userPic,
+            content:data.comment,
+            post_id:post_id
+            
+        })
+
+            .then(res => {
+
+                
+                console.log(res)
+                const socket = this.context
+        socket.emit('send-notification', ({
+            notifications:res.data,
+             id:id, friends_id:data.user_id
+        }))
+
+            })
+
+            .catch(err => console.log(err));
+    }
+
+
+
     removeAllInstMessages =(id)=>{
        
         API.removeMessages(id)
@@ -156,6 +221,52 @@ class UserPhotos extends React.Component {
 
   
 
+    removeNotification = (id,noteId) => {
+       
+
+        API.removeNotification(id,{
+            
+            _id:noteId})
+
+            
+            .then(res => {
+                
+                this.setState({ notifications: res.data.notifications, numberOfNotifications: res.data.notifications.length })
+            })
+
+            .then(res => {
+
+                this.props.getUser(auth.currentUser.email)
+               console.log(this.state.numberOfNotifications)
+            })
+
+
+            .catch(err => console.log(err));
+
+       
+    }
+
+
+    viewNotiPost= (post_id)=>{
+
+        API.getNotiPost(post_id)
+
+        .then(res=>{
+            console.log(res)
+            this.setState({notiPost:[res.data], isNotiOpen:true})
+
+        })
+
+        .catch(err => console.log(err));
+
+    }
+
+    notiClose =()=>(
+        this.setState({isNotiOpen:false})
+    )
+
+
+ 
 
 
     render() {
@@ -180,8 +291,7 @@ class UserPhotos extends React.Component {
 
                         <Navbar drawerClickHandler={this.drawToggleClickHandler} whichName={this.state.isUserPage} userInfo={this.props.userInfo} 
                          newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages}
-
-                        />
+                         newNotifications={this.state.numberOfNotifications} notifications={this.state.notifications} removeNotification ={this.removeNotification } viewNotiPost={this.viewNotiPost}/>
 
 {
                             this.state.isOnCall===true?
@@ -192,7 +302,8 @@ class UserPhotos extends React.Component {
                             null
                             }
 
-                        <PhotosPage userInfo={this.props} />
+                        <PhotosPage userInfo={this.props} saveNotification={this.saveNotification} notiPost={this.state.notiPost} isNotiOpen={this.state.isNotiOpen}
+                        notiClose={this.notiClose} viewNotiPost={this.viewNotiPost}  />
                         <SideDrawer show={this.state.sideDrawerOpen} />
                         {backDrop}
 

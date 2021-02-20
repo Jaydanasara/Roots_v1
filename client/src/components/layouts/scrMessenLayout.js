@@ -1,5 +1,6 @@
 import React from "react";
 import { auth } from "../../config/firebase"
+import SocketContext from "../../context/SocketProvider";
 import ScrNavbar from "../navbar/scrnavbar";
 import ScreenMessenger from "../messenger/screenNameMessenger";
 import { connect } from "react-redux";
@@ -13,7 +14,7 @@ import VideoChat from "../messenger/videoChat";
 
 
 class ScrMessenLayout extends React.Component {
-
+    static contextType = SocketContext
     constructor(props)  {
         super(props)
     this.state= {
@@ -29,11 +30,30 @@ class ScrMessenLayout extends React.Component {
         yourInfo: {},
         users: [],
         numberOfMessages: 0,
-        messages: []
+        messages: [],
+        numberOfNotifications: 0,
+        notifications:[],
+        notiPost:[],
+        isNotiOpen:false
     }
     }
     componentDidMount(){
         this.screenNameData()
+
+        const socket = this.context
+
+        
+        socket.on('receive-notification', (data) => {
+            console.log("go go")
+
+           console.log(data)
+           
+
+            // this.newNotification()
+            this.setState({ notifications:data.notifications.notifications, numberOfNotifications: data.notifications.notifications.length })
+        })
+
+
     }
 
   
@@ -64,9 +84,25 @@ class ScrMessenLayout extends React.Component {
         API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID, })
 
             .then(res => {
-                this.setState({ screenNameInfo: res.data, isLoading:false,  numberOfMessages:res.data.numberOfMessages, messages:res.data.messages })
-                
-                 console.log(res)
+                this.setState({ screenNameInfo: res.data, isLoading: false})
+
+                console.log(res)
+
+
+                if (res.data.messages.length) {
+                    this.setState({ numberOfMessages: res.data.messages.length, messages: res.data.messages })
+                }
+                else {
+                    this.setState({ messages:res.data.messages })
+                }
+        
+                if (res.data.notifications.length) {
+                    this.setState({ numberOfNotifications: res.data.notifications.length, notifications: res.data.notifications })
+                }
+                else {
+                    this.setState({ notifications: res.data.notifications })
+                }
+
 
 
             })
@@ -142,6 +178,43 @@ class ScrMessenLayout extends React.Component {
     }
 
 
+    
+    newNotification = () => {
+
+        var numberOfNotifications = this.state.numberOfNotifications + 1
+      
+        this.setState({ numberOfNotifications: numberOfNotifications },()=> this.props.getUser(auth.currentUser.email))
+    }
+
+    saveNotification = (id, data,post_id) => {
+        
+        console.log(data)
+        API.saveSCNotification(id, {
+            name: data.name,
+            user_id: data.user_id,
+            userPic: data.userPic,
+            content:data.comment,
+            post_id:post_id
+            
+        })
+
+            .then(res => {
+
+                
+                console.log(res)
+                const socket = this.context
+        socket.emit('send-notification', ({
+            notifications:res.data,
+             id:id, friends_id:data.user_id
+        }))
+
+            })
+
+            .catch(err => console.log(err));
+    }
+
+
+
     removeAllInstMessages = (id) => {
 
         API.removeSCMessages(id)
@@ -160,9 +233,64 @@ class ScrMessenLayout extends React.Component {
 
 
 
+    removeNotification = (id,noteId) => {
+       
+
+        API.removeSCNotification(id,{
+            
+            _id:noteId})
+
+            
+            .then(res => {
+
+                console.log(res)
+                
+                this.setState({ notifications: res.data.notifications, numberOfNotifications: res.data.notifications.length })
+            })
+
+            .then(res => {
+
+                this.props.getUser(auth.currentUser.email)
+               console.log(this.state.numberOfNotifications)
+            })
+
+
+            .catch(err => console.log(err));
+
+       
+    }
+
+
+    viewNotiPost= (post_id)=>{
+
+        API.getNotiPost(post_id)
+
+        .then(res=>{
+            console.log(res)
+            this.setState({notiPost:[res.data], isNotiOpen:true})
+
+        })
+
+        .catch(err => console.log(err));
+
+    }
+
+    notiClose =()=>(
+        this.setState({isNotiOpen:false})
+    )
+
+
+
+
 
 
     render() {
+
+        console.log(this.state.numberOfMessages)
+
+
+
+
         let backDrop;
        
         if(this.state.sideDrawerOpen){
@@ -184,7 +312,8 @@ class ScrMessenLayout extends React.Component {
                   
                         
                 <ScrNavbar drawerClickHandler={this.drawToggleClickHandler}  screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo}
-                 newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages} />
+                 newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages}   newNotifications={this.state.numberOfNotifications}
+                  notifications={this.state.notifications} removeNotification ={this.removeNotification } viewNotiPost={this.viewNotiPost}/>
                 
                 {
                             this.state.isOnCall === true ?
@@ -197,7 +326,8 @@ class ScrMessenLayout extends React.Component {
 
                 <ScreenMessenger userInfo={this.props.userInfo}  screenInfo={this.state.screenNameInfo}  openCallWindow={this.callScreen}
                          incomingCallScreen={this.incomingCallScreen} users={this.getUsers} yourInfo={this.getYourInfo}
-                         newMessage={this.newMessage} saveInstantMessage={this.saveInstantMessage} />
+                         newMessage={this.newMessage} saveInstantMessage={this.saveInstantMessage}  saveNotification={this.saveNotification} notiPost={this.state.notiPost} isNotiOpen={this.state.isNotiOpen}
+                         notiClose={this.notiClose} viewNotiPost={this.viewNotiPost} />
                 
                 <ScrSideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}   

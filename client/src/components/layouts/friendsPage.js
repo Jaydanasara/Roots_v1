@@ -1,11 +1,12 @@
 import React from "react";
 import {auth} from "../../config/firebase";
+import SocketContext from "../../context/SocketProvider";
 import Navbar from "../navbar/navbar";
 import Messenger from "../messenger/messenger";
 import { connect } from "react-redux";
 import LeftMenu from "../leftMenu/leftMenu"
 import FriendsList from "../friendsList/friendsList"
-import ScreenName from "../screenName/screenName";
+import ScreenName2 from "../screenName/screenName2";
 import API from "../../utils/API";
 import ScrMiniBar from "../navbar/scrMiniBar";
 import SideDrawer from "../../components//sideDrawer/sideDrawer";
@@ -16,7 +17,7 @@ import VideoChat from "../messenger/videoChat"
 
 class FriendsPage extends React.Component {
 
-   
+    static contextType = SocketContext
     constructor(props)  {
         super(props)
         this.state= {
@@ -35,10 +36,15 @@ class FriendsPage extends React.Component {
         yourInfo: {},
         users:[],
         numberOfMessages:0,
-        messages:[]
+        messages:[],
+        numberOfNotifications: 0,
+        notifications:[],
+        notiPost:[],
+        isNotiOpen:false
     }
     }
     componentDidMount(){
+        const socket = this.context
         this.getFriends()
         this.screenNameData()
         if (this.props.userInfo.messages.length) {
@@ -47,6 +53,27 @@ class FriendsPage extends React.Component {
         else {
             this.setState({ messages: this.props.userInfo.messages })
         }
+
+        if (this.props.userInfo.notifications.length) {
+            this.setState({ numberOfNotifications: this.props.userInfo.notifications.length, notifications: this.props.userInfo.notifications })
+        }
+        else {
+            this.setState({ notifications: this.props.userInfo.notifications })
+        }
+
+        // this.props.send_id(this.props.userInfo.user_ID,)
+
+
+        socket.on('receive-notification', (data) => {
+            console.log("go go")
+
+           console.log(data.notifications.notifications)
+           
+
+            // this.newNotification()
+            this.setState({ notifications:data.notifications.notifications, numberOfNotifications: data.notifications.notifications.length })
+        })
+
 
     }
 
@@ -162,6 +189,41 @@ class FriendsPage extends React.Component {
     }
 
 
+    
+    newNotification = () => {
+
+        var numberOfNotifications = this.state.numberOfNotifications + 1
+      
+        this.setState({ numberOfNotifications: numberOfNotifications },()=> this.props.getUser(auth.currentUser.email))
+    }
+
+    saveNotification = (id, data,post_id) => {
+        
+        console.log(data)
+        API.saveNotification(id, {
+            name: data.name,
+            user_id: data.user_id,
+            userPic: data.userPic,
+            content:data.comment,
+            post_id:post_id
+            
+        })
+
+            .then(res => {
+
+                
+                console.log(res)
+                const socket = this.context
+        socket.emit('send-notification', ({
+            notifications:res.data,
+             id:id, friends_id:data.user_id
+        }))
+
+            })
+
+            .catch(err => console.log(err));
+    }
+
     removeAllInstMessages =(id)=>{
        
         API.removeMessages(id)
@@ -178,6 +240,55 @@ class FriendsPage extends React.Component {
    
 
   
+    removeNotification = (id,noteId) => {
+       
+
+        API.removeNotification(id,{
+            
+            _id:noteId})
+
+            
+            .then(res => {
+                
+                this.setState({ notifications: res.data.notifications, numberOfNotifications: res.data.notifications.length })
+            })
+
+            .then(res => {
+
+                this.props.getUser(auth.currentUser.email)
+               console.log(this.state.numberOfNotifications)
+            })
+
+
+            .catch(err => console.log(err));
+
+       
+    }
+
+
+    viewNotiPost= (post_id)=>{
+
+        API.getNotiPost(post_id)
+
+        .then(res=>{
+            console.log(res)
+            this.setState({notiPost:[res.data], isNotiOpen:true})
+
+        })
+
+        .catch(err => console.log(err));
+
+    }
+
+    notiClose =()=>(
+        this.setState({isNotiOpen:false})
+    )
+
+
+ 
+
+
+
 
 
     render() {
@@ -195,7 +306,8 @@ class FriendsPage extends React.Component {
                 <section id="left-menu">
                   <LeftMenu/>
                   <ScrMiniBar userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
-                  <ScreenName userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}/>
+                  <ScreenName2 userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} 
+                  saveNotification={this.saveNotification}/>
                 </section>
 
 
@@ -203,7 +315,8 @@ class FriendsPage extends React.Component {
                   
                         
                 <Navbar drawerClickHandler={this.drawToggleClickHandler}  whichName={this.state.isUserPage} userInfo={this.props.userInfo} 
-                 newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages}/>
+                 newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages}
+                 newNotifications={this.state.numberOfNotifications} notifications={this.state.notifications} removeNotification ={this.removeNotification } viewNotiPost={this.viewNotiPost}/>
                 
                 {
                             this.state.isOnCall===true?
@@ -213,7 +326,9 @@ class FriendsPage extends React.Component {
                             /> :
                             null
                             }
-                            <FriendsList userInfo={this.props.userInfo} friendsinfo={this.state.friends} firstName={this.state.firstname} lastName={this.state.lastname}/>
+                            <FriendsList userInfo={this.props.userInfo} friendsinfo={this.state.friends} firstName={this.state.firstname} lastName={this.state.lastname}
+                            saveNotification={this.saveNotification} notiPost={this.state.notiPost} isNotiOpen={this.state.isNotiOpen}
+                            notiClose={this.notiClose} viewNotiPost={this.viewNotiPost}  />
                             <SideDrawer show={this.state.sideDrawerOpen}/>
                            {backDrop}
 

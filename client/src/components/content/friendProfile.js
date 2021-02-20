@@ -7,6 +7,8 @@ import BackDrop from "../sideDrawer/backDrop/backDrop";
 import EditPostModal from "../modal/editPostModal";
 import EditCommentModal from "../modal/EditCommentModal";
 import VideoPost from "../videoPost/VideoPost"
+import NotificationModal from "../modal/NotificationModal";
+
 
 class FriendProfile extends React.Component {
     state = {
@@ -34,6 +36,8 @@ class FriendProfile extends React.Component {
         comOption_id: "",
         postComment_id: "",
         editComment: "",
+        isNotiOpen:false,
+        postId:"",
     }
     componentDidMount() {
         this.listPost()
@@ -159,23 +163,33 @@ class FriendProfile extends React.Component {
 
 
 
-    submitComment = (id) => {
+    submitComment = (id,posters_id) => {
         API.saveComment(id, {
 
             comment: this.state.comment,
-            user_id: this.props.userInfo.userInfo.user_ID,
-            user: this.props.userInfo.userInfo.firstname + " " + this.props.userInfo.userInfo.lastname,
+            user_id: this.props.userInfo.user_ID,
+            user: this.props.userInfo.firstname + " " + this.props.userInfo.lastname,
             picUrl: this.state.url,
         })
-            .then(res => {
-
-                console.log(res)
-                this.listPost()
-            })
+            .then(res => console.log(res))
             .catch(err => console.log(err));
 
-        this.setState({ comment: "", checkInputID: null });
+            let data ={
+            comment: this.state.comment,
+            user_id: this.props.userInfo.user_ID,
+            name: this.props.userInfo.firstname + " " + this.props.userInfo.lastname,
+            userPic: this.state.url,
+
+            }
+            if(this.props.userInfo.user_ID !== posters_id){
+
+            this.props.saveNotification(posters_id,data,id)
+            }
+
+        this.refreshState()
+        this.setState({ comment: "", checkInputID: null,postId:"" }, () => this.listFriendsPost());
     }
+
 
     handleLikes = (id) => {
 
@@ -234,6 +248,15 @@ class FriendProfile extends React.Component {
             [e.target.name]: e.target.value
         });
     };
+
+    handleChange2 =(postId,e)  => {
+
+
+        this.setState({
+            postId:postId,comment: e.target.value
+        });
+    };
+
 
 
     handleImageSelected = event => {
@@ -320,18 +343,30 @@ class FriendProfile extends React.Component {
     }
 
 
-
     addToPhotos = () => {
+
+        if(this.state.url!==""){
 
         API.addPhotos({
             photos: this.state.url,
-            id: this.props.userInfo.userInfo.user_ID
+            id: this.props.userInfo.user_ID
         })
 
             .then(res => console.log(res))
             .catch(err => console.log(err));
-    }
 
+    }else{
+
+ API.addPhotos({
+            photos: this.state.video,
+            id: this.props.userInfo.user_ID
+        })
+
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+
+    }
+    }
     addingFriend = () => {
         this.setState({ addFriend: !this.state.addFriend })
 
@@ -558,8 +593,8 @@ class FriendProfile extends React.Component {
         let backDrop;
         let editPost;
         let editComment;
-
-        if (this.state.option_Id !== "" || this.state.edit_id !== "" || this.state.comOption_id !== "" || this.state.comment_id !== "") {
+        let notificationModal;
+        if (this.state.option_Id !== "" || this.state.edit_id !== "" || this.state.comOption_id !== "" || this.state.comment_id !== "" || this.props.isNotiOpen===true) {
             backDrop = <BackDrop click={this.backdropClicked} />;
         }
 
@@ -573,11 +608,19 @@ class FriendProfile extends React.Component {
             editComment = <EditCommentModal postID={this.state.postComment_id} content={this.state.editContent} picture={this.state.editPicture} cancelEditComment={this.cancelEditComment} changeComment={this.changeComment} commentID={this.state.comment_id} comment={this.state.editComment} />;
         }
 
+
+        if(this.props.isNotiOpen===true){
+            notificationModal= <NotificationModal  userInfo={this.props.userInfo} notiPost={this.props.notiPost} user_id={this.props.userInfo.user_ID} username={this.props.userInfo.firstname +" "+this.props.userInfo.lastname} saveNotification={this.props.saveNotification} notiClose={this.props.notiClose} />
+         }
+ 
+
+
         console.log(this.state.option_Id)
 
         return (
 
             <div className="contentArea ">
+                 {notificationModal}
                 {editPost}
                 {backDrop}
                 {editComment}
@@ -700,7 +743,7 @@ class FriendProfile extends React.Component {
                                                         <div className={(comment.picUrl !== "") ? "commentPic" : "nocommentPic"}><img className="commentUrl" src={comment.picUrl} alt="comment pic" /></div></div>
                                                 )}
                                                 <div className="responseComments">
-                                                    <textarea name="comment" value={this.state.comment} onChange={this.handleChange} className="commentArea" placeholder="Comment" rows="8" cols="80" />
+                                                    <textarea name="comment"  value={(each._id=== this.state.postId)?this.state.comment:""} onChange={e => this.handleChange2(each._id, e)} className="commentArea" placeholder="Comment" rows="8" cols="80" />
                                                     <div className="commentPhoto" >
 
                                                         <button type="button" className="button photo" onClick={() => { this.fileInput2.click(); this.getID(each._id); }}> <i class="far fa-images"></i></button>
@@ -720,7 +763,7 @@ class FriendProfile extends React.Component {
                                                 </div>
 
                                                 <div className="commentButtons">
-                                                    <div className="replyButton" onClick={this.state.comment === "" && this.state.url === "" ? null : () => this.submitComment(each._id)}  ><i class="fas fa-share"></i> </div>
+                                                    <div className="replyButton" onClick={this.state.comment === "" && this.state.url === "" ? null : () => this.submitComment(each._id,each.user_ID)}  ><i class="fas fa-share"></i> </div>
 
                                                     <div className="likessection">
 

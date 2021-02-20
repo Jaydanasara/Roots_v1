@@ -5,22 +5,15 @@ import { storage } from "../../config/firebase";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 import NotificationModal from "../modal/NotificationModal";
 
-class ProfileEditor extends React.Component {
+class ScreenProEditor extends React.Component {
     state = {
 
         image: null,
         url: "",
         isActive: false,
-
-        emailaddress: "",
-        password: "",
-        confirm: "",
         screenName: "",
-        securityQuestion: "",
-        securityAnswer: "",
         birthDate: "",
         gender: "",
-        phoneNumber: "",
         cityState: "",
         userPic: "",
         relationship: "",
@@ -51,80 +44,77 @@ class ProfileEditor extends React.Component {
 
 
 
-        if (this.state.password.length > 0 && this.state.password.length < 6) {
-            alert(
-                `Choose a more secure password `
-            );
-        } else if (this.state.password !== this.state.confirm) {
-            alert("You Passwords do not match");
-        } else {
 
 
-            let profileEdit = {
 
-                password: this.state.password,
-                screenName: this.state.screenName,
-                securityQuestion: this.state.securityQuestion,
-                securityAnswer: this.state.securityAnswer,
-                birthDate: this.state.birthDate,
-                gender: this.state.gender,
-                phoneNumber: this.state.phoneNumber,
-                cityState: this.state.cityState,
-                userPic: this.state.url,
-                relationship: this.state.relationship
+        let profileEdit = {
+
+           
+            birthDate: this.state.birthDate,
+            gender: this.state.gender,
+            cityState: this.state.cityState,
+            userPic: this.state.url,
+            relationship: this.state.relationship
+        }
+
+        for (let x in profileEdit) {
+            if (profileEdit[x] === "") {
+                delete profileEdit[x];
             }
-
-            for (let x in profileEdit) {
-                if (profileEdit[x] === "") {
-                    delete profileEdit[x];
-                }
-            }
+        }
 
 
-            console.log(profileEdit)
+        console.log(profileEdit)
 
 
-            API.updateEditProfile(id, {
+        API.updateEditProfile(this.props.userInfo.user_ID, {
+
+            profileEdit
+
+        })
+            .then(function (response) {
+                console.log(response);
+
+
+            })
+            .catch(err => console.log(err));
+
+
+
+
+
+            API.updateEditScreenProfile(id, {
 
                 profileEdit
-
+    
             })
                 .then(function (response) {
                     console.log(response);
 
-
+                    this.props.screenNameData()
+    
+    
                 })
                 .catch(err => console.log(err));
 
-            this.setState({
-                emailaddress: "",
-                password: "",
-                confirm: "",
-                screenName: "",
-                securityQuestion: "",
-                securityAnswer: "",
-                birthDate: "",
-                gender: "",
-                phoneNumber: "",
-                cityState: "",
-                userPic: "",
-                relationship: "",
-                isActive: false
-            })
-        }
 
-        this.refreshState()
+
+        this.setState({
+            screenName: "",
+            birthDate: "",
+            gender: "",
+            cityState: "",
+            userPic: "",
+            relationship: "",
+            isActive: false
+        })
+
+
+        
     }
 
 
 
-    refreshState = () => {
-        const updatePost = this.props.userInfo.emailaddress
-
-
-        this.props.disState.getUser(updatePost)
-
-    }
 
 
 
@@ -141,7 +131,7 @@ class ProfileEditor extends React.Component {
 
 
     handleUpload = () => {
-        const fullName = this.props.userInfo.firstname + "_" + this.props.userInfo.lastname;
+        const fullName = this.props.screenInfo._id + " "+this.props.screenInfo.screenName
         const { image } = this.state;
         const uploadTask = storage.ref(fullName + "/" + image.name).put(image);
         uploadTask.on("state_changed",
@@ -181,9 +171,8 @@ class ProfileEditor extends React.Component {
 
 
     render() {
-        const fullName = this.props.userInfo.firstname + " " + this.props.userInfo.lastname
-        console.log(this.props.userInfo.user_ID)
-        console.log(this.props.userInfo)
+        const fullName = this.props.screenInfo.screenName
+      
 
         let backDrop;
         let notificationModal;
@@ -194,40 +183,28 @@ class ProfileEditor extends React.Component {
         }
 
         if (this.props.isNotiOpen === true) {
-            notificationModal= <NotificationModal  userInfo={this.props.userInfo} notiPost={this.props.notiPost} user_id={this.props.userInfo.user_ID} username={this.props.userInfo.firstname +" "+this.props.userInfo.lastname} saveNotification={this.props.saveNotification} notiClose={this.props.notiClose} />
+            notificationModal = <NotificationModal userInfo={this.props.screenInfo} notiPost={this.props.notiPost} user_id={this.props.screenInfo._id} username={this.props.screenInfo.screenName} saveNotification={this.props.saveNotification} notiClose={this.props.notiClose} />
         }
 
         return (
 
-            <div className="contentArea ">
+            <div className="contentArea scPage ">
 
                 {notificationModal}
                 {backDrop}
-                
+
                 <div className="profile-container">
                     <div className="profile-image">
                         <img src={(this.state.userPic !== "") ? this.state.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic" />
                     </div>
                     <div className="profile-info">
-                        {fullName}
+                        {fullName.toUpperCase()}
                     </div>
 
                     <section className="editProfile">
-                        <div className="unchangeable">Name:  {fullName} </div>
+                        <div className="unchangeable">Name:  {this.props.screenInfo.screenName.toUpperCase()} </div>
                         <div className="unchangeable">Email: {this.props.userInfo.emailaddress}</div>
 
-                        <div className="profileInputs" id="profileInputs">
-                            <input value={this.state.password} onChange={this.handleChange} type="password" placeholder="Password" name="password" ref="password" className="editInput" />
-                        </div>
-                        <div className="profileInputs" id="profileInputs">
-                            <input value={this.state.confirm} onChange={this.handleChange} type="password" placeholder="confirm password" name="confirm" ref="confirmPassword" className="editInput" />
-                        </div>
-                        <div className="profileInputs">
-                            <input value={this.state.securityQuestion} onChange={this.handleChange} type="text" placeholder="security question" name="securityQuestion" ref="securityQuestion" className="editInput" />
-                        </div>
-                        <div className="profileInputs">
-                            <input value={this.state.securityAnswer} onChange={this.handleChange} type="text" placeholder="Answer to security question" name="securityAnswer" ref="securityAnswer" className="editInput" />
-                        </div>
                         <div className="profileInputs">
                             <input value={this.state.screenName} onChange={this.handleChange} placeholder="Screen name" name="screenName" className="editInput" />
                         </div>
@@ -237,9 +214,7 @@ class ProfileEditor extends React.Component {
                         <div className="profileInputs">
                             <input value={this.state.Gender} onChange={this.handleChange} type="text" placeholder="Gender" name="gender" className=" editInput" />
                         </div>
-                        <div className="profileInputs">
-                            <input value={this.state.phoneNumber} onChange={this.handleChange} type="text" placeholder="Phone number" name="phoneNumber" className=" editInput" />
-                        </div>
+
                         <div className="profileInputs">
                             <input value={this.state.cityState} onChange={this.handleChange} type="text" placeholder="city/state" name="cityState" className=" editInput" />
                         </div>
@@ -252,7 +227,7 @@ class ProfileEditor extends React.Component {
                     <section className="feed ">
                         <div className="avatar">
                             <div className="avatarsect">
-                                Upload Avatar
+                                Upload Screen Name Avatar
                         </div>
                             <input type="file" style={{ display: "none" }} onChange={this.handleImageSelected} ref={fileInput => this.fileInput = fileInput} />
                             <img className={this.state.isActive ? "uploadReady active" : "uploadReady"} src={this.state.url} alt="previewupload" height="40" width="50" />
@@ -267,7 +242,7 @@ class ProfileEditor extends React.Component {
                         <br></br>
                         <br></br>
                         <div className="btnDiv">
-                            <button onClick={() => this.updateProfile(this.props.userInfo.user_ID)} className="updateProfileBtn"> Update Profile</button>
+                            <button onClick={() => this.updateProfile(this.props.screenInfo._id)} className="updateProfileBtn"> Update Profile</button>
                         </div>
                         <br></br>
                         <br></br>
@@ -288,4 +263,4 @@ class ProfileEditor extends React.Component {
 
 
 
-export default ProfileEditor;
+export default ScreenProEditor;
