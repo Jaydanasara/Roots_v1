@@ -292,7 +292,7 @@ class Profile extends React.Component {
                 <section id="left-menu">
                    <LeftMenu/>
                    <ScrMiniBar  userInfo={this.props.userInfo}  screenInfo={this.state.screenNameInfo}/>
-                   <ScreenName disState={this.props} userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}
+                   <ScreenName2 disState={this.props} userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo}
                    saveNotification={this.saveNotification} />
                 </section>
 
