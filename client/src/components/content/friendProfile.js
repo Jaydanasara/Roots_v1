@@ -402,11 +402,15 @@ class FriendProfile extends React.Component {
             friends: this.props.userInfo.match.params.id,
         })
 
-            .then(res => console.log(res))
+            .then(res =>{
+                this.refreshState()
+             console.log(res)
+
+        })
             .catch(err => console.log(err));
 
 
-        this.refreshState()
+        
     }
 
 
@@ -427,11 +431,14 @@ class FriendProfile extends React.Component {
             friends: this.props.userInfo.match.params.id,
         })
 
-            .then(res => console.log(res))
+            .then(res =>{
+                 console.log(res)
+                 this.refreshState()
+            })
             .catch(err => console.log(err));
 
 
-        this.refreshState()
+        
 
 
     }
