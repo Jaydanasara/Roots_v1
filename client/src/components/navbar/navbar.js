@@ -17,7 +17,7 @@ class Navbar extends React.Component {
         allUsers: [],
         Users: "",
         reload: false,
-
+        
         messagesOpen: false,
         notificationsOpen: false
 
@@ -26,19 +26,19 @@ class Navbar extends React.Component {
 
     componentDidMount() {
         console.log(this.props.instMessages)
-        console.log(this.props.notifications)
+       
 
         this.getAllUsers()
-        let displayName = ""
-        if (this.props.whichName === true) {
-            displayName = this.props.userInfo.firstname + " " + this.props.userInfo.lastname
+        // let displayName = ""
+        // if (this.props.whichName === true) {
+        //     displayName = this.props.userInfo.firstname + " " + this.props.userInfo.lastname
 
 
-        }
-        else {
-            displayName = this.props.userInfo.screenName
-        }
-        this.setState({ Name: displayName, isLoading: false })
+        // }
+        // else {
+        //     displayName = this.props.userInfo.screenName
+        // }
+        // this.setState({ Name: displayName, isLoading: false })
     }
 
 
@@ -179,7 +179,7 @@ class Navbar extends React.Component {
     render() {
 
 
-        console.log(this.props.userInfo)
+       
         console.log(this.props.instMessages)
 
         return (
@@ -207,7 +207,7 @@ class Navbar extends React.Component {
 
 
                                 <div className=" dropdown-toggle" id="userInfo"  >
-                                    <i className="fa fa-user">  {this.state.Name}</i>
+                                    <i className="fa fa-user">  {this.props.userInfo.firstname + " " + this.props.userInfo.lastname}</i>
                                 </div>
                                 <div className="dropDown">
                                     <ul className="listContainer">

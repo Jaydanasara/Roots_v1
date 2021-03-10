@@ -12,7 +12,10 @@ const initState ={
         friends:[],
         messages:[],
         notifications:[],
-        }
+        
+        },
+
+        screenInfo:{}
 
 }
 
@@ -36,7 +39,7 @@ const userReducer = (state = initState,action)=>{
 
         case "USER_PROFILE":
         console.log("User", action.userPro)
-        return {
+        return {...state,
             userProfile:{
 
 
@@ -52,6 +55,17 @@ const userReducer = (state = initState,action)=>{
             messages:action.userPro.messages,
             notifications:action.userPro.notifications,
            }
+        }
+
+
+        case "SCREEN_PROFILE":
+        console.log("User", action.screenPro)
+        return {...state,
+           
+            
+            
+            screenInfo:action.screenPro
+        
         }
         
         default:

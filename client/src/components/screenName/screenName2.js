@@ -9,7 +9,7 @@ import EditCommentModal from "../modal/EditCommentModal"
 import VideoPost from "../videoPost/VideoPost"
 
 
-class LgScreenName extends React.Component {
+class ScreenName2 extends React.Component {
     state = {
         postID: "",
         statusPost: "",
@@ -34,8 +34,9 @@ class LgScreenName extends React.Component {
         postId:"",
     }
     componentDidMount() {
-
+        console.log(this.props)
         this.listScrFriendsPost()
+       
 
     }
 
@@ -43,6 +44,7 @@ class LgScreenName extends React.Component {
 
 
     listScrFriendsPost = () => {
+        if(this.props.screenInfo.friends){
 
         API.getScrFriendsPost({ friends: this.props.screenInfo.friends, })
 
@@ -55,7 +57,7 @@ class LgScreenName extends React.Component {
             })
 
             .catch(err => console.log(err));
-
+        }
     }
 
 
@@ -464,8 +466,8 @@ class LgScreenName extends React.Component {
 
     render() {
         const user = this.props.screenInfo
-
         console.log(this.props.screenInfo)
+   
 
 
         let backDrop;
@@ -493,7 +495,10 @@ class LgScreenName extends React.Component {
 
 
         return (
+
+            ( this.props.screenInfo === null )? <div className="loading">Loading</div> :
             <div className="screenNameArea ">
+               
 
                 {editPost}
                 {backDrop}
@@ -501,7 +506,7 @@ class LgScreenName extends React.Component {
                
                 <section className="miniComposeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">   <Link to={"/screenprofile/" + this.props.screenInfo._id}><img className="user-Img" src={(user.userPic !== undefined) ? user.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic" /> </Link>  </div>
+                    <div className="user-I">   <Link to={"/screenprofile/" + this.props.userInfo.scrUser_id}><img className="user-Img" src={(user.userPic !== undefined && user.userPic !=="" && this.props.screenInfo !== "") ? user.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic" /> </Link>  </div>
                     <div className="buttons">
 
                         <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i class="fas fa-camera-retro"></i></button>
@@ -666,4 +671,4 @@ class LgScreenName extends React.Component {
 
 
 
-export default LgScreenName;
+export default ScreenName2;

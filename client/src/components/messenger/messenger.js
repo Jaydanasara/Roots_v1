@@ -45,6 +45,7 @@ class Messenger extends React.Component {
     }
 
     componentWillMount() {
+
         this.setState({ sender_id: this.props.userInfo.user_ID })
         const socket = this.context
 
@@ -105,17 +106,21 @@ class Messenger extends React.Component {
 
     listFriends = () => {
 
-        API.getFriendsList({ friends: this.props.userInfo.friends })
-
-            .then(res => {
-
-                this.setState({ allFriends: res.data })
-                console.log(res.data)
+        if (this.props.userInfo.friends.length) {
 
 
-            })
+            API.getFriendsList({ friends: this.props.userInfo.friends })
 
-            .catch(err => console.log(err));
+                .then(res => {
+
+                    this.setState({ allFriends: res.data })
+                    console.log(res.data)
+
+
+                })
+
+                .catch(err => console.log(err));
+        }
 
     }
 

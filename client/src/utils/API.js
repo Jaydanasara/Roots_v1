@@ -21,6 +21,7 @@ export default  {
 
 
   addScrId: function(userData) {
+    console.log(userData)
     return axios.post("/api/usersData/scrUData",userData);
   
   },

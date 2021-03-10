@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import LeftMenu from "../../components/leftMenu/leftMenu"
 import ScreenName2 from "../screenName/screenName2";
 import API from "../../utils/API";
-import { getUser } from "../../store/actions/userActions";
+import { getUser, getUserAndScreeninfo } from "../../store/actions/userActions";
 import SideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 import VideoChat from "../messenger/videoChat";
@@ -48,14 +48,20 @@ class Layout extends React.Component {
 
     }
     
-    componentDidMount() {
-        console.log(this.props.userInfo.notifications)
+  componentDidMount() {
+      
+        
 
+        this.props.getUserAndScreeninfo(auth.currentUser.email)
+
+    
+           
+      
+
+      
         const socket = this.context
 
-        this.props.getUser(auth.currentUser.email)
-
-        this.screenNameData();
+      console.log(this.props)
 
         if (this.props.userInfo.messages.length) {
             this.setState({ numberOfMessages: this.props.userInfo.messages.length, messages: this.props.userInfo.messages })
@@ -119,12 +125,14 @@ class Layout extends React.Component {
         API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID, })
 
             .then(res => {
-                this.setState({ screenNameInfo: res.data, isLoading: false })
+                this.setState({ screenNameInfo: res.data,isLoading: false })
 
                 console.log(res)
 
 
             })
+
+        
 
             .catch(err => console.log(err));
 
@@ -282,6 +290,8 @@ class Layout extends React.Component {
 
         })
 
+        
+
         .catch(err => console.log(err));
 
     }
@@ -298,8 +308,8 @@ class Layout extends React.Component {
 
 
     render() {
-        console.log(this.state.isNotiOpen)
-
+        console.log(this.props.screenInfo)
+        console.log(this.props)
         let backDrop;
 
         if (this.state.sideDrawerOpen) {
@@ -307,13 +317,13 @@ class Layout extends React.Component {
         }
 
         return (
-            this.state.isLoading === true ? <div className="loading">Loading</div> :
+            // this.state.isLoading === true ? <div className="loading">Loading</div> :
                 <div className="app-container">
 
                     <section id="left-menu">
                         <LeftMenu />
-                        <ScrMiniBar userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} />
-                        <ScreenName2 screenInfo={this.state.screenNameInfo} disState={this.props} userInfo={this.props.userInfo} 
+                        <ScrMiniBar userInfo={this.props.userInfo} screenInfo={this.props.screenInfo} />
+                        <ScreenName2 screenInfo={this.props.screenInfo} disState={this.props} userInfo={this.props.userInfo} 
                          saveNotification={this.saveNotification}/>
                     </section>
 
@@ -321,7 +331,7 @@ class Layout extends React.Component {
                     <section className="content-Container">
 
 
-                        <Navbar drawerClickHandler={this.drawToggleClickHandler} screenInfo={this.state.screenNameInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo}
+                        <Navbar drawerClickHandler={this.drawToggleClickHandler} screenInfo={this.props.screenInfo} whichName={this.state.isUserPage} userInfo={this.props.userInfo}
                             newMessages={this.state.numberOfMessages} instMessages={this.state.messages} removeAllInstMessages={this.removeAllInstMessages} 
                             newNotifications={this.state.numberOfNotifications} notifications={this.state.notifications} removeNotification ={this.removeNotification } viewNotiPost={this.viewNotiPost}/>
                         {
@@ -350,7 +360,7 @@ class Layout extends React.Component {
                     </section>
                     <section className="messenger-area">
 
-                        <Messenger userInfo={this.props.userInfo} screenInfo={this.state.screenNameInfo} openCallWindow={this.callScreen}
+                        <Messenger userInfo={this.props.userInfo} screenInfo={this.props.screenInfo} openCallWindow={this.callScreen}
                             incomingCallScreen={this.incomingCallScreen} users={this.getUsers} yourInfo={this.getYourInfo}
                             newMessage={this.newMessage} saveInstantMessage={this.saveInstantMessage} />
 
@@ -368,7 +378,8 @@ class Layout extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUser: (currentUserInfo) => dispatch(getUser(currentUserInfo))
+        getUser: (currentUserInfo) => dispatch(getUser(currentUserInfo)),
+        getUserAndScreeninfo: (currentUserInfo) => dispatch(getUserAndScreeninfo(currentUserInfo))
     }
 }
 
@@ -377,7 +388,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-        userInfo: state.userR.userProfile
+        userInfo: state.userR.userProfile,
+        screenInfo:state.userR.screenInfo
 
 
     }

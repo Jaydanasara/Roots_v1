@@ -19,6 +19,8 @@ return(dispatch, getState) => {
                 dispatch({type:"USER_PROFILE",userPro:res.data})
                 
             })
+
+            
     .catch(err => console.log(err));
     
    
@@ -37,7 +39,8 @@ console.log(newUser)
                 screenName:newUser.screenName,
                 age:newUser.age,
                 messages:[],
-                notifications:[]
+                notifications:[],
+                scrUser_id:""
                
 
         })
@@ -50,11 +53,13 @@ console.log(newUser)
                     user_ID:res.data._id,
                     screenName:res.data.screenName,
                     messages:[],
-                    notifications:[]
+                    notifications:[],
+                    userPic:""
+                    
                     
                 })
                 .then(response=>{
-                    console.log(response.data)
+                    console.log(response.data.id)
                     API.addScrId({
                         user_ID:res.data._id,
                         scrUserId:response.data._id
@@ -71,6 +76,50 @@ console.log(newUser)
     }
     
     }
+
+
+    export const getUserAndScreeninfo = (currentUser) =>  {
+
+        return(dispatch, getState) => {
+            console.log(currentUser)
+           
+            API.getUserInfo({
+                
+                emailaddress:currentUser
+                // password: currentUser.password
+                       
+                
+            })
+        
+            .then(res =>  {
+                        console.log(res.data)
+                        dispatch({type:"USER_PROFILE",userPro:res.data})
+
+                            API.getScreenNameInfo({_id:res.data.scrUser_id})
+                    
+                                .then(response => {
+                                    dispatch({type:"SCREEN_PROFILE",screenPro:response.data})
+                    
+                                    console.log(response)
+                    
+                    
+                                })
+                    
+                            
+                    
+                                .catch(err => console.log(err));
+                    
+                        
+                        
+                    })
+        
+                    
+            .catch(err => console.log(err));
+            
+           
+        }
+        
+        }
 
  
     

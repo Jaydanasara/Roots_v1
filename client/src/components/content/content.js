@@ -55,17 +55,21 @@ class Content extends React.Component {
 
     listFriendsPost = () => {
 
-        API.getFriendsPost({ friends: this.props.userInfo.friends, })
+        if(this.props.userInfo.friends.length){
 
-            .then(res => {
+        
+            API.getFriendsPost({ friends: this.props.userInfo.friends, })
 
-                this.setState({ allUserPost: res.data })
-                console.log(res.data)
+                .then(res => {
+
+                    this.setState({ allUserPost: res.data })
+                    console.log(res.data)
 
 
-            })
+                })
 
-            .catch(err => console.log(err));
+                .catch(err => console.log(err));
+            }
 
     }
 

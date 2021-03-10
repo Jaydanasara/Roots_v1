@@ -83,7 +83,7 @@ class EditScreenProfile extends React.Component {
     
     screenNameData = () => {
 
-        API.getScreenNameInfo({ user_ID: this.props.userInfo.user_ID, })
+        API.getScreenNameInfo({  _id: this.props.userInfo.scrUser_id })
 
             .then(res => {
                 this.setState({ screenNameInfo: res.data, isLoading:false })
