@@ -105,7 +105,7 @@ module.exports = {
   addSrcUId: function (req, res) {
 
     db.usersData
-      .findByIdAndUpdate({ _id: req.body.user_ID }, { scrUser_id: req.body.scrUserId })
+      .findByIdAndUpdate({ _id: req.body.user_ID }, { scrUser_id: req.body.scrUser_id })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

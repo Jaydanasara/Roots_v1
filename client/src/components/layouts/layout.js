@@ -52,7 +52,7 @@ class Layout extends React.Component {
       
         
 
-        this.props.getUserAndScreeninfo(auth.currentUser.email)
+        // this.props.getUserAndScreeninfo(auth.currentUser.email)
 
     
            

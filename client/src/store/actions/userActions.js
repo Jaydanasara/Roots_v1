@@ -59,14 +59,52 @@ console.log(newUser)
                     
                 })
                 .then(response=>{
-                    console.log(response.data.id)
+                    console.log(response)
+                    console.log(response.data._id)
+                    console.log(res.data._id)
                     API.addScrId({
                         user_ID:res.data._id,
-                        scrUserId:response.data._id
+                        scrUser_id:response.data._id
 
                     })
-                    .then(res=>{
-                        console.log(res)
+                    .then(resp=>{
+                        console.log(resp)
+                        console.log(res.data.emailaddress)
+                        // getUserAndScreeninfo(res.data.emailaddress)
+
+                        API.getUserInfo({
+                
+                            emailaddress:res.data.emailaddress
+                            // password: currentUser.password
+                                   
+                            
+                        })
+                    
+                        .then(res3 =>  {
+                                    console.log(res3.data)
+                                    dispatch({type:"USER_PROFILE",userPro:res3.data})
+            
+                                        API.getScreenNameInfo({_id:res3.data.scrUser_id})
+                                
+                                            .then(response2 => {
+                                                dispatch({type:"SCREEN_PROFILE",screenPro:response2.data})
+                                
+                                                console.log(response2)
+                                
+                                
+                                            })
+                                
+                                        
+                                
+                                            .catch(err => console.log(err));
+                                
+                                    
+                                    
+                                })
+                    
+                                
+                        .catch(err => console.log(err));
+                      
                     })
 
                 })

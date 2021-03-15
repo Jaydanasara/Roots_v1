@@ -15,7 +15,7 @@ const initState ={
         
         },
 
-        screenInfo:{}
+        screenInfo:{userPic:"",friends:[]}
 
 }
 
