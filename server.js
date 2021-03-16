@@ -93,18 +93,14 @@ io.on('connection', socket => {
     socket.on('disconnect', function () {
       socket.broadcast.emit("user-disconnected", (socket.id))
 
-      users.forEach(function (obj) {
-        if (obj.socketId === socket.id) {
-          delete obj
-          io.sockets.emit("allUsers", users);
-        } else {
-          null
-        }
-      });
+      updatedUsers= users.filter(data=>data.socketId!=socket.id)
+      updatedUsers
 
+          io.sockets.emit("allUsers", updatedUsers);
+   
       console.log('user disconnected')
 
-      console.log(users)
+      console.log(" these are the updated users" + updatedUsers)
 
     })
 
