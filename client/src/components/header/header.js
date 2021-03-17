@@ -2,7 +2,7 @@ import React, {useState } from 'react';
 import { useHistory,Link } from 'react-router-dom';
 import "../../components/layouts/roots.css";
 import { connect } from "react-redux";
-import  {getUser} from"../../store/actions/userActions";
+import  {getUserAndScreeninfo} from"../../store/actions/userActions";
 import {useAuth} from "../../context/AuthContext";
 
 
@@ -30,7 +30,7 @@ const history = useHistory()
                 // setError("")
                 // setLoading(true)
                 await login(user.emailaddress,user.password)
-                await props.getUser(user.emailaddress)
+                await props.getUserAndScreeninfo(user.emailaddress)
             
                 history.push('/')
             } catch (error) {
@@ -100,7 +100,8 @@ const history = useHistory()
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-        getUser: ( currentUserInfo) => dispatch (getUser(currentUserInfo))
+        getUserAndScreeninfo: (currentUserInfo) => dispatch(getUserAndScreeninfo(currentUserInfo))
+      
     }
 }
 

@@ -44,6 +44,7 @@ class ScreenName2 extends React.Component {
 
 
     listScrFriendsPost = () => {
+        
         if(this.props.screenInfo.friends){
 
         API.getScrFriendsPost({ friends: this.props.screenInfo.friends, })
