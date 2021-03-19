@@ -74,8 +74,42 @@ io.on('connection', socket => {
 
 
     socket.emit("yourinfo", user);
-    users.push(user)
-    io.sockets.emit("allUsers", users);
+
+    noBlankUsers= users.filter(data=>data.userid!= "" )
+
+    if(noBlankUsers.some(u=>u.userid===user.userid)===true){
+      filteredUsers= noBlankUsers.filter(data=>data.userid!= user.userid )
+      filteredUsers.push(user)
+     io.sockets.emit("allUsers", filteredUsers);
+    
+  }else{
+        users.push(user)
+        io.sockets.emit("allUsers", noBlankUsers);
+      }
+    
+ 
+  //  users.forEach(i=>{
+  //    if(i.userid===user.userid){
+  //    console.log("this is")
+  //    console.log(i.userid)
+  //    console.log(user.userid)
+  //    console.log(user)
+  //    filteredUsers= users.filter(data=>data.userid!= user.userid)
+  //    console.log("filtered")
+  //    console.log(filteredUsers)
+  //    filteredUsers.push(user)
+  //    console.log(filteredUsers)
+  //   }else{
+  //     console.log(" the else")
+  //     console.log(users)
+  //   }
+
+  //  })
+
+   
+
+  
+
 
 
     socket.on("callUser", (data) => {
@@ -94,7 +128,7 @@ io.on('connection', socket => {
       socket.broadcast.emit("user-disconnected", (socket.id))
 
       updatedUsers= users.filter(data=>data.socketId!=socket.id)
-      updatedUsers
+      
 
           io.sockets.emit("allUsers", updatedUsers);
    

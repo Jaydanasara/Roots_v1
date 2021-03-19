@@ -38,6 +38,7 @@ class ScrMessenLayout extends React.Component {
     }
     }
     componentDidMount(){
+       
         this.screenNameData()
 
         const socket = this.context
