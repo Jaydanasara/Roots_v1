@@ -50,12 +50,12 @@ class Layout extends React.Component {
     
   componentDidMount() {
       
-        
+        if(auth.currentUser.email && this.props.userInfo.firstname ===""){
 
-        // this.props.getUserAndScreeninfo(auth.currentUser.email)
+        this.props.getUser(auth.currentUser.email)
 
     
-           
+        }
       
 
       

@@ -229,8 +229,8 @@ phoneRingFn =()=>{
                     </div>
                 </div>
                 <button className="disconnectChat" onClick={()=>this.hangUp()}>end call</button>
-
-                <div>{ 
+                { !this.state.receivingCall?(
+                <div>{
                     this.state.users.length?(
 
                         <div>{
@@ -245,7 +245,7 @@ phoneRingFn =()=>{
                     </div>
                     ):(<h1>Loading</h1>)}
                 </div>
-
+                ):(<div></div>)}
                 <div>
                     {incomingCall}
                 </div>
