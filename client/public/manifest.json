@@ -2,7 +2,6 @@
   "short_name": "R.O.O.T.S",
   "name": "Roots of Our Tree",
   "description": "social network",
- 
   "icons": [
     {
       "src": "/maskable196.png",
@@ -82,10 +81,9 @@
       "sizes": "16x16"
     }
   ],
+  "start_url": ".",
   "background_color": "#00aae7",
   "theme_color": "#00aae7",
   "display": "standalone",
-  "scope": ".",
-  "start_url": "."
- 
+  "scope": "."
 }
