@@ -7,7 +7,7 @@ import SocketContext from "../../context/SocketProvider"
 import NotificationModal from "../modal/NotificationModal";
 
 
-
+let mesAlert = new Audio("./mesAlert.mp3")
 
 class ScreenMessenger extends React.Component {
 
@@ -40,7 +40,7 @@ class ScreenMessenger extends React.Component {
     }
     
 }
-    componentWillMount() {
+    componentDidMount() {
         console.log(this.props.screenInfo)
         this.setState({sender_id:this.props.screenInfo._id})
         const  socket=this.context
@@ -79,8 +79,8 @@ class ScreenMessenger extends React.Component {
 
        
           socket.on('receive-message', (data) => {
-              console.log("socket on screenmessenger")
-                console.log(data)
+            mesAlert.play()
+            
             if (this.state.isOpen===false){
                 
                 this.props.saveInstantMessage(data.friends_id,data)
@@ -103,6 +103,7 @@ class ScreenMessenger extends React.Component {
 
 
     listFriends = () => {
+        if(this.props.screenInfo.friends.length){
 
         API.getScreenFriends({ friends:this.props.screenInfo.friends })
 
@@ -115,6 +116,8 @@ class ScreenMessenger extends React.Component {
             })
 
             .catch(err => console.log(err));
+
+        }
 
     }
 
@@ -296,13 +299,13 @@ class ScreenMessenger extends React.Component {
 
                 <div className="messengerHead">
                     <div className="chatIcon">
-                        <i class="far fa-comments"></i>
+                        <i className="far fa-comments"></i>
                     </div>
                     <div className="messengerTitle">
                         Messenger
                     </div>
                     <div className="optionIcon">
-                        <i class="fas fa-ellipsis-v"></i>
+                        <i className="fas fa-ellipsis-v"></i>
                     </div>
                 </div>
                 <div className="onlineFriends">

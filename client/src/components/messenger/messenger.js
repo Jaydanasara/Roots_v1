@@ -6,7 +6,7 @@ import SocketContext from "../../context/SocketProvider"
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 import NotificationModal from "../modal/NotificationModal";
 
-
+let mesAlert = new Audio("./mesAlert.mp3")
 
 class Messenger extends React.Component {
 
@@ -44,7 +44,8 @@ class Messenger extends React.Component {
 
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        mesAlert.load()
 
         this.setState({ sender_id: this.props.userInfo.user_ID })
         const socket = this.context
@@ -83,6 +84,8 @@ class Messenger extends React.Component {
 
         socket.on('receive-message', (data) => {
 
+
+            mesAlert.play()
             if (this.state.isOpen === false) {
 
                 this.props.saveInstantMessage(data.friends_id, data)

@@ -619,7 +619,7 @@ class Content extends React.Component {
                                                 content.comments.map((comment, picUrl) =>
                                                     <div key={picUrl} className="commentList"><div className="timeStamp">{moment(comment.dateCreated).calendar()}<div>
                                                         <div className={(this.state.comOption_id === comment._id) ? "comOptionsContainer active" : "comOptionsContainer"} onClick={() => this.commentOptions(comment._id)} >
-                                                            <button type="button" className={(comment.user_id === this.props.userInfo.user_ID) ? "commentOptions" : "noOptions"} ><i class="far fa-comment-dots"></i></button>
+                                                            <button type="button" className={(comment.user_id === this.props.userInfo.user_ID) ? "commentOptions" : "noOptions"} ><i className="far fa-comment-dots"></i></button>
 
                                                             <div className="comOptionsDropdown">
                                                                 <ul className="optionsList">

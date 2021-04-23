@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player/lazy'
 
 export default function VideoPost(props) {
 
-    console.log(props.video)
+   
     return (
         <div className="videoContainer">
 
