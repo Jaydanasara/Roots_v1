@@ -84,7 +84,7 @@ class Messenger extends React.Component {
 
         socket.on('receive-message', (data) => {
 
-
+            console.log("sound should be playing")
             mesAlert.play()
             if (this.state.isOpen === false) {
 

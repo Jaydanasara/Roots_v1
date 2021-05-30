@@ -67,7 +67,8 @@ class VideoChat extends React.Component {
         //    this.phoneRingFn()
         const peer = new Peer({
             initiator: true,
-            trickle: true,
+            trickle: false,
+            config:{iceServers: [{urls: 'stun:stun.l.google.com 19302'}, {urls: 'stun:global.stun.twillo.com:3478?transport=udp'}]},
             stream: this.state.stream,
 
         });
@@ -103,7 +104,8 @@ class VideoChat extends React.Component {
         console.log("1")
         const peer = new Peer({
             initiator: false,
-            trickle: true,
+            config:{iceServers: [{urls: 'stun:stun.l.google.com 19302'}, {urls: 'stun:global.stun.twillo.com:3478?transport=udp'}]}, 
+            trickle: false,
             stream: this.state.stream,
         });
         peer.on("signal", data => {
