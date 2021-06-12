@@ -27,7 +27,7 @@ class Messenger extends React.Component {
             socket: null,
             receivingCall: false,
             caller: {},
-            callerSignal: null,
+           incomingData :{},
             yourInfo: {},
             users: [],
             endpoint: "/",
@@ -68,8 +68,8 @@ class Messenger extends React.Component {
         })
 
         socket.on("hey", (data) => {
-            console.log("hey front end ")
-            this.setState({ receivingCall: true, caller: data.from, callerSignal: data.signal }, () => { this.props.incomingCallScreen(this.state.receivingCall, this.state.caller, this.state.callerSignal) })
+            console.log("hey front end " +data)
+            this.setState({ receivingCall: true, caller: data.caller,incomingData:data}, () => { this.props.incomingCallScreen(this.state.receivingCall, this.state.caller,this.state.incomingData) })
 
         })
 

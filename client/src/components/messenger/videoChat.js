@@ -1,6 +1,6 @@
 import React from "react";
 
-import Peer from "simple-peer";
+
 import SocketContext from "../../context/SocketProvider";
 
 
@@ -14,7 +14,10 @@ class VideoChat extends React.Component {
     static contextType = SocketContext
     constructor(props) {
         super(props);
-        // this.socket = createRef();
+        this.handleICECandidateEvent=this.handleICECandidateEvent.bind(this)
+         this.peerRef= React.createRef();
+         this.otherIdRef=React.createRef()
+         
         this.state = {
             yourInfo: this.props.yourInfo,
             users: this.props.users,
@@ -23,15 +26,35 @@ class VideoChat extends React.Component {
             caller: this.props.caller,
             callerSignal: this.props.callerSignal,
             callAccepted: false,
-            btnHidden: false
+            btnHidden: false,
+            otherId:""
 
         };
     }
 
     componentDidMount() {
-
+      
+        const socket = this.context
         this.getVideo()
+        console.log(this.props.caller)
+        if (this.state.receivingCall===true){  
+            this.setState({otherId :this.props.caller})        }
+        else{
+            this.setOtherUser(this.state.users)
+        }
+        
 
+    }
+
+
+    setOtherUser=(users)=>{
+        users.forEach(user=>{if (user.userid===this.props.friendsPhId){
+            this.setState({otherId :user.socketId}) 
+
+           console.log(this.state.otherId)
+
+        }
+    })
     }
 
     getVideo = () => {
@@ -61,71 +84,181 @@ class VideoChat extends React.Component {
 
     }
 
+  
 
     callPeer = (id) => {
+        
+      
+       
         const socket = this.context
         //    this.phoneRingFn()
-        const peer = new Peer({
-            initiator: true,
-            trickle: false,
-            config:{iceServers: [{urls: 'stun:stun.l.google.com 19302'}, {urls: 'stun:global.stun.twillo.com:3478?transport=udp'}]},
-            stream: this.state.stream,
+        
+         this.peerRef.current = this.createPeer(id);
+        this.state.stream.getTracks().forEach(track=>this.peerRef.current.addTrack(track,this.state.stream))
+    
 
-        });
-        console.log(peer)
+        // peer.on("signal", data => {
 
-        peer.on("signal", data => {
+        //     socket.emit("callUser", { userToCall: id, signalData: data, from: this.state.yourInfo })
+        //     console.log("call placed")
+        // })
 
-            socket.emit("callUser", { userToCall: id, signalData: data, from: this.state.yourInfo })
-            console.log("call placed")
-        })
+        // peer.on("stream", stream => {
+        //     let video = document.getElementById("recVid");
+        //     video.srcObject = stream;
+        // });
 
-        peer.on("stream", stream => {
-            let video = document.getElementById("recVid");
-            video.srcObject = stream;
-        });
-
-        socket.on("callAccepted", signal => {
+        socket.on("callAccepted", data => {
+            socket.on("ice-candidate",data =>{
+                this.handleNewICECandiddateMsg(data)
+            })
             this.setState({ callAccepted: true })
             phoneRinging.pause()
             phoneRinging.currentTime = 0;
-            peer.signal(signal);
+            this.handleAnswer(data)
         })
 
 
     }
 
+    createPeer =(id)=>{
+        const peer = new RTCPeerConnection({
+            iceServers:[
+                
+                {
+                    urls:"stun:stun.stunprotocol.org"
+                },
+                {
+                    urls: 'turn:numb.viagenie.ca',
+                    credential: 'muazkh',
+                    username: 'webrtc@live.com'
+                }
+            ]
+        })
+
+        peer.onicecandidate= this.handleICECandidateEvent;
+        peer.ontrack = this.handleTrackEvent;
+        peer.onnegotiationneeded =()=>this.handleNegotiationNeededEvent(id);
+
+        console.log(peer)
+
+        return peer;
+    }
+
+
+    handleNegotiationNeededEvent(id){
+        const socket = this.context
+        this.peerRef.current.createOffer().then(offer=>{
+            return this.peerRef.current.setLocalDescription(offer);
+        }).then(()=>{
+            const data ={
+                userToCall:id,
+                caller:this.state.yourInfo.socketId,
+                sdp:this.peerRef.current.localDescription
+            };
+            socket.emit("callUser", data);
+
+        }).catch(e=>console.log(e));
+
+    }
+
 
     acceptCall = () => {
+        
         const socket = this.context
         // phoneRinging.pause()
         // phoneRinging.currentTime = 0;
         this.setState({ callAccepted: true })
+        this.handleRecieveCall(this.props.incomingData)
         console.log("1")
-        const peer = new Peer({
-            initiator: false,
-            config:{iceServers: [{urls: 'stun:stun.l.google.com 19302'}, {urls: 'stun:global.stun.twillo.com:3478?transport=udp'}]}, 
-            trickle: false,
-            stream: this.state.stream,
-        });
-        peer.on("signal", data => {
-            console.log("2")
-            console.log(this.state.caller)
+        // const peer = new Peer({
+        //     initiator: false,
+        //     config:{iceServers: [{urls: 'stun:stun.l.google.com 19302'}, {urls: 'stun:global.stun.twillo.com:3478?transport=udp'}]}, 
+        //     trickle: false,
+        //     stream: this.state.stream,
+        // });
+        // peer.on("signal", data => {
+        //     console.log("2")
+        //     console.log(this.state.caller)
 
-            socket.emit("acceptCall", { signal: data, to: this.state.caller.socketId })
+        //     socket.emit("acceptCall", { signal: data, to: this.state.caller.socketId })
+        // })
+
+        // peer.on("stream", stream => {
+        //     console.log("3")
+        //     let video = document.getElementById("recVid");
+        //     video.srcObject = stream;
+        // });
+
+        // peer.signal(this.state.callerSignal);
+        socket.on("ice-candidate",data =>{
+            this.handleNewICECandiddateMsg(data)
         })
-
-        peer.on("stream", stream => {
-            console.log("3")
-            let video = document.getElementById("recVid");
-            video.srcObject = stream;
-        });
-
-        peer.signal(this.state.callerSignal);
         this.setState({ btnHidden: true })
 
+    }
+
+    handleRecieveCall=(incoming)=>{
+        const socket = this.context
+        this.peerRef.current = this.createPeer();
+        console.log(this.peerRef.current)
+        const desc = new RTCSessionDescription(incoming.sdp);
+        this.peerRef.current.setRemoteDescription(desc).then(()=>{
+            this.state.stream.getTracks().forEach(track => this.peerRef.current.addTrack(track,this.state.stream));
+        }).then(()=>{
+            return this.peerRef.current.createAnswer();
+        }).then(answer =>{
+            return this.peerRef.current.setLocalDescription(answer);
+        }).then(()=>{
+            const data ={
+                target:incoming.caller,
+                caller:this.state.yourInfo.socketId,
+                sdp:this.peerRef.current.localDescription
+
+            }
+            socket.emit("acceptCall", data)
+        })
+    }
+
+    handleAnswer=(message)=>{
+        const desc =  new RTCSessionDescription(message.sdp);
+        this.peerRef.current.setRemoteDescription(desc)
+
+        .catch(err=>console.log(err));  
+
+    }
+
+     handleICECandidateEvent(e){
+      
+        const socket = this.context
+        console.log(this.state.otherId)
+        if(e.candidate) {
+            const payload = {
+                target:this.state.otherId,
+                candidate: e.candidate
+            }
+            socket.emit("ice-candidate",payload)
+
+        }
+    
+
+    }
+
+    handleNewICECandiddateMsg=(incoming)=>{
+       
+        const candidate = new RTCIceCandidate(incoming);
+        console.log(this.peerRef.current)
+        console.log(candidate)
+       
+        this.peerRef.current.addIceCandidate(candidate)
+        .catch(e => console.log(e));
 
 
+    }
+
+    handleTrackEvent(e){
+        let video = document.getElementById("recVid")
+            video.srcObject = e.streams[0];
     }
 
     hangUp = () => {
@@ -205,7 +338,7 @@ class VideoChat extends React.Component {
                                 this.state.users.map(identify =>
 
                                     (identify.userid === this.props.friendsPhId) ?
-
+                                       
                                         <button onClick={() => this.callPeer(identify.socketId)}>Call {identify.name}</button>
 
                                         : null

@@ -90,7 +90,9 @@ io.on('connection', socket => {
 
 
     socket.on("callUser", (data) => {
-      console.log(data)
+    console.log(data)
+    
+
       io.to(data.userToCall).emit('hey', data);
       console.log("this is the Data @@@@@@@@@@@@@@@")
       console.log(data.userToCall)
@@ -102,8 +104,8 @@ io.on('connection', socket => {
     })
 
     socket.on("ice-candidate",incoming =>{
-      io.to(incoming.target).emit("ice-candidate", incoming.candidate);
-  })
+        io.to(incoming.target).emit("ice-candidate", incoming.candidate);
+    })
 
     socket.on('disconnect', function () {
       socket.broadcast.emit("user-disconnected", (socket.id))
@@ -153,5 +155,4 @@ http.listen(PORT, function () {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 
 });
-
 

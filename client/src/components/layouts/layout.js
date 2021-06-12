@@ -35,6 +35,7 @@ class Layout extends React.Component {
             friendsPhId: "",
             receivingCall: false,
             caller: {},
+            incomingData:{},
              yourInfo: {},
             users: [],
             numberOfMessages: 0,
@@ -145,8 +146,8 @@ class Layout extends React.Component {
     }
 
 
-    incomingCallScreen = (receivingCall, caller, callerSignal) => {
-        this.setState({ receivingCall: receivingCall, caller: caller, callerSignal: callerSignal, isOnCall: true })
+    incomingCallScreen = (receivingCall, caller, incomingData) => {
+        this.setState({ receivingCall: receivingCall, caller: caller, incomingData:incomingData, isOnCall: true })
         console.log("incoming call screen")
 
 
@@ -337,7 +338,7 @@ class Layout extends React.Component {
                         {
                             this.state.isOnCall === true ?
                                 <VideoChat userInfo={this.props} callEnded={this.callScreenClose} friendsPhId={this.state.friendsPhId}
-                                    receivingCall={this.state.receivingCall} caller={this.state.caller} callerSignal={this.state.callerSignal}
+                                    receivingCall={this.state.receivingCall} caller={this.state.caller} incomingData={this.state.incomingData}
                                     yourInfo={this.state.yourInfo} users={this.state.users}
                                 /> :
                                 null
