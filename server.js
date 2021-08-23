@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 var http = require('http').createServer(app);
 const socket = require('socket.io');
 const io = socket(http);
-
+require('dotenv').config();
 
 // Define middleware here
 
@@ -46,8 +46,8 @@ mongoose.connect(
 );
 
 
-const accountSid = "AC55e7809e4bcb68e7fee758fdc99b60df";
-const authToken = "6f182df6d8060ea3ae0d922020e05ba9";
+const accountSid =process.env.REACT_APP_TWILLIO_ACCTID;
+const authToken = process.env.REACT_APP_TWILLIO_AUTHTOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 // client.tokens.create().then(token => console.log(token.username));
