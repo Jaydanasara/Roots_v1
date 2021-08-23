@@ -46,6 +46,16 @@ mongoose.connect(
 );
 
 
+const accountSid = "AC55e7809e4bcb68e7fee758fdc99b60df";
+const authToken = "6f182df6d8060ea3ae0d922020e05ba9";
+const client = require('twilio')(accountSid, authToken);
+
+// client.tokens.create().then(token => console.log(token.username));
+
+
+
+
+
 const users = [];
 
 
@@ -87,13 +97,20 @@ io.on('connection', socket => {
         io.sockets.emit("allUsers", noBlankUsers);
       }
     
-
+      socket.on('token', function(){
+        client.tokens.create(function(err, response){
+          if(err){
+            console.log(err);
+          }else{
+            socket.emit('token', response);
+          }
+        });
+      });
 
     socket.on("callUser", (data) => {
-      console.log(data)
+     
       io.to(data.userToCall).emit('hey', data);
-      console.log("this is the Data @@@@@@@@@@@@@@@")
-      console.log(data.userToCall)
+     
     })
 
     socket.on("acceptCall", (data) => {
@@ -134,7 +151,7 @@ io.on('connection', socket => {
   })
 
   socket.on('send-notification', (data) => {
-    console.log(data)
+    
     
 
     socket.to(data.id).emit('receive-notification', data)

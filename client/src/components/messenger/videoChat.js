@@ -1,4 +1,5 @@
 import React from "react";
+import { TokenInstance } from "twilio/lib/rest/api/v2010/account/token";
 
 
 import SocketContext from "../../context/SocketProvider";
@@ -27,7 +28,8 @@ class VideoChat extends React.Component {
             callerSignal: this.props.callerSignal,
             callAccepted: false,
             btnHidden: false,
-            otherId:""
+            otherId:"",
+            token:null
 
         };
     }
@@ -42,6 +44,13 @@ class VideoChat extends React.Component {
         else{
             this.setOtherUser(this.state.users)
         }
+
+        socket.on('token', data=>{
+            console.log(data)
+            this.setState({token:data})
+             
+          });
+          socket.emit('token');
         
 
     }
@@ -91,9 +100,12 @@ class VideoChat extends React.Component {
       
        
         const socket = this.context
+
+        
         //    this.phoneRingFn()
         
-         this.peerRef.current = this.createPeer(id);
+        
+        this.peerRef.current = this.createPeer(id);
         this.state.stream.getTracks().forEach(track=>this.peerRef.current.addTrack(track,this.state.stream))
     
 
@@ -123,17 +135,7 @@ class VideoChat extends React.Component {
 
     createPeer =(id)=>{
         const peer = new RTCPeerConnection({
-            iceServers:[
-                
-                {
-                    urls:"stun:stun.stunprotocol.org"
-                },
-                {
-                    urls: 'turn:numb.viagenie.ca',
-                    credential: 'muazkh',
-                    username: 'webrtc@live.com'
-                }
-            ]
+            iceServers:this.state.token.iceServers
         })
 
         peer.onicecandidate= this.handleICECandidateEvent;
@@ -235,7 +237,7 @@ class VideoChat extends React.Component {
         if(e.candidate) {
             const payload = {
                 target:this.state.otherId,
-                candidate: e.candidate
+                candidate: JSON.stringify(e.candidate)
             }
             socket.emit("ice-candidate",payload)
 
@@ -246,7 +248,7 @@ class VideoChat extends React.Component {
 
     handleNewICECandiddateMsg=(incoming)=>{
        
-        const candidate = new RTCIceCandidate(incoming);
+        const candidate = new RTCIceCandidate(JSON.parse(incoming));
         console.log(this.peerRef.current)
         console.log(candidate)
        
