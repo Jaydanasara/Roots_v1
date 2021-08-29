@@ -275,7 +275,7 @@ class Messenger extends React.Component {
     render() {
         console.log(this.state.allChatInfo)
         console.log(this.props)
-        console.log(this.state.user_id)
+        
 
         let backDrop;
         let notificationModal;

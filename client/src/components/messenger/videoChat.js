@@ -341,7 +341,7 @@ class VideoChat extends React.Component {
 
                                     (identify.userid === this.props.friendsPhId) ?
                                        
-                                        <button onClick={() => this.callPeer(identify.socketId)}>Call {identify.name}</button>
+                                        <button className="callButton" onClick={() => this.callPeer(identify.socketId)}>Call {identify.name}</button>
 
                                         : null
                                 )}
