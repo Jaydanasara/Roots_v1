@@ -4,7 +4,8 @@ import "../../components/layouts/roots.css";
 import { auth } from "../../config/firebase"
 import API from "../../utils/API";
 import { Link, withRouter } from "react-router-dom";
-
+import "./navbar.css";
+import API2 from "../../utils/API2";
 
 
 class Navbar extends React.Component {
@@ -17,7 +18,7 @@ class Navbar extends React.Component {
         allUsers: [],
         Users: "",
         reload: false,
-        
+        notifications:[],
         messagesOpen: false,
         notificationsOpen: false
 
@@ -25,7 +26,7 @@ class Navbar extends React.Component {
 
 
     componentDidMount() {
-        console.log(this.props.instMessages)
+        console.log(this.props)
        
 
         this.getAllUsers()
@@ -44,7 +45,7 @@ class Navbar extends React.Component {
 
 
     getAllUsers = () => {
-        console.log("hit")
+        
         API.getAllUsers()
             .then(res => {
                 this.setState({ allUsers: res.data })
@@ -83,7 +84,7 @@ class Navbar extends React.Component {
 
 
     openMessages = () => {
-        console.log(this.state.messagesOpen)
+       
         if (this.state.messagesOpen === false) {
             this.setState({ messagesOpen: true })
         }
@@ -97,7 +98,7 @@ class Navbar extends React.Component {
 
 
     openNotifications = () => {
-        console.log(this.state.notificationsOpen)
+       
         if (this.state.notificationsOpen === false) {
             this.setState({ notificationsOpen: true })
         }
@@ -105,8 +106,6 @@ class Navbar extends React.Component {
             this.setState({ notificationsOpen: false })
 
         }
-
-
     }
 
 
@@ -146,8 +145,10 @@ class Navbar extends React.Component {
 
 
     showNotifications = () => {
-        let allNotifications = this.props.notifications
+        console.log(this.state.notifications)
         console.log(this.props.notifications)
+        let allNotifications = this.props.notifications
+       
 
         if (this.props.notifications.length === 0) {
             return null;
@@ -157,8 +158,12 @@ class Navbar extends React.Component {
 
             return (
                 <ul className="messageList">
-                    {allNotifications.map((each) => <li className="eachNotification" onClick={()=>this.viewNotiPost(each._id,each.post_id)}><img className="search-Img" src={(each.userPic !== undefined && each.userPic !== "") ? each.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="users pic" />{each.name} {" "} commented on your post<div className="noteContent">{(each.content.length > 20) ? each.content.substring(0, 20) : each.content}</div></li>)}
-                </ul>
+                    {allNotifications.map((each) => (each. notificationType==="comment" || each. notificationType=== undefined) ?<li className="eachNotification" onClick={()=>this.viewNotiPost(each._id,each.post_id)}><img className="search-Img" src={(each.userPic !== undefined && each.userPic !== "") ? each.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="users pic" />{each.name} {" "} commented on your post: <div className="noteContent">"{(each.content.length > 20) ? each.content.substring(0, 20) : each.content}"</div></li> :
+                     (each. notificationType==="groupInvite")?<li className="eachNotification" ><img className="search-Img" src={(each.userPic !== undefined && each.userPic !== "") ? each.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="users pic" /><div className="noteContent">{ each.content}</div> <div className="grpButtonDiv"><button className="accept" onClick={()=>this.addToGroup(each.user_id,each.name,each.receiver,each.receiverName,each._id)}>accept</button><button className="refuse" onClick={()=>this.props.removeNotification(each.receiver,each._id)}>refuse</button></div></li> :
+                     <li className="eachNotification" onClick={()=>this.viewNotiPost(each._id,each.post_id)}><img className="search-Img" src={(each.userPic !== undefined && each.userPic !== "") ? each.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2FlogoTransparent.png?alt=media&token=cdaf21c0-865e-4aca-afc7-6380cbe07802"} alt="users pic" />{each.name} {" "} commented on your post:<div className="noteContent">{(each.content.length > 20) ? each.content.substring(0, 20) : each.content}</div></li>)}
+                   
+                
+                    </ul> 
             )
         }
 
@@ -173,6 +178,24 @@ class Navbar extends React.Component {
         this.props.removeNotification(this.props.userInfo.user_ID,comment_id)
 
         this.setState({notificationsOpen: false})
+    }
+
+    addToGroup=async(id,name,receiverId,receiverName,notif_id)=>{
+      
+         let res =await API.addGrpIdToMember(receiverId,{groupName:name, group_ID:id})
+         console.log(res)
+
+         let response = await API2.addMemToGrp({
+             id: id, 
+             groupMemID: receiverId,
+            memName:receiverName,
+            
+            })
+         console.log(response)
+      
+         this.props.removeNotification(receiverId,notif_id)
+         this.openNotifications()
+
     }
 
 

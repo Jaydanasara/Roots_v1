@@ -1,0 +1,10 @@
+.memberImage{
+    height: 2rem;
+    width: 2rem;
+}
+
+.addMemButton{
+    border-radius: 5px;
+    background-color:rgb(161,67,181);   
+    background: radial-gradient(circle, rgba(161,67,181,1) 5%, rgba(93,45,98,1) 63%);
+}

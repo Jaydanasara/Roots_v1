@@ -1,0 +1,113 @@
+.groupNameContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border:black 3px solid;
+    background-color:rgb(161,67,181);   
+    background: radial-gradient(circle, rgba(161,67,181,1) 5%, rgba(93,45,98,1) 63%);
+}
+
+.cardWrapper{
+    width:54%;
+    position: absolute;
+ 
+    z-index: 3;
+}
+
+
+.grpContentArea{
+    box-sizing: content-box;
+    width:100%;
+    height: calc(100% - 99px);
+    overflow: auto;
+    
+    padding: 0 15px 0 7px;
+    z-index: 985;
+
+}
+.grpContentArea:hover {
+    padding:0  
+    
+  }
+
+  .innerContainer{
+      margin-top: 17rem;
+  }
+
+
+  .grpButtons{
+      width: 98%;
+      
+      max-height: 80px;
+      display: flex;
+      justify-content: space-around;
+ 
+      border: 1px solid black;
+      overflow-x: auto;
+    
+  }
+
+  .grpButtons::-webkit-scrollbar{
+      width:0;
+  }
+
+
+.photos,.events,.addMembers,.members,.grpNotifications,.deleteGroup{
+    border-radius: 5px;
+    margin:5px;
+}
+
+
+.instMessages{
+    display: flex;
+    justify-content: center;
+   background: black;
+
+   border-radius: 5px;
+
+ }
+
+
+
+
+ 
+ .noMessages{
+   
+    display: none;
+    
+       
+    }
+
+.messageList{
+   
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.messageList::-webkit-scrollbar{
+    display: none;
+    
+}
+
+.eachNotification{
+    z-index: 800;
+}
+
+  @media screen and (max-width:789px){
+
+  .grpContentArea{
+    z-index: -1;
+     margin-top:5.4rem;
+     
+
+     
+ } 
+
+ .cardWrapper{
+     width: 100%;
+ }
+
+.grpButtons{
+    justify-content: unset;
+}
+
+}

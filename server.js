@@ -40,7 +40,9 @@ mongoose.connect(
 
   "mongodb://localhost:27017/usersDatabase", {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+   useFindAndModify: false,
+   useCreateIndex: true
 }
 
 );
@@ -158,7 +160,14 @@ io.on('connection', socket => {
 
    
   })
+  socket.on('send-grpNotification', (data) => {
+    
+    
 
+    socket.to(data.id).emit('receive-grpNotification', data)
+
+   
+  })
 
 })
 

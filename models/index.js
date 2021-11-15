@@ -3,5 +3,8 @@ module.exports = {
   postData: require("./postSchema"),
   friendsData: require("./friendsSchema"),
   screenNameData: require("./screenNameSchema"),
-  chatsData: require("./chatsSchema")
+  chatsData: require("./chatsSchema"),
+  groupData: require("./groupSchema"),
+  groupPostData:require("./groupPostSchema")
+
 };

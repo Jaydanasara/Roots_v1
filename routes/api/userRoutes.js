@@ -8,201 +8,203 @@ router
   .put(usersDataController.update)
   .get(usersDataController.findAllUsers)
 
-  router
+router
   .route("/addScreenPhoto")
   .put(usersDataController.update2)
 
 
 
-  router.route("/:id")
+router.route("/:id")
   .put(usersDataController.updateByID);
 
-  router.route("/scProData:id")
+router.route("/scProData:id")
   .put(usersDataController.updateScrProfile);
 
-  router
+router
   .route("/usersData")
   .post(usersDataController.create)
 
-  router
+router
   .route("/scrUData")
   .post(usersDataController.addSrcUId)
- 
-  
-  router
+
+
+router
   .route("/friendsLst")
   .post(usersDataController.findFriendsList)
 
-  router
+router
   .route("/screenFriendsLst")
   .post(usersDataController.findScreenFriends)
 
 
-  router
+router
   .route("/postData/:id")
   .post(usersDataController.updateComments)
   .delete(usersDataController.removePost)
   .put(usersDataController.changePost)
-  
 
-  router
+
+router
   .route("/likeData/:id")
   .post(usersDataController.updateLikes);
 
-  router
+router
   .route("/commentData/:id")
   .put(usersDataController.removeComment);
 
-  router
+router
   .route("/editComment/:id")
   .put(usersDataController.changeComment);
 
 
-  router
+router
   .route("/instData/:id")
   .put(usersDataController.saveInstMessNote);
 
-  router
+router
   .route("/notiData/:id")
   .put(usersDataController.saveNotification)
   .get(usersDataController.getSinglePost)
 
-  router
+router
   .route("/notiSCData/:id")
   .put(usersDataController.saveSCNotification)
-  
 
-  router
+
+router
   .route("/delNotiData/:id")
   .put(usersDataController.delNotification);
 
-  router
+router
   .route("/delSCNotiData/:id")
   .put(usersDataController.delSCNotification);
 
-  router
+router
   .route("/delInstData/:id")
   .put(usersDataController.delInstMessNote);
 
-  router
+router
   .route("/SCinstData/:id")
   .put(usersDataController.saveSCInstMessNote);
 
-  router
+router
   .route("/delSCInstData/:id")
   .put(usersDataController.delSCInstMessNote);
 
 
 
-  router
+router
   .route("/likeData/:id")
   .put(usersDataController.removeLikes);
 
-  router
+router
   .route("/postData")
   .post(usersDataController.createPost)
 
-  router
+router
   .route("/usersPost")
   .post(usersDataController.findUserPost);
 
-  router
+router
   .route("/scrUsersPost")
   .post(usersDataController.findScrUserPost);
 
-  router
+router
   .route("/friendsPost")
   .post(usersDataController.findFriendsPost);
 
 
-  router
+router
   .route("/ScrFriendsPost")
   .post(usersDataController.findScrFriendsPost);
 
 
-  router
+router
   .route("/friendsData")
   .post(usersDataController.createFriend);
- 
-  router
+
+router
   .route("/addFriend")
   .post(usersDataController.addFriendsID);
 
-  router
+router
   .route("/removeFriend")
   .post(usersDataController.deleteFriendID);
 
-  router
+router
   .route("/addPhoto")
   .post(usersDataController.addPics);
 
-  router
+router
   .route("/getPhotos")
   .post(usersDataController.showPics);
 
 router
-.route("/getScrPhotos")
-.post(usersDataController.showPics2);
+  .route("/getScrPhotos")
+  .post(usersDataController.showPics2);
 
 router
-.route("/getFriendsInfo")
-.post(usersDataController.getFriendsInfo);
+  .route("/getFriendsInfo")
+  .post(usersDataController.getFriendsInfo);
 
-  router
+router
   .route("/screenData")
   .get(usersDataController.findAllScrUsers)
   .post(usersDataController.createScreenInfo);
 
-  router
+router
   .route("/addScFriend")
   .post(usersDataController.addFriendsID2);
 
-  router
+router
   .route("/deleteScFriend")
   .post(usersDataController.deleteScrFriend);
-  
- 
-  router
+
+
+router
   .route("/getScreenName")
   .post(usersDataController.getScreenInfo);
 
-  router
+router
   .route("/addScreenPhoto")
   .post(usersDataController.addScreenPics);
 
 
-  router
+router
   .route("/chatData")
   .post(usersDataController.findChats);
 
-  router
+router
   .route("/getChatData")
   .post(usersDataController.findUnreadChats)
- 
 
-  router
+
+router
   .route("/readChatData")
- .post(usersDataController.updateRecHasRead);
+  .post(usersDataController.updateRecHasRead);
 
-  router
+router
   .route("/chatData/:id")
   .post(usersDataController.updateMessage);
-  
 
-  router
+
+router
   .route("/saveChData")
   .post(usersDataController.saveChats);
 
-  router
+router
   .route("/getChData")
   .post(usersDataController.getAllChats);
 
-  router
+router
   .route("/addScreenPhoto")
   .put(usersDataController.update2);
 
-
- 
+  router
+  .route("/addGrpToMem/:id")
+  .put(usersDataController.addGroupToMem);
+  
 
 
 

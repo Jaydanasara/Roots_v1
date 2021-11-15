@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import "./components/layouts/roots.css";
 import Homelayout from "./components/layouts/home";
 import Layout from "./components/layouts/layout";
@@ -18,44 +18,50 @@ import ScrFriendsPage from './components/layouts/scrFriendsPage';
 import MessenLayout from './components/layouts/messenLayout';
 import VideoChatLayout from './components/layouts/videoChatLayout';
 import ScrMessenLayout from './components/layouts/scrMessenLayout';
+import CreateNewGroup from './components/layouts/createNewGroup';
+import GroupLayoutList from './components/layouts/groupLayoutList';
+import GroupLayout from './components/layouts/groupLayout';
 
 import PrivateRoute from "./components/PrivateRoute";
-import {AuthProvider} from"./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 import { SocketProvider } from './context/SocketProvider';
+import AddGroupMemberLayout from './components/layouts/AddGroupMemberLayout';
+import MembersLayout from './components/layouts/MembersLayout';
 
 
 
-function App () {
-  
+
+function App() {
 
 
-  const [id,setId]= useState("")
-  
-  const send_id =(ID)=>{
 
-    console.log("triggered ID"+ID)
+  const [id, setId] = useState("")
+
+  const send_id = (ID) => {
+
+    console.log("triggered ID" + ID)
 
     setId(ID)
-   
+
 
   }
 
   console.log(id)
-    return (
+  return (
 
-      <div className="app">
+    <div className="app">
 
 
-        <div>
+      <div>
 
-          <Router>
-          <SocketProvider id ={id}>
-          <AuthProvider>
+        <Router>
+          <SocketProvider id={id}>
+            <AuthProvider>
               <Switch>
 
                 {/* <Route exact path="/" render={() => this.state.user ? (<Layout />) : (<Homelayout />)} /> */}
-                <PrivateRoute exact path="/" component = {Layout}/>
-                
+                <PrivateRoute exact path="/" component={Layout} />
+
                 <Route exact path="/landingPage" component={Homelayout} />
                 <Route exact path="/lostPassword" component={Lostpassword} />
                 <Route exact path="/profile/:id" component={Profile} />
@@ -72,27 +78,31 @@ function App () {
                 <Route exact path="/messenger" component={MessenLayout} />
                 <Route exact path="/scrmessenger" component={ScrMessenLayout} />
                 <Route exact path="/videoChat/:id" component={VideoChatLayout} />
-               
+                <Route exact path="/groupCreate" component={CreateNewGroup} />
+                <Route exact path="/groups" component={GroupLayoutList} />
+                <Route exact path="/theGroup/:id" component={GroupLayout} />
+                <Route exact path="/addMember/:id" component={AddGroupMemberLayout} />
+                <Route exact path="/viewMembers/:id" component={MembersLayout} />
               </Switch>
             </AuthProvider>
-            </SocketProvider>
-          </Router>
-        </div>
-
-
+          </SocketProvider>
+        </Router>
       </div>
 
 
+    </div>
 
 
 
 
-    );
-  
+
+
+  );
+
 }
 
 
 
 
- export default(App);
+export default (App);
 

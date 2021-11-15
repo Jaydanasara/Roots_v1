@@ -2,12 +2,14 @@ html, body, #root{
     margin:0px;
     width: 100%;
     padding: 0;
+   
     height: 100%;
     --mainBackgroundColor:#808080;
     --borderColor: rgb(161,67,181); 
     --radiantPurplColor:radial-gradient(circle, rgba(161,67,181,1) 5%, rgba(93,45,98,1) 63%);
     --scrBackgroundColor:#c600219d;
     --secondBorderColor: #eeda74;
+
 
   }
 
@@ -105,7 +107,7 @@ font-size: 150px;
     
     .liLinks{
         padding: 10px 0 ;
-        font-size: 13px;
+        font-size: 1rem;
     }
     
     .title{
@@ -616,17 +618,28 @@ li{
 }
 
 .messageList{
-    width:90%;
+    width:80%;
     margin:1px;
     padding:5px;
+    max-height:100vh;
+    overflow-y: scroll;
+    padding-bottom: 5rem;
 }
 
 .eachNotification{
-   
+    border:2px black solid;
+   display:flex;
+   justify-content: space-around;
+   align-items: center;
+   flex-direction: row;
+   flex-wrap: wrap;
     background:#d3d3d3;
     width:100%;
     border-radius: 5px;
     cursor: pointer;
+  
+    
+   
 }
 
 .noteContent{
@@ -1544,7 +1557,7 @@ button:focus {
     height: calc(100% - 99px);
     overflow: auto;
     padding: 0 15px 0 7px;
-    margin-top: 20px;
+    /* margin-top: 20px; */
     background: var(--scrBackgroundColor);
     
     
@@ -1608,13 +1621,13 @@ box-shadow: 0px 26px 48px -21px rgba(56,42,122,1);
     }
 
     .miniScreenName{
-        padding-bottom: 20px;
+        padding-bottom: 10px;
        
-        position: fixed;
+        /* position: fixed; */
         font-size: 24px;
         text-align: center;
-        margin-bottom: 20px;
-        width:25%;
+        /* margin-bottom: 20px; */
+        width:100%;
         z-index: 450;
         background: var(--secondBorderColor);
     
@@ -1986,7 +1999,7 @@ font-weight: 600;
     
         .feed_Container{
             width: 95%;
-            margin: 0;
+            margin: 0 auto;
         }
     
         /* .navIcons{

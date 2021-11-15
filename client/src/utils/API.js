@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 export default  {
  
   getUsersPost: function(userData) {
@@ -275,6 +276,7 @@ export default  {
   },
 
   saveNotification: function(id,Data){
+   
   
     return axios.put("/api/usersData/notiData/"+id,Data);
 
@@ -328,6 +330,10 @@ export default  {
     return axios.put("/api/usersData/getScrPhotos",userData);
 
   },
+  addGrpIdToMember:function(id,userData){
+    console.log(userData)
+    return axios.put("/api/usersData/addGrpToMem/"+id,userData);
+  }
 
 
 };

@@ -30,11 +30,15 @@ const history = useHistory()
                 // setError("")
                 // setLoading(true)
                 await login(user.emailaddress,user.password)
-                await props.getUserAndScreeninfo(user.emailaddress)
+                await  props.getUserAndScreeninfo(user.emailaddress)
+
+                setTimeout(() => {
+                    history.push('/') 
+                }, 300);
             
-                history.push('/')
+               
             } catch (error) {
-                alert(error)
+                alert(error.message)
     
             }
     

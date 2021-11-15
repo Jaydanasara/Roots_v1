@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom"
 
 
 
@@ -18,7 +19,7 @@ class LeftMenu extends React.Component {
                         <div className="title">Title</div>
                         <ul className="sideBarUl">
                             <li className="liLinks"><a href="/friends">Friends</a></li>
-                            <li className="liLinks">Groups</li>
+                            <li className="liLinks">< Link to ={"/groups"}>Groups</Link></li>
 
 
 

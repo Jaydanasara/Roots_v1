@@ -7,9 +7,11 @@ import BackDrop from "../sideDrawer/backDrop/backDrop";
 import EditPostModal from "../modal/editPostModal";
 import EditCommentModal from "../modal/EditCommentModal"
 import VideoPost from "../videoPost/VideoPost"
+import NotificationModal from "../modal/NotificationModal";
+import Card from "react-bootstrap/Card"
+import API2 from "../../utils/API2";
 
-
-class ScreenName2 extends React.Component {
+class ScrGroup extends React.Component {
     state = {
         postID: "",
         statusPost: "",
@@ -32,10 +34,12 @@ class ScreenName2 extends React.Component {
         editComment: "",
         isNotiOpen:false,
         postId:"",
+        groupInfo:{}
     }
     componentDidMount() {
         console.log(this.props)
-        this.listScrFriendsPost()
+        this.getGroupInfo()
+        this.getALLGroupPosts()
        
 
     }
@@ -43,43 +47,32 @@ class ScreenName2 extends React.Component {
 
 
 
-    listScrFriendsPost = () => {
+
+    getALLGroupPosts =async ()=>{
+        let res=await API2.getGroupPosts({  groupId: this.props.disState.match.params.id})
+      
+        this.setState({allUserPost:res.data})
         
-        if(this.props.screenInfo.friends.length){
-
-        API.getScrFriendsPost({ friends: this.props.screenInfo.friends, })
-
-            .then(res => {
-
-                this.setState({ allUserPost: res.data })
-                console.log(res.data)
-
-
-            })
-
-            .catch(err => console.log(err));
-        }
-    }
-
-
-    refreshState = () => {
-        this.listScrFriendsPost()
-    }
-
-
-
+      }
+      
+      getGroupInfo= async()=>{
+        let res = await API2.findGroupInfo({_id: this.props.disState.match.params.id})
+        
+        this.setState({groupInfo:res.data});
+      }
 
 
     submitPost = () => {
         console.log(this.state.statusPost)
-        API.savePost({
+        API2.savePost({
+            groupId:this.state.groupInfo._id,
             content: this.state.statusPost,
             post_by: this.props.screenInfo.screenName,
             post_by_pic: this.props.screenInfo.userPic,
             user_ID: this.props.screenInfo._id,
             videoUrl: this.state.video,
             picUrl: this.state.url,
-            progress: 0
+           
         })
             .then(console.log(this.submitPost))
             .then(res => {
@@ -94,7 +87,7 @@ class ScreenName2 extends React.Component {
             .catch(err => console.log(err));
 
         this.refreshState()
-        this.setState({ statusPost: "", isActive: false, url: "" }, () => this.listScrFriendsPost());
+        this.setState({ statusPost: "", isActive: false, url: "" }, () => this.getALLGroupPosts());
 
     }
 
@@ -103,7 +96,7 @@ class ScreenName2 extends React.Component {
 
 
         API.postID2({
-            _id: this.props.screenInfo._id,
+            _id: this.state.groupInfo._id,
             post: this.state.postID
         })
 
@@ -143,25 +136,25 @@ class ScreenName2 extends React.Component {
 
 
         this.refreshState()
-        this.setState({ comment: "", checkInputID: null , postId:"" }, () => this.listScrFriendsPost());
+        this.setState({ comment: "", checkInputID: null , postId:"" }, () => this.getALLGroupPosts());
     }
 
     handleLikes = (id) => {
 
         console.log("working")
 
-        API.likes(id, {
+        API2.likes(id, {
 
 
             user_id: this.props.screenInfo._id,
-            user: this.props.screenInfo.firstname + " " + this.props.screenInfo.lastname,
+            user: this.props.screenInfo.screenName
 
         })
             .then(res => console.log(res))
             .catch(err => console.log(err));
 
         this.refreshState()
-       
+        this.getALLGroupPosts();
 
 
     }
@@ -173,18 +166,18 @@ class ScreenName2 extends React.Component {
 
         console.log("delete working")
 
-        API.deleteLikes(id, {
+        API2.deleteLikes(id, {
 
 
             user_id: this.props.screenInfo._id,
-            user: this.props.screenInfo.firstname + " " + this.props.screenInfo.lastname,
+            user: this.props.screenInfo.screenName
 
         })
             .then(res => console.log(res))
             .catch(err => console.log(err));
 
         this.refreshState()
-     
+        this.getALLGroupPosts();
 
 
     }
@@ -253,7 +246,7 @@ class ScreenName2 extends React.Component {
 
 
     handleUpload = () => {
-        const fullName = this.props.screenInfo.screenName;
+        const fullName =  this.state.groupInfo.groupName;
         const { image } = this.state;
         const uploadTask = storage.ref(fullName + "/" + image.name).put(image);
         uploadTask.on("state_changed",
@@ -300,9 +293,9 @@ class ScreenName2 extends React.Component {
 
         if(this.state.url!==""){
 
-            API.addScreenPhotos({
+            API2.addPhotos({
             photos: this.state.url,
-            id: this.props.screenInfo._id
+            id: this.state.groupInfo._id
         })
 
             .then(res => console.log(res))
@@ -310,9 +303,9 @@ class ScreenName2 extends React.Component {
 
     }else{
 
-        API.addScreenPhotos({
+        API2.Photos({
             photos: this.state.video,
-            id: this.props.screenInfo._id
+            id: this.state.groupInfo._id
         })
 
             .then(res => console.log(res))
@@ -350,12 +343,12 @@ class ScreenName2 extends React.Component {
 
 
 
-        API.deletePost(id)
+        API2.deletePost(id)
             .then(res => console.log(res))
             .catch(err => console.log(err));
 
         this.refreshState()
-      
+        this.getALLGroupPosts();
 
         this.setState({ optionId: "" })
 
@@ -383,7 +376,7 @@ class ScreenName2 extends React.Component {
     changeMessage = (id, content) => {
 
 
-        API.changePost(id, {
+        API2.changePost(id, {
 
 
             content: content
@@ -395,7 +388,7 @@ class ScreenName2 extends React.Component {
         this.setState({ edit_id: "", editContent: "", editPicture: "" })
 
         this.refreshState()
-       
+        this.getALLGroupPosts();
 
     }
 
@@ -403,7 +396,7 @@ class ScreenName2 extends React.Component {
 
     changeComment = (id, commentId, content) => {
 
-        API.editComment(id, {
+        API2.editComment(id, {
 
 
             commentId: commentId,
@@ -416,7 +409,7 @@ class ScreenName2 extends React.Component {
         this.setState({ postComment_id: "", editContent: "", editComment: "", editPicture: "", comment_id: "", })
 
         this.refreshState()
-       
+        this.getALLGroupPosts();
 
     }
 
@@ -440,7 +433,7 @@ class ScreenName2 extends React.Component {
 
     removeComment = (id, commentID) => {
 
-        API.deleteComment(id, {
+        API2.deleteComment(id, {
 
             _id: commentID
 
@@ -449,8 +442,7 @@ class ScreenName2 extends React.Component {
             .catch(err => console.log(err));
 
         this.refreshState()
-       
-
+        this.getALLGroupPosts();
 
     }
 
@@ -467,14 +459,14 @@ class ScreenName2 extends React.Component {
 
     render() {
         const user = this.props.screenInfo
-        console.log(this.props.screenInfo)
-   
+
+        console.log(this.state.groupInfo._id)
 
 
         let backDrop;
         let editPost;
         let editComment;
-     
+        let notificationModal;
 
         if (this.state.optionId !== "" || this.state.edit_id !== "" || this.state.comOption_id !== "" || this.state.comment_id !== ""|| this.props.isNotiOpen===true) {
             backDrop = <BackDrop click={this.backdropClicked} />;
@@ -490,24 +482,56 @@ class ScreenName2 extends React.Component {
             editComment = <EditCommentModal postID={this.state.postComment_id} content={this.state.editContent} picture={this.state.editPicture} cancelEditComment={this.cancelEditComment} changeComment={this.changeComment} commentID={this.state.comment_id} comment={this.state.editComment} />;
         }
 
-       
+        if(this.props.isNotiOpen===true){
+            notificationModal= <NotificationModal  userInfo={this.props.userInfo} notiPost={this.props.notiPost} user_id={this.props.screenInfo._id} username={this.props.screenInfo.screenName} saveNotification={this.props.saveNotification} notiClose={this.props.notiClose} />
+         }
  
 
 
 
         return (
-
-            ( this.props.screenInfo === null )? <div className="loading">Loading</div> :
-            <div className="screenNameArea ">
-               
+            <div className="contentArea scPage">
 
                 {editPost}
                 {backDrop}
                 {editComment}
-               
-                <section className="miniComposeStatus">
+                {notificationModal}
+
+
+
+
+                <div className="cardWrapper">
+          <Card >
+            <Card.Img variant="top" src="/groups2.png" style={{ maxHeight: '8rem', maxWidth: "50% " }}  />
+            <Card.Body>
+              <Card.Title>
+                <div className="groupNameContainer">
+                  <h2 className="groupName">{this.state.groupInfo.groupName}</h2>
+                </div>
+              </Card.Title>
+            </Card.Body>
+          </Card>
+
+        </div>
+
+        <div className="innerContainer">
+
+        <div className="grpButtons">
+        <button className="photos" >Members</button>
+         <button className="photos">Group Photos</button> 
+        <Link to={"/addmember/"+this.props.disState.match.params.id}> <button className="addMembers" type="button">Add Members</button></Link>
+          <button className="events">Events</button>
+
+        </div>
+
+
+
+
+
+
+                <section className="composeStatus">
                     <textarea name="statusPost" value={this.state.statusPost} onChange={this.handleChange} className="statusText" placeholder="Whats on your mind?" rows="8" cols="80" />
-                    <div className="user-I">   <Link to={"/screenprofile/" + this.props.userInfo.scrUser_id}><img className="user-Img" src={(this.props.screenInfouserPic !== undefined && this.props.screenInfo.userPic !=="" && this.props.screenInfo !== "") ? this.props.screenInfo.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic" /> </Link>  </div>
+                    <div className="user-I">   <Link to={"/screenprofile/" + this.props.screenInfo._id}><img className="user-Img" src={(user.userPic !== undefined && user.userPic !== "" ) ? user.userPic : "https://firebasestorage.googleapis.com/v0/b/roots-6f3a0.appspot.com/o/admin%2Flogo_withbackground.png?alt=media&token=1e4ad528-38a5-4cc6-b9d4-1c5eb8eaa282"} alt="users pic" /> </Link>  </div>
                     <div className="buttons">
 
                         <button type="button" className="button photo" onClick={() => this.fileInput.click()}><i className="fas fa-camera-retro"></i></button>
@@ -576,9 +600,9 @@ class ScreenName2 extends React.Component {
                                             <div className="emojis">{
 
                                                 content.likes.map((like) =>
-                                                    <div className="likessection" key={like._id}>
+                                                    <div className="likessection">
                                                         {(like.user_id === this.props.screenInfo._id) ?
-                                                            <div className="likeDisplay"> <i className="far fa-thumbs-up"></i> </div> : ""}
+                                                            <div className="likeDisplay"> <i class="far fa-thumbs-up"></i> </div> : ""}
                                                     </div>
                                                 )}
                                                 {(content.likes.length === 0) ? <div className="friendsLiked">Be the first to like this</div>
@@ -661,6 +685,7 @@ class ScreenName2 extends React.Component {
                 </section>
 
 
+                </div>
             </div>
 
         );
@@ -672,4 +697,4 @@ class ScreenName2 extends React.Component {
 
 
 
-export default ScreenName2;
+export default ScrGroup;

@@ -1,4 +1,4 @@
-const { isValidObjectId } = require("mongoose");
+const { isValidObjectId, Mongoose } = require("mongoose");
 const db = require("../models");
 
 // Defining methods for the booksController
@@ -484,5 +484,16 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+
+  addGroupToMem: function (req, res) {
+    console.log(req)
+    db.usersData
+      .findOneAndUpdate({ _id:req.params.id }, { $push: { groups: {groupName: req.body.groupName, group_ID: req.body.group_ID} } }, { new: true })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+
+
 
 };

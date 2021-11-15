@@ -1,3 +1,4 @@
+
 import React from "react";
 import { auth } from "../../config/firebase"
 import SocketContext from "../../context/SocketProvider";
@@ -13,15 +14,9 @@ import { getUser, getUserAndScreeninfo } from "../../store/actions/userActions";
 import SideDrawer from "../../components//sideDrawer/sideDrawer";
 import BackDrop from "../sideDrawer/backDrop/backDrop";
 import VideoChat from "../messenger/videoChat";
+import GroupList from '../content/GroupList';
 
-
-
-
-
-
-
-class Layout extends React.Component {
-
+ class GroupLayoutList extends React.Component{
     static contextType = SocketContext
     constructor(props) {
         super(props)
@@ -216,8 +211,7 @@ class Layout extends React.Component {
             user_id: data.user_id,
             userPic: data.userPic,
             content:data.comment,
-            post_id:post_id,
-            notificationType:"comment"
+            post_id:post_id
             
         })
 
@@ -257,8 +251,7 @@ class Layout extends React.Component {
 
 
     removeNotification = (id,noteId) => {
-        console.log(noteId)
-        console.log(id)
+       
 
         API.removeNotification(id,{
             
@@ -266,7 +259,7 @@ class Layout extends React.Component {
 
             
             .then(res => {
-                console.log(res)
+                
                 this.setState({ notifications: res.data.notifications, numberOfNotifications: res.data.notifications.length })
             })
 
@@ -350,10 +343,10 @@ class Layout extends React.Component {
                          
                            
 
-
-                    
+                           <GroupList/>
+{/*                     
                         <Content userInfo={this.props.userInfo} disState={this.props.getUser} saveNotification={this.saveNotification} notiPost={this.state.notiPost} isNotiOpen={this.state.isNotiOpen}
-                        notiClose={this.notiClose}  viewNotiPost={this.viewNotiPost} />
+                        notiClose={this.notiClose}  viewNotiPost={this.viewNotiPost} /> */}
                         <SideDrawer show={this.state.sideDrawerOpen} />
 
                         {backDrop}
@@ -398,7 +391,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupLayoutList);
 
 
 

@@ -1,0 +1,31 @@
+.memContainer{
+    height: calc(100% - 99px);
+    overflow: auto;
+}
+
+
+.memberImage{
+    height: 2rem;
+    width: 2rem;
+}
+
+.deleteMemButton{
+    border-radius: 5px;
+    background-color:rgb(161,67,181);   
+    background: radial-gradient(circle, rgba(161,67,181,1) 5%, rgba(93,45,98,1) 63%);
+}
+
+.adminMemButton,.removeAdminBtn{
+    border-radius: 5px;
+    background-color:rgb(161,67,181);   
+    background: radial-gradient(circle, rgba(161,67,181,1) 5%, rgba(93,45,98,1) 63%);
+}
+
+.headline{
+    color:  #eeda74;;
+    text-align: center;
+}
+
+.membersList{
+    color:#eeda74;
+}

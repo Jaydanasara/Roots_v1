@@ -18,6 +18,11 @@ const usersSchema = new Schema({
   phoneNumber:{ type: String, required: false },
   cityState:{ type: String, required: false },
   relationship:{ type: String, required: false },
+  groups:[{
+    groupName:{type:String, required:false},
+    group_ID:{type:String, required:false}
+  }],
+  ownedGroups:[],
   post: [{
     type: Schema.Types.ObjectId,
     ref: "postData"
@@ -44,9 +49,17 @@ const usersSchema = new Schema({
     notificationType:{type:String, required:false},
     userPic:{type:String, required:false},
     content:{type:String, required:false},
-    post_id:{type:String, required:true}
+    post_id:{type:String, required:false},
+    receiver:{type:String, required:false},
+    receiverName:{type:String, required:false},
+    receiverPic:{type:String, required:false},
+    dateCreated:{type: Date, default: Date.now},
+   
    
   }]
+
+
+
 
 });
 

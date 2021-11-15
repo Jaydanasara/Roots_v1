@@ -1,0 +1,61 @@
+.groupContainer{
+
+  height:100vh;
+    overflow-y: scroll;
+  padding-bottom: 5rem;
+}
+
+
+
+
+ 
+
+
+
+.titleContainer{
+    padding: .5rem;
+    margin-top: 10px;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    border:black 2px solid; 
+    background-color:rgb(161,67,181);   
+    background: radial-gradient(circle, rgba(161,67,181,1) 5%, rgba(93,45,98,1) 63%);
+    color:  #eeda74;;
+  
+}
+
+.addBtnWrapper{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    
+}
+
+.addGroupBtn{
+    margin: .5rem;
+    border-radius: 5px;
+    background-color:rgb(161,67,181);   
+    background: radial-gradient(circle, rgba(161,67,181,1) 5%, rgba(93,45,98,1) 63%);
+    
+   
+}
+
+.grpBtnLabel{
+    font-size: 1.5rem;
+    color:  #eeda74;
+}
+
+.grpCard{
+    background-color: #eeda74 ;
+}
+
+.cardContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+   
+   
+  
+}
+
